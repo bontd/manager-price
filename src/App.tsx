@@ -1,7 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 function App() {
+  const { t, i18n } = useTranslation();
+
   const { data, isLoading, error } = useQuery({
     queryKey: ['users'],
     queryFn: () =>
@@ -13,10 +16,12 @@ function App() {
 
   return (
     <>
-      
+      <p>{t('welcome')}</p>
+      <button onClick={() => i18n.changeLanguage('vi')}>Tiếng Việt</button>
+      <button onClick={() => i18n.changeLanguage('en')}>English</button>
       <div className="card">
         <ul>
-          {data.map(user => (
+          {data.map((user: any) => (
             <li key={user.id}>{user.name}</li>
           ))}
         </ul>
