@@ -31,17 +31,12 @@ export default function Dashboard() {
         axios.get('https://jsonplaceholder.typicode.com/users').then(res => res.data),
     });
 
-    console.log(data);
-    
-
     if (isLoading) return <p>Đang tải dữ liệu...</p>;
     if (error) return <p>Có lỗi: {error.message}</p>;
-    
+
   return (
     <div>
       <p>{t('welcome')}</p>
-      <button onClick={() => i18n.changeLanguage('vi')}>Tiếng Việt</button>
-      <button onClick={() => i18n.changeLanguage('en')}>English</button>
       <div className="card">
         <Table dataSource={data} columns={columns} />;
       </div>
