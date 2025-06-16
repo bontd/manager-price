@@ -1,4 +1,35 @@
 {
-    "welcome": "Xin Chào",
-    "hello": "Xin chào thế giới!"
+    "welcome": "Price",
+    "description": "Vui lòng đăng nhập vào tài khoản của bạn",
+    "label": {
+        "name": "Tên",
+        "username": "Tên Người Dùng",
+        "email": "Email",
+        "password": "Mật Khẩu",
+        "confirmPassword": "Xác Nhận Mật Khẩu",
+        "rememberMe": "Ghi Nhớ Tôi",
+        "forgotPassword": "Quên Mật Khẩu?",
+        "singnUp": "Đăng Ký",
+        "dontHaveAccount": "Bạn chưa có tài khoản?"
+    },
+    "placeholder": {
+        "name": "Nhập tên của bạn",
+        "username": "Nhập tên người dùng của bạn",
+        "email": "Nhập địa chỉ email của bạn",
+        "password": "Nhập mật khẩu của bạn",
+        "confirmPassword": "Nhập lại mật khẩu của bạn"
+    },
+    "validation": {
+        "required": "Trường này là bắt buộc.",
+        "email": "Vui lòng nhập địa chỉ email hợp lệ.",
+        "minLength": "Trường này phải có ít nhất {min} ký tự.",
+        "maxLength": "Trường này phải có tối đa {max} ký tự."
+    },
+    "button": {
+        "submit": "Gửi đi",
+        "cancel": "Hủy bỏ",
+        "reset": "Đặt lại",
+        "login": "Đăng Nhập",
+        "singnUp": "Đăng Ký"
+    }
 }

@@ -1,5 +1,35 @@
 {
-    "welcome": "Welcome",
-    "hello": "Hello, world!"
+    "welcome": "Price",
+    "description": "Please log in to your account",
+    "label": {
+        "name": "Name",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "rememberMe": "Remember Me",
+        "forgotPassword": "Forgot Password?",
+        "singnUp": "Sign Up",
+        "dontHaveAccount": "Don't have an account?"
+    },
+    "placeholder": {
+        "name": "Enter your name",
+        "username": "Enter your username",
+        "email": "Enter your email address",
+        "password": "Enter your password",
+        "confirmPassword": "Re-enter your password"
+    },
+    "validation": {
+        "required": "This field is required.",
+        "email": "Please enter a valid email address.",
+        "minLength": "This field must be at least {min} characters long.",
+        "maxLength": "This field must be at most {max} characters long."
+    },
+    "button": {
+        "submit": "Submit",
+        "cancel": "Cancel",
+        "reset": "Reset",
+        "login": "Login",
+        "singnUp": "Sign Up"
+    }
 }
-  
