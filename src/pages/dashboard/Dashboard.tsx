@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
 import axios from 'axios';
