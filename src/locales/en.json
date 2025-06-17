@@ -1,6 +1,22 @@
 {
-    "welcome": "Price",
+    "welcome": "Welcome",
     "description": "Please log in to your account",
+    "axios": {
+        "loading": "Loading, please wait...",
+        "success": {
+            "login": "Login successful! Redirecting...",
+            "logout": "Logout successful! Redirecting...",
+            "register": "Registration successful! Welcome aboard!"
+        },
+        "error": {
+            "label": "Error",
+            "network": "Network error, please check your connection.",
+            "timeout": "Request timed out, please try again later.",
+            "server": "Server error, please try again later.",
+            "notFound": "Resource not found.",
+            "unauthorized": "Unauthorized access, please log in."
+        }
+    },
     "label": {
         "name": "Name",
         "username": "Username",
@@ -31,5 +47,27 @@
         "reset": "Reset",
         "login": "Login",
         "singnUp": "Sign Up"
+    },
+    "table": {
+        "noData": "No data available",
+        "loading": "Loading data...",
+        "search": "Search...",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "view": "View",
+        "label": {
+            "name": "Name",
+            "phone": "Phone",
+            "createdAt": "Created At",
+            "updatedAt": "Updated At"
+        }
+    },
+    "navigation": {
+        "dashboard": "Dashboard",
+        "user": "User",
+        "price": "Price",
+        "profile": "Profile",
+        "settings": "Settings"
     }
 }

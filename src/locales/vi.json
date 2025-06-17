@@ -1,5 +1,5 @@
 {
-    "welcome": "Price",
+    "welcome": "Chào mừng",
     "description": "Vui lòng đăng nhập vào tài khoản của bạn",
     "label": {
         "name": "Tên",
@@ -31,5 +31,20 @@
         "reset": "Đặt lại",
         "login": "Đăng Nhập",
         "singnUp": "Đăng Ký"
+    },
+    "table": {
+        "noData": "Không có dữ liệu",
+        "loading": "Đang tải dữ liệu...",
+        "search": "Tìm kiếm...",
+        "actions": "Hành động",
+        "edit": "Chỉnh sửa",
+        "delete": "Xóa",
+        "view": "Xem",
+        "label": {
+            "name": "Tên",
+            "phone": "Điện thoại",
+            "createdAt": "Ngày Tạo",
+            "updatedAt": "Ngày Cập Nhật"
+        }
     }
 }

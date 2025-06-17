@@ -1,8 +1,10 @@
+import { useLogout } from "@/hook/useLogOut";
 import configs from "@/utils/constants/config";
-import { CULTURE } from "@/utils/constants/enum";
-import storage from "@/utils/helper/storage";
+import { getRefreshToken, getToken, setToken } from "@/utils/helper/storage";
 import axios, { AxiosHeaders, AxiosRequestHeaders, AxiosResponse } from "axios";
-import { languageType } from "./request";
+// import { languageType } from "./request";
+import { useLoadingStore } from "@/stores/useLoadingStore";
+import { toast } from "react-toastify";
 
 interface RequestConfig {
   headers?: AxiosRequestHeaders;
@@ -16,29 +18,43 @@ export interface ErrorResponse {
 
 const axiosInstance = axios.create({
   baseURL: configs.API_DOMAIN,
-  timeout: 10000,
+  timeout: 12000000,
   headers: {
     "Content-Type": "application/json",
-    "x-interface-type": "app",
   },
 });
 
+let isRefreshing = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
+
 // get languages
-const getCulture = (lng: languageType): string => CULTURE[lng] || CULTURE.en;
+// const getCulture = (lng: languageType): string => CULTURE[lng] || CULTURE.en;
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = storage.getToken();
-    const lng = storage.getLocale();
+    const token = getToken();
+    // const lng = storage.getLocale() || LANGUAGE_TYPE.EN;
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    if (lng) {
-      config.params = {
-        ...config.params,
-        culture: getCulture(lng as languageType),
-      };
-    }
+    // if (lng) {
+    //   config.params = {
+    //     ...config.params,
+    //     // culture: getCulture(lng as languageType),
+    //   };
+    // }
     return config;
   },
   (error) => Promise.reject(error)
@@ -47,22 +63,68 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    
+    const originalRequest = error.config;
     if (!error.response) {
+      toast.error("No network connection. Please try again!");
       return Promise.reject(
         new Error("No network connection. Please try again!")
       );
     }
-    const { status, data } = error.response;
-    if (status !== 401) {
-      return Promise.reject(data);
+    const { status, message } = error.response.data;
+    
+    if (status === 401) {
+      toast.error(message);
+      return Promise.reject(error);
     }
-    const refreshToken = storage.getRefreshToken();
+    if (originalRequest._retry) {
+      toast.error('please login again');
+      return Promise.reject(error);
+    }
+    originalRequest._retry = true;
+    const refreshToken = getRefreshToken();
+    const token = getToken();
     if (!refreshToken) {
+      toast.error('Unauthorized access. Please log in again.');
+      useLogout();
       return Promise.reject(
         new Error("Unauthorized access. Please log in again.")
       );
     }
-    return Promise.reject(error);
+
+    if (isRefreshing) {
+      return new Promise((resolve, reject) => {
+        failedQueue.push({
+          resolve: (token: string) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            resolve(axiosInstance(originalRequest));
+          },
+          reject: (err: any) => reject(err),
+        });
+      });
+    }
+    isRefreshing = true;
+    try {
+      const response = await apiManagement.refreshToken({
+        AccessToken: token,
+        RefreshToken: refreshToken,
+      });
+      const newAccessToken = response?.accessToken;
+      if (newAccessToken) {
+        setToken(newAccessToken, {
+          maxAge: 31556952000,
+        });
+      }
+      processQueue(null, newAccessToken);
+      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+      return axiosInstance(originalRequest);
+    } catch (err) {
+      processQueue(err, null);
+      useLogout();
+      return Promise.reject(new Error("Session expired. Please log in again."));
+    } finally {
+      isRefreshing = false;
+    }
   }
 );
 
@@ -84,7 +146,7 @@ export const createConfig = (
 };
 
 interface IAPIGet<T> {
-  data: T;
+  records: T;
   totalItems: number;
 }
 
@@ -95,8 +157,11 @@ export const get = async <T>(
 ): Promise<IAPIGet<T>> => {
   const config = createConfig(headers, params);
   const response: AxiosResponse<T> = await axiosInstance.get(endpoint, config);
-  const totalItems = Number(response.headers["Totalrecords"]) || 0;
-  return { data: response.data, totalItems: totalItems };
+  const totalItems = response?.headers?.["totalrecords"]
+    ? +response?.headers?.["totalrecords"]
+    : 0;
+
+  return { records: response.data, totalItems: totalItems };
 };
 
 export const post = async <T>(

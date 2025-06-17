@@ -4,16 +4,27 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from "react-i18next";
 import IconVI from '@/assets/ico/vi.svg';
 import IconEn from '@/assets/ico/en.svg';
+import '@/assets/css/login.css';
+import { useLogin } from "@/hook/useLogin";
+import { setCookie, setUserInfo } from "@/utils/helper/storage";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation();
 
-  const handleLogin = (values: any) => {
-    // giả lập login
-    console.log('Login values:', values);
-    // localStorage.setItem('token', 'fake-token')
-    // navigate('/')
+  const { login, isLoading, error} = useLogin();
+
+  const handleLogin = async (values: any) => {
+    login(values, {
+      onSuccess: (data: any) => {
+        const { access_token, user} = data.data;
+        setCookie('token', access_token, { expires: 7 });
+        setUserInfo(user);
+        navigate('/');
+        toast.success('Login successful!');
+      }
+    });
   }
 
   return (
@@ -21,7 +32,6 @@ export default function Login() {
       <Card className="w-full max-w-md p-8 rounded-2xl shadow-2xl border border-gray-200 bg-white">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-indigo-600 mb-2">{t('welcome')}</h1>
-          <p className="text-gray-500">{t('description')}</p>
         </div>
         <Form
           name="login"
@@ -69,6 +79,7 @@ export default function Login() {
             <Button
               type="primary"
               htmlType="submit"
+              loading={isLoading}
               className="w-full h-10 bg-indigo-600 hover:bg-indigo-700 transition-all duration-200"
             >
               {t('button.login')}

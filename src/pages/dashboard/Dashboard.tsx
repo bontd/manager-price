@@ -1,14 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
-import { Table } from 'antd';
+import { Skeleton, Table } from 'antd';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import configs from '../../utils/constants/config';
+import { useUserList } from '@/hook/useUserList';
 
 export default function Dashboard() {
     const { t, i18n } = useTranslation();
+    const { data, isLoading, error } = useUserList();
 
     const columns = [
         {
-            title: 'Name',
+            title: t('table.label.name'),
             dataIndex: 'name',
             key: 'name',
         },
@@ -18,27 +21,26 @@ export default function Dashboard() {
             key: 'email',
         },
         {
-            title: 'Phone',
+            title: t('table.label.phone'),
             dataIndex: 'phone',
             key: 'phone',
         },
     ];
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['users'],
-        queryFn: () =>
-        axios.get('https://jsonplaceholder.typicode.com/users').then(res => res.data),
-    });
+    const dataColumns = data?.map((item: any) => ({
+        ...item,
+        key: item.id
+    })) || [];
 
-    if (isLoading) return <p>Đang tải dữ liệu...</p>;
-    if (error) return <p>Có lỗi: {error.message}</p>;
+    if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
 
-  return (
-    <div>
-      <p>{t('welcome')}</p>
-      <div className="card">
-        <Table dataSource={data} columns={columns} />;
-      </div>
-    </div>
-  )
+    return (
+        <div className="card">
+            {isLoading ? (
+                <Skeleton active paragraph={{ rows: 3 }} />
+            ) : (
+                <Table dataSource={dataColumns} columns={columns} />
+            )}
+        </div>
+    )
 }

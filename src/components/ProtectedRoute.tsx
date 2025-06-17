@@ -1,7 +1,8 @@
 import { Navigate } from 'react-router-dom'
+import { getCookie } from '../utils/helper/storage'
 
 const isAuthenticated = () => {
-  return !!localStorage.getItem('token') // tuỳ vào cách bạn xử lý auth
+  return !!getCookie('token')
 }
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
