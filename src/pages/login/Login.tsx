@@ -18,11 +18,12 @@ export default function Login() {
   const handleLogin = async (values: any) => {
     login(values, {
       onSuccess: (data: any) => {
-        const { access_token, user} = data.data;
-        setCookie('token', access_token, { expires: 7 });
+        const { access_token, refresh_token, user} = data.data;
+        setCookie('token', access_token, { expires: 0.00347 });
+        // setCookie('refreshToken', refresh_token, { expires: 1 });
         setUserInfo(user);
         navigate('/');
-        toast.success('Login successful!');
+        toast.success(t('axios.success.login'));
       }
     });
   }

@@ -24,7 +24,7 @@ createRoot(container).render(
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <ReactQueryDevtools initialIsOpen={false} />
-      <ToastContainer position="top-right" autoClose={5000} />
+      <ToastContainer position="top-right" autoClose={5000} pauseOnHover={false} pauseOnFocusLoss={false} />
     </QueryClientProvider>
   </StrictMode>
 );

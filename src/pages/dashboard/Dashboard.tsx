@@ -7,8 +7,7 @@ import { useUserList } from '@/hook/useUserList';
 
 export default function Dashboard() {
     const { t, i18n } = useTranslation();
-    const { data, isLoading, error } = useUserList();
-
+    const { data, isLoading, error } = useUserList({current:1,pageSize:2});
     const columns = [
         {
             title: t('table.label.name'),

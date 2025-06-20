@@ -14,7 +14,8 @@
             "timeout": "Request timed out, please try again later.",
             "server": "Server error, please try again later.",
             "notFound": "Resource not found.",
-            "unauthorized": "Unauthorized access, please log in."
+            "unauthorized": "Unauthorized access, please log in.",
+            "pleaseLoginAgain": "Please log in again."
         }
     },
     "label": {
