@@ -49,77 +49,36 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-
     const originalRequest = error.config;
+
     if (!error.response) {
       toast.error("No network connection. Please try again!");
       return Promise.reject(
         new Error("No network connection. Please try again!")
       );
     }
+
     const { status, message } = error.response.data;
-    const refreshToken = getRefreshToken();
     const token = getToken();
-    console.log(token);
-    
-    if (!token && !isRefreshing) {
-      isRefreshing = true;
+
+    if (!token) {
+      toast.error("Session expired. Redirecting to login page...");
       window.location.href = '/login';
       return Promise.reject(
-        new Error("Unauthorized access. Please log in again.")
+        new Error("Unauthorized access. Redirecting to login page.")
       );
     }
 
     if (status === 401) {
-      toast.error(message);
-      return Promise.reject(error);
-    }
-    if (originalRequest._retry) {
-      toast.error('please login again');
-      return Promise.reject(error);
-    }
-    originalRequest._retry = true;
-    
-    if (!refreshToken) {
-      toast.error('Unauthorized access. Please log in again.');
+      toast.error(message || "Unauthorized access. Redirecting to login page...");
+      window.location.href = '/login';
       return Promise.reject(
-        new Error("Unauthorized access. Please log in again.")
+        new Error("Unauthorized access. Redirecting to login page.")
       );
     }
 
-    // if (isRefreshing) {
-    //   return new Promise((resolve, reject) => {
-    //     failedQueue.push({
-    //       resolve: (token: string) => {
-    //         originalRequest.headers.Authorization = `Bearer ${token}`;
-    //         resolve(axiosInstance(originalRequest));
-    //       },
-    //       reject: (err: any) => reject(err),
-    //     });
-    //   });
-    // }
-    // isRefreshing = true;
-    // try {
-    //   const response = await apiManagement.refreshToken({
-    //     AccessToken: token,
-    //     RefreshToken: refreshToken,
-    //   });
-    //   const newAccessToken = response?.accessToken;
-    //   if (newAccessToken) {
-    //     setToken(newAccessToken, {
-    //       maxAge: 31556952000,
-    //     });
-    //   }
-    //   processQueue(null, newAccessToken);
-    //   originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-    //   return axiosInstance(originalRequest);
-    // } catch (err) {
-    //   processQueue(err, null);
-    //   useLogout();
-    //   return Promise.reject(new Error("Session expired. Please log in again."));
-    // } finally {
-    //   isRefreshing = false;
-    // }
+    toast.error(message || "An error occurred. Please try again.");
+    return Promise.reject(error);
   }
 );
 

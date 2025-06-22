@@ -26,10 +26,10 @@ export default function Dashboard() {
         },
     ];
 
-    const dataColumns = data?.map((item: any) => ({
+    const dataColumns = (data || []).map((item: any) => ({
         ...item,
-        key: item.id
-    })) || [];
+        key: item.id,
+    }));
 
     if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
 

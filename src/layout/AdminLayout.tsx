@@ -2,6 +2,7 @@ import { Layout } from 'antd';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar';
 import AppHeader from '@/components/Header';
+import AppFooter from '@/components/Footer';
 import { useState } from 'react';
 
 const { Content } = Layout;
@@ -16,6 +17,7 @@ export default function AdminLayout() {
         <Content style={{ margin: '24px 16px', padding: 24, background: '#fff' }}>
           <Outlet />
         </Content>
+        <AppFooter />
       </Layout>
     </Layout>
   );
