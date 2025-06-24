@@ -1,0 +1,51 @@
+// API Configuration Constants
+export const API_CONSTANTS = {
+  TIMEOUT: 120000, // 2 minutes
+  MAX_RETRIES: 3,
+  RETRY_DELAY: 1000, // 1 second
+  HEADERS: {
+    CONTENT_TYPE: "application/json",
+    AUTHORIZATION: "Bearer",
+  },
+} as const;
+
+// HTTP Status Codes
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  NO_CONTENT: 204,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  CONFLICT: 409,
+  UNPROCESSABLE_ENTITY: 422,
+  INTERNAL_SERVER_ERROR: 500,
+  BAD_GATEWAY: 502,
+  SERVICE_UNAVAILABLE: 503,
+} as const;
+
+// Error Message Keys for i18n
+export const ERROR_MESSAGE_KEYS = {
+  NETWORK_ERROR: "axios.error.network",
+  UNAUTHORIZED: "axios.error.unauthorized",
+  GENERIC_ERROR: "axios.error.server",
+  SERVER_ERROR: "axios.error.server",
+  TOKEN_REFRESH_FAILED: "axios.error.pleaseLoginAgain",
+  TIMEOUT: "axios.error.timeout",
+  NOT_FOUND: "axios.error.notFound",
+} as const;
+
+// API Endpoints
+export const API_ENDPOINTS = {
+  AUTH: {
+    LOGIN: "/auth/login",
+    LOGOUT: "/auth/logout",
+    REFRESH: "/auth/refresh",
+    REGISTER: "/auth/register",
+  },
+  USER: {
+    PROFILE: "/user/profile",
+    UPDATE: "/user/update",
+  },
+} as const; 

@@ -6,6 +6,9 @@ export const useUserList = (param: any) => {
   return useQuery({
     queryKey: ['userList', param],
     queryFn: () => get(`/api/list-users?${qs.stringify(param)}`),
-    select: (res: any) => res?.records.data || [],
+    select: (res: any) => ({
+      data: res?.records.data || [],
+      totalItems: res?.totalItems || 0
+    }),
   });
 };

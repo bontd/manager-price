@@ -62,6 +62,11 @@
             "phone": "Phone",
             "createdAt": "Created At",
             "updatedAt": "Updated At"
+        },
+        "pagination": {
+            "showing": "Showing",
+            "of": "of",
+            "items": "items"
         }
     },
     "navigation": {

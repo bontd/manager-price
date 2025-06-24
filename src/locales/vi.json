@@ -32,6 +32,23 @@
         "login": "Đăng Nhập",
         "singnUp": "Đăng Ký"
     },
+    "axios": {
+        "loading": "Đang tải, vui lòng chờ...",
+        "success": {
+            "login": "Đăng nhập thành công! Đang chuyển hướng...",
+            "logout": "Đăng xuất thành công! Đang chuyển hướng...",
+            "register": "Đăng ký thành công! Chào mừng bạn!"
+        },
+        "error": {
+            "label": "Lỗi",
+            "network": "Lỗi mạng, vui lòng kiểm tra kết nối.",
+            "timeout": "Yêu cầu hết thời gian, vui lòng thử lại sau.",
+            "server": "Lỗi máy chủ, vui lòng thử lại sau.",
+            "notFound": "Không tìm thấy tài nguyên.",
+            "unauthorized": "Truy cập không được phép, vui lòng đăng nhập.",
+            "pleaseLoginAgain": "Vui lòng đăng nhập lại."
+        }
+    },
     "table": {
         "noData": "Không có dữ liệu",
         "loading": "Đang tải dữ liệu...",
@@ -45,6 +62,18 @@
             "phone": "Điện thoại",
             "createdAt": "Ngày Tạo",
             "updatedAt": "Ngày Cập Nhật"
+        },
+        "pagination": {
+            "showing": "Hiển thị",
+            "of": "trên tổng số",
+            "items": "mục"
         }
+    },
+    "navigation": {
+        "dashboard": "Bảng điều khiển",
+        "user": "Người dùng",
+        "price": "Giá",
+        "profile": "Hồ sơ",
+        "settings": "Cài đặt"
     }
 }

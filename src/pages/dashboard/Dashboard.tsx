@@ -1,13 +1,20 @@
-import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { Skeleton, Table } from 'antd';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import configs from '../../utils/constants/config';
 import { useUserList } from '@/hook/useUserList';
 
 export default function Dashboard() {
-    const { t, i18n } = useTranslation();
-    const { data, isLoading, error } = useUserList({current:1,pageSize:2});
+    const { t } = useTranslation();
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 10,
+    });
+
+    const { data, isLoading, error } = useUserList({
+        current: pagination.current,
+        pageSize: pagination.pageSize
+    });
+
     const columns = [
         {
             title: t('table.label.name'),
@@ -26,10 +33,17 @@ export default function Dashboard() {
         },
     ];
 
-    const dataColumns = (data || []).map((item: any) => ({
+    const dataColumns = (data?.data || []).map((item: any) => ({
         ...item,
         key: item.id,
     }));
+
+    const handleTableChange = (paginationInfo: any) => {
+        setPagination({
+            current: paginationInfo.current,
+            pageSize: paginationInfo.pageSize,
+        });
+    };
 
     if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
 
@@ -38,7 +52,21 @@ export default function Dashboard() {
             {isLoading ? (
                 <Skeleton active paragraph={{ rows: 3 }} />
             ) : (
-                <Table dataSource={dataColumns} columns={columns} />
+                <Table 
+                    dataSource={dataColumns} 
+                    columns={columns}
+                    pagination={{
+                        current: pagination.current,
+                        pageSize: pagination.pageSize,
+                        total: data?.totalItems || 0,
+                        showSizeChanger: true,
+                        showQuickJumper: true,
+                        showTotal: (total, range) => 
+                            `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
+                        pageSizeOptions: ['5', '10', '20', '50'],
+                    }}
+                    onChange={handleTableChange}
+                />
             )}
         </div>
     )
