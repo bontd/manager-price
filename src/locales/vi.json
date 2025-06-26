@@ -46,7 +46,16 @@
             "server": "Lỗi máy chủ, vui lòng thử lại sau.",
             "notFound": "Không tìm thấy tài nguyên.",
             "unauthorized": "Truy cập không được phép, vui lòng đăng nhập.",
-            "pleaseLoginAgain": "Vui lòng đăng nhập lại."
+            "pleaseLoginAgain": "Vui lòng đăng nhập lại.",
+            "badRequest": "Yêu cầu không hợp lệ. Vui lòng kiểm tra dữ liệu đầu vào và thử lại.",
+            "forbidden": "Truy cập bị từ chối. Bạn không có quyền thực hiện hành động này.",
+            "conflict": "Xung đột tài nguyên. Tài nguyên yêu cầu đã tồn tại hoặc xung đột với dữ liệu hiện có.",
+            "unprocessableEntity": "Dữ liệu không hợp lệ. Vui lòng kiểm tra dữ liệu đầu vào và thử lại.",
+            "internalServerError": "Lỗi máy chủ nội bộ. Vui lòng thử lại sau hoặc liên hệ hỗ trợ.",
+            "badGateway": "Lỗi cổng kết nối. Máy chủ tạm thời không khả dụng.",
+            "serviceUnavailable": "Dịch vụ tạm thời không khả dụng. Vui lòng thử lại sau.",
+            "tokenExpired": "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
+            "generic": "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại."
         }
     },
     "table": {
@@ -71,9 +80,64 @@
     },
     "navigation": {
         "dashboard": "Bảng điều khiển",
-        "user": "Người dùng",
+        "users": "Người dùng",
+        "usersList": "Danh sách người dùng",
+        "quizzes": "Bài kiểm tra",
+        "quizzesList": "Danh sách bài kiểm tra",
         "price": "Giá",
         "profile": "Hồ sơ",
-        "settings": "Cài đặt"
+        "settings": "Cài đặt",
+        "logout": "Đăng xuất",
+        "expenses": "Chi phí"
+    },
+    "expenseCategories": {
+        "title": "Nhóm chi phí",
+        "createTitle": "Thêm nhóm chi phí",
+        "name": "Tên",
+        "description": "Mô tả",
+        "color": "Màu sắc",
+        "icon": "Icon",
+        "user": "Người dùng",
+        "createdAt": "Tạo lúc",
+        "updatedAt": "Cập nhật",
+        "nameRequired": "Vui lòng nhập tên",
+        "confirmDelete": "Bạn có chắc chắn muốn xóa nhóm chi phí này?",
+        "editTitle": "Sửa nhóm chi phí"
+    },
+    "common": {
+        "create": "Thêm mới",
+        "cancel": "Hủy",
+        "edit": "Sửa",
+        "editing": "Đang sửa",
+        "delete": "Xóa",
+        "action": "Hành động",
+        "save": "Lưu"
+    },
+    "expenses": {
+        "title": "Chi phí",
+        "description": "Mô tả",
+        "amount": "Số tiền",
+        "category": "Danh mục",
+        "selectCategory": "Chọn danh mục",
+        "date": "Ngày",
+        "paymentMethod": "Phương thức thanh toán",
+        "location": "Địa điểm",
+        "receiptImage": "Ảnh hóa đơn",
+        "isRecurring": "Lặp lại",
+        "recurringType": "Kiểu lặp lại",
+        "user": "Người dùng",
+        "createdAt": "Ngày tạo",
+        "updatedAt": "Ngày cập nhật",
+        "editTitle": "Sửa chi phí",
+        "createTitle": "Thêm chi phí",
+        "titleRequired": "Vui lòng nhập tiêu đề",
+        "amountRequired": "Vui lòng nhập số tiền",
+        "categoryRequired": "Vui lòng chọn danh mục",
+        "dateRequired": "Vui lòng chọn ngày",
+        "confirmDelete": "Bạn có chắc chắn muốn xóa chi phí này không?",
+        "confirmDeleteMessage": "Bạn có chắc chắn muốn xóa chi phí này? Hành động này không thể hoàn tác.",
+        "createSuccess": "Tạo chi phí thành công!",
+        "updateSuccess": "Cập nhật chi phí thành công!",
+        "saveError": "Lưu chi phí thất bại. Vui lòng thử lại."
     }
 }

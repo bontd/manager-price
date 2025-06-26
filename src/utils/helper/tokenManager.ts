@@ -1,6 +1,7 @@
 import { getToken, getRefreshToken, setCookie } from "@/utils/helper/storage";
 import { post } from "@/api/config";
 import { API_ENDPOINTS, ERROR_MESSAGE_KEYS } from "@/utils/constants/api";
+import { calculateTokenExpiresFromResponse } from "@/utils/helper/tokenExpires";
 import i18next from "i18next";
 
 interface TokenResponse {
@@ -47,15 +48,18 @@ class TokenManager {
       }
 
       // Call your refresh token endpoint
-      const response = await post<TokenResponse>(API_ENDPOINTS.AUTH.REFRESH, {
-        refreshToken,
+      const response = await post<any>(API_ENDPOINTS.AUTH.REFRESH, {
+        refresh_token:refreshToken,
       });
 
-      // Store new tokens
-      setCookie("token", response.accessToken, { expires: 7 });
-      setCookie("refreshToken", response.refreshToken, { expires: 30 });
+      // Tính toán expires từ API response
+      const { expires, refreshExpires } = calculateTokenExpiresFromResponse(response.data);
 
-      return response.accessToken;
+      // Store new tokens
+      setCookie("token", response.data.access_token, { expires });
+      setCookie("refreshToken", response.data.refresh_token, { expires: refreshExpires });
+
+      return response.data.access_token;
     } catch (error) {
       console.error(i18next.t(ERROR_MESSAGE_KEYS.TOKEN_REFRESH_FAILED), error);
       return null;

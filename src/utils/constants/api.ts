@@ -1,7 +1,7 @@
 // API Configuration Constants
 export const API_CONSTANTS = {
   TIMEOUT: 120000, // 2 minutes
-  MAX_RETRIES: 3,
+  MAX_RETRIES: 1,
   RETRY_DELAY: 1000, // 1 second
   HEADERS: {
     CONTENT_TYPE: "application/json",
@@ -27,7 +27,7 @@ export const HTTP_STATUS = {
 
 // Error Message Keys for i18n
 export const ERROR_MESSAGE_KEYS = {
-  NETWORK_ERROR: "axios.error.network",
+  NETWORK_ERROR: "axios.error.tokenExpired",
   UNAUTHORIZED: "axios.error.unauthorized",
   GENERIC_ERROR: "axios.error.server",
   SERVER_ERROR: "axios.error.server",
@@ -39,13 +39,21 @@ export const ERROR_MESSAGE_KEYS = {
 // API Endpoints
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: "/auth/login",
-    LOGOUT: "/auth/logout",
-    REFRESH: "/auth/refresh",
-    REGISTER: "/auth/register",
+    LOGIN: "/api/login",
+    LOGOUT: "/api/logout",
+    REFRESH: "/api/refresh",
+    REGISTER: "/api/register",
   },
   USER: {
     PROFILE: "/user/profile",
     UPDATE: "/user/update",
+  },
+  EXPENSE_CATEGORIES: {
+    ROOT: "/api/expense-categories",
+    DETAIL: (id: string | number) => `/api/expense-categories/${id}`,
+  },
+  EXPENSES: {
+    ROOT: "/api/expenses",
+    DETAIL: (id: string | number) => `/api/expenses/${id}`,
   },
 } as const; 

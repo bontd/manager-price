@@ -15,7 +15,16 @@
             "server": "Server error, please try again later.",
             "notFound": "Resource not found.",
             "unauthorized": "Unauthorized access, please log in.",
-            "pleaseLoginAgain": "Please log in again."
+            "pleaseLoginAgain": "Please log in again.",
+            "badRequest": "Invalid request. Please check your input and try again.",
+            "forbidden": "Access denied. You don't have permission to perform this action.",
+            "conflict": "Resource conflict. The requested resource already exists or conflicts with existing data.",
+            "unprocessableEntity": "Invalid data provided. Please check your input and try again.",
+            "internalServerError": "Internal server error. Please try again later or contact support.",
+            "badGateway": "Bad gateway error. The server is temporarily unavailable.",
+            "serviceUnavailable": "Service temporarily unavailable. Please try again later.",
+            "tokenExpired": "Your session has expired. Please log in again.",
+            "generic": "An unexpected error occurred. Please try again."
         }
     },
     "label": {
@@ -60,6 +69,7 @@
         "label": {
             "name": "Name",
             "phone": "Phone",
+            "address": "Address",
             "createdAt": "Created At",
             "updatedAt": "Updated At"
         },
@@ -71,9 +81,65 @@
     },
     "navigation": {
         "dashboard": "Dashboard",
-        "user": "User",
+        "users": "Users",
+        "usersList": "User List",
+        "quizzes": "Quizzes",
+        "quizzesList": "Quiz List",
         "price": "Price",
         "profile": "Profile",
-        "settings": "Settings"
+        "settings": "Settings",
+        "logout": "Logout",
+        "expenseCategories": "Expense Categories",
+        "expenses": "Expenses"
+    },
+    "expenseCategories": {
+        "title": "Expense Categories",
+        "createTitle": "Add Expense Category",
+        "name": "Name",
+        "description": "Description",
+        "color": "Color",
+        "icon": "Icon",
+        "user": "User",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At",
+        "nameRequired": "Please enter a name",
+        "confirmDelete": "Are you sure you want to delete this category?",
+        "editTitle": "Edit Expense Category"
+    },
+    "expenses": {
+        "title": "Expense",
+        "description": "Description",
+        "amount": "Amount",
+        "category": "Category",
+        "selectCategory": "Select a category",
+        "date": "Date",
+        "paymentMethod": "Payment Method",
+        "location": "Location",
+        "receiptImage": "Receipt Image",
+        "isRecurring": "Is Recurring",
+        "recurringType": "Recurring Type",
+        "user": "User",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At",
+        "editTitle": "Edit Expense",
+        "createTitle": "Create Expense",
+        "titleRequired": "Please enter a title",
+        "amountRequired": "Please enter an amount",
+        "categoryRequired": "Please select a category",
+        "dateRequired": "Please select a date",
+        "confirmDelete": "Are you sure you want to delete this expense?",
+        "confirmDeleteMessage": "Are you sure you want to delete this expense? This action cannot be undone.",
+        "createSuccess": "Expense created successfully!",
+        "updateSuccess": "Expense updated successfully!",
+        "saveError": "Failed to save expense. Please try again."
+    },
+    "common": {
+        "create": "Create",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "editing": "Editing",
+        "delete": "Delete",
+        "action": "Action",
+        "save": "Save"
     }
 }

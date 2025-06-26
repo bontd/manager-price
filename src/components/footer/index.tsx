@@ -1,8 +1,8 @@
 const Footer = () => {
     return (
-        <footer>
+        <footer className="mx-[24px]">
             <div>
-                <p>© 2023 Your Company. All rights reserved.</p>
+                <p>© {new Date().getFullYear()} Management System. All rights reserved.</p>
             </div>
         </footer>
     );

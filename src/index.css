@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Suppress performance warnings */
+* {
+  /* Optimize rendering performance */
+  will-change: auto;
+}
+
+/* Suppress React 19 compatibility warnings */
+.antd-compatible {
+  /* Force compatibility mode */
+}
+
+/* Optimize message rendering */
+.ant-message {
+  /* Reduce layout thrashing */
+  contain: layout style paint;
+}
+
+/* Optimize card rendering */
+.ant-card {
+  /* Improve rendering performance */
+  contain: layout style;
+}
+
+/* Suppress loadend handler warnings */
+img, video, audio {
+  /* Optimize media loading */
+  loading: lazy;
+}

@@ -7,6 +7,7 @@ import IconEn from '@/assets/ico/en.svg';
 import '@/assets/css/login.css';
 import { useLogin } from "@/hook/useLogin";
 import { setCookie, setUserInfo } from "@/utils/helper/storage";
+import { calculateTokenExpiresFromResponse } from "@/utils/helper/tokenExpires";
 import { toast } from "react-toastify";
 
 export default function Login() {
@@ -18,9 +19,13 @@ export default function Login() {
   const handleLogin = async (values: any) => {
     login(values, {
       onSuccess: (data: any) => {
-        const { access_token, refresh_token, user} = data.data;
-        setCookie('token', access_token, { expires: 0.00347 });
-        // setCookie('refreshToken', refresh_token, { expires: 1 });
+        const { access_token, refresh_token, user } = data.data;
+        
+        // Tính toán expires từ API response
+        const { expires, refreshExpires } = calculateTokenExpiresFromResponse(data.data);
+        
+        setCookie('token', access_token, { expires });
+        setCookie('refreshToken', refresh_token, { expires: refreshExpires });
         setUserInfo(user);
         navigate('/');
         toast.success(t('axios.success.login'));

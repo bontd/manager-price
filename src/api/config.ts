@@ -6,6 +6,15 @@ import { tokenManager } from "@/utils/helper/tokenManager";
 import { API_CONSTANTS, HTTP_STATUS, ERROR_MESSAGE_KEYS } from "@/utils/constants/api";
 import i18next from "i18next";
 
+// Helper function để lấy translation với fallback
+const t = (key: string, fallback?: string): string => {
+  try {
+    return i18next.t(key) || fallback || key;
+  } catch (error) {
+    return fallback || key;
+  }
+};
+
 // Types
 interface RequestConfig {
   headers?: AxiosRequestHeaders;
@@ -49,7 +58,7 @@ const axiosInstance = axios.create({
   },
 });
 
-// Error handling utilities - không hiển thị toast ở đây nữa
+// Error handling utilities
 const handleNetworkError = () => {
   return Promise.reject(new Error("No network connection"));
 };
