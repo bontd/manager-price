@@ -20,17 +20,19 @@ interface StatsGridProps {
   stats: StatsData[];
   columns?: number;
   gutter?: number;
+  className?: string;
 }
 
 const StatsGrid: React.FC<StatsGridProps> = ({ 
   stats, 
   columns = 4, 
-  gutter = 16 
+  gutter = 16 ,
+  className
 }) => {
   const span = 24 / columns;
 
   return (
-    <Row gutter={gutter} className="mb-[10px]">
+    <Row gutter={gutter} className={className}>
       {stats.map((stat, index) => (
         <Col key={index} xs={24} sm={12} md={8} lg={span} xl={span}>
           <StatsCard {...stat} />

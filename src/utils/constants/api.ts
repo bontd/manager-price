@@ -55,5 +55,6 @@ export const API_ENDPOINTS = {
   EXPENSES: {
     ROOT: "/api/expenses",
     DETAIL: (id: string | number) => `/api/expenses/${id}`,
+    STATISTICS: (period: string = 'month') => `/api/expenses/statistics?period=${period}`,
   },
 } as const; 

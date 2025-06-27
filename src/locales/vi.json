@@ -139,5 +139,36 @@
         "createSuccess": "Tạo chi phí thành công!",
         "updateSuccess": "Cập nhật chi phí thành công!",
         "saveError": "Lưu chi phí thất bại. Vui lòng thử lại."
+    },
+    "dashboard": {
+        "title": "Bảng điều khiển",
+        "subtitle": "Tổng quan về chi tiêu",
+        "periods": {
+            "day": "Hôm nay",
+            "week": "Tuần này",
+            "month": "Tháng này",
+            "year": "Năm nay",
+            "all": "Tất cả"
+        },
+        "stats": {
+            "totalExpense": "Tổng chi tiêu",
+            "totalTransactions": "Số giao dịch",
+            "averagePerTransaction": "Trung bình/giao dịch",
+            "categories": "Danh mục"
+        },
+        "charts": {
+            "expenseByDay": "Biểu đồ chi tiêu theo ngày",
+            "categoryStats": "Thống kê theo danh mục",
+            "categoryDistribution": "Phân bố chi tiêu theo danh mục",
+            "paymentMethodStats": "Thống kê phương thức thanh toán"
+        },
+        "paymentMethods": {
+            "noData": "Không có dữ liệu phương thức thanh toán",
+            "transactions": "giao dịch"
+        },
+        "errors": {
+            "loadError": "Lỗi tải dữ liệu",
+            "retry": "Thử lại"
+        }
     }
 }

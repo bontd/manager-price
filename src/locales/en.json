@@ -141,5 +141,36 @@
         "delete": "Delete",
         "action": "Action",
         "save": "Save"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "subtitle": "Expense Overview",
+        "periods": {
+            "day": "Today",
+            "week": "This Week",
+            "month": "This Month",
+            "year": "This Year",
+            "all": "All Time"
+        },
+        "stats": {
+            "totalExpense": "Total Expense",
+            "totalTransactions": "Total Transactions",
+            "averagePerTransaction": "Average per Transaction",
+            "categories": "Categories"
+        },
+        "charts": {
+            "expenseByDay": "Expense Chart by Day",
+            "categoryStats": "Category Statistics",
+            "categoryDistribution": "Expense Distribution by Category",
+            "paymentMethodStats": "Payment Method Statistics"
+        },
+        "paymentMethods": {
+            "noData": "No payment method data available",
+            "transactions": "transactions"
+        },
+        "errors": {
+            "loadError": "Data Loading Error",
+            "retry": "Retry"
+        }
     }
 }

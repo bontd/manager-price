@@ -1,3 +1,298 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom utility classes */
+@layer utilities {
+  /* Responsive containers */
+  .container-responsive {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1280px;
+  }
+  
+  /* Responsive text */
+  .text-responsive {
+    @apply text-sm sm:text-base lg:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-base sm:text-lg lg:text-xl xl:text-2xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-lg sm:text-xl lg:text-2xl xl:text-3xl;
+  }
+  
+  /* Responsive spacing */
+  .space-responsive {
+    @apply space-y-4 sm:space-y-6 lg:space-y-8;
+  }
+  
+  .gap-responsive {
+    @apply gap-4 sm:gap-6 lg:gap-8;
+  }
+  
+  /* Responsive grid */
+  .grid-responsive {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+  
+  .grid-responsive-2 {
+    @apply grid grid-cols-1 lg:grid-cols-2;
+  }
+  
+  /* Responsive flex */
+  .flex-responsive {
+    @apply flex flex-col sm:flex-row;
+  }
+  
+  .flex-responsive-center {
+    @apply flex flex-col sm:flex-row items-center;
+  }
+  
+  /* Responsive padding/margin */
+  .p-responsive {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+  
+  .px-responsive {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+  
+  .py-responsive {
+    @apply py-4 sm:py-6 lg:py-8;
+  }
+  
+  .m-responsive {
+    @apply m-4 sm:m-6 lg:m-8;
+  }
+  
+  .mx-responsive {
+    @apply mx-4 sm:mx-6 lg:mx-8;
+  }
+  
+  .my-responsive {
+    @apply my-4 sm:my-6 lg:my-8;
+  }
+}
+
+/* Component styles */
+@layer components {
+  /* Card styles */
+  .card-responsive {
+    @apply bg-white rounded-lg shadow-soft p-4 sm:p-6 lg:p-8;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-medium hover:-translate-y-1;
+  }
+  
+  /* Button styles */
+  .btn-responsive {
+    @apply px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base font-medium rounded-lg transition-all duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+  }
+  
+  /* Form styles */
+  .form-input-responsive {
+    @apply w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500;
+  }
+  
+  .form-label-responsive {
+    @apply block text-sm sm:text-base font-medium text-gray-700 mb-2;
+  }
+  
+  /* Table styles */
+  .table-responsive {
+    @apply w-full text-sm sm:text-base;
+  }
+  
+  .table-responsive th {
+    @apply px-3 py-2 sm:px-4 sm:py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider;
+  }
+  
+  .table-responsive td {
+    @apply px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900;
+  }
+}
+
+/* Add responsive styles for mobile */
+@media (max-width: 768px) {
+  .dashboard-page {
+    padding: 0;
+  }
+  
+  .stats-card {
+    margin-bottom: 8px;
+  }
+  
+  .chart-card {
+    margin-bottom: 16px;
+  }
+  
+  /* Improve sidebar on mobile */
+  .sidebar-component {
+    position: fixed !important;
+    z-index: 1000;
+  }
+  
+  /* Better spacing for mobile */
+  .ant-layout-content {
+    padding: 12px !important;
+    margin: 8px !important;
+  }
+  
+  /* Responsive text sizes */
+  .ant-statistic-content {
+    font-size: 18px !important;
+  }
+  
+  .ant-card-head-title {
+    font-size: 14px !important;
+  }
+  
+  /* Better touch targets */
+  .ant-btn {
+    min-height: 40px;
+  }
+  
+  .ant-select {
+    min-height: 40px;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ant-layout-content {
+    padding: 16px !important;
+    margin: 16px !important;
+  }
+}
+
+/* Ensure charts are responsive */
+.recharts-responsive-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Better mobile navigation */
+@media (max-width: 768px) {
+  .ant-menu-item {
+    height: 48px !important;
+    line-height: 48px !important;
+  }
+  
+  .ant-menu-item-icon {
+    font-size: 16px !important;
+  }
+}
+
+/* Improve mobile drawer */
+.ant-drawer-body {
+  padding: 0 !important;
+}
+
+/* Better mobile header */
+@media (max-width: 768px) {
+  .ant-layout-header {
+    padding: 0 8px !important;
+    height: 56px !important;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animation classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  .text-responsive {
+    font-size: 0.875rem;
+  }
+  
+  .text-responsive-lg {
+    font-size: 1rem;
+  }
+  
+  .text-responsive-xl {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .text-responsive {
+    font-size: 1rem;
+  }
+  
+  .text-responsive-lg {
+    font-size: 1.125rem;
+  }
+  
+  .text-responsive-xl {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .text-responsive {
+    font-size: 1.125rem;
+  }
+  
+  .text-responsive-lg {
+    font-size: 1.25rem;
+  }
+  
+  .text-responsive-xl {
+    font-size: 1.5rem;
+  }
+}
