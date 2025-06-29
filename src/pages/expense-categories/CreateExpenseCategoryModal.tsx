@@ -67,10 +67,18 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
       destroyOnClose
     >
       <Form form={form} layout="vertical">
-        <Form.Item name="name" label={t('expenseCategories.name')} rules={[{ required: true, message: t('expenseCategories.nameRequired') }]}> <Input /> </Form.Item>
-        <Form.Item name="description" label={t('expenseCategories.description')}> <Input /> </Form.Item>
-        <Form.Item name="color" label={t('expenseCategories.color')}> <Input type="color" /> </Form.Item>
-        <Form.Item name="icon" label={t('expenseCategories.icon')}> <Input /> </Form.Item>
+        <Form.Item name="name" label={t('expenseCategories.name')} rules={[{ required: true, message: t('expenseCategories.nameRequired') }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="description" label={t('expenseCategories.description')}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="color" label={t('expenseCategories.color')}>
+          <Input type="color" />
+        </Form.Item>
+        <Form.Item name="icon" label={t('expenseCategories.icon')}>
+          <Input />
+        </Form.Item>
       </Form>
     </Modal>
   );
