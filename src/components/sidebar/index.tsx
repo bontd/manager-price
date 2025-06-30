@@ -35,7 +35,7 @@ export default function Sidebar({ collapsed }: SidebarProps) {
           }}
         >
             <div className="demo-logo-vertical min-h-[60px] flex items-center justify-center">
-              <h1 className={`text-white font-bold ${collapsed ? 'text-lg' : 'text-xl'}`}>
+              <h1 className={`text-[#fff] font-bold ${collapsed ? 'text-lg' : 'text-xl'}`}>
                 {collapsed ? 'MP' : 'Manager Price'}
               </h1>
             </div>

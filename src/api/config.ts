@@ -87,74 +87,11 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor with improved error handling
+// Response interceptor simplified
 axiosInstance.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError) => {
-    const originalRequest = error.config;
-
-    // Handle network errors - không hiển thị toast ở đây
-    if (!error.response) {
-      return handleNetworkError();
-    }
-
-    const { status, data } = error.response;
-    const errorMessage = (data as any)?.message;
-
-    // Handle 401 Unauthorized
-    if (status === HTTP_STATUS.UNAUTHORIZED) {
-      const token = getToken();
-      
-      if (!token) {
-        return handleUnauthorizedError();
-      }
-
-      // Try to refresh token if not already refreshing
-      if (!tokenManager.getRefreshing()) {
-        tokenManager.setRefreshing(true);
-        
-        try {
-          const newToken = await tokenManager.refreshToken();
-          tokenManager.setRefreshing(false);
-          
-          if (newToken) {
-            tokenManager.processQueue(null, newToken);
-            // Retry the original request with new token
-            if (originalRequest) {
-              originalRequest.headers.Authorization = `${API_CONSTANTS.HEADERS.AUTHORIZATION} ${newToken}`;
-              return axiosInstance(originalRequest);
-            }
-          } else {
-            tokenManager.processQueue(new Error("Token refresh failed"));
-            return handleUnauthorizedError();
-          }
-        } catch (refreshError) {
-          tokenManager.setRefreshing(false);
-          tokenManager.processQueue(refreshError);
-          return handleUnauthorizedError();
-        }
-      } else {
-        // If already refreshing, add to queue
-        return new Promise((resolve, reject) => {
-          tokenManager.addToQueue(resolve, reject);
-        }).then(() => {
-          return axiosInstance(originalRequest!);
-        }).catch((err) => {
-          return Promise.reject(err);
-        });
-      }
-    }
-
-    // Handle other HTTP errors - không hiển thị toast ở đây
-    if (status >= 400 && status < 500) {
-      return handleGenericError(errorMessage);
-    }
-
-    if (status >= 500) {
-      return handleGenericError(i18next.t(ERROR_MESSAGE_KEYS.SERVER_ERROR));
-    }
-
-    return Promise.reject(error);
+  (error: AxiosError) => {
+    return Promise.reject(error); // Delegate error handling to retryRequest
   }
 );
 
@@ -174,7 +111,8 @@ const retryRequest = async <T>(
     
     // Chỉ hiển thị toast khi tất cả retry đều thất bại
     if (!(error as AxiosError).response) {
-      toastManager.showError(i18next.t(ERROR_MESSAGE_KEYS.NETWORK_ERROR), 'network');
+      const errorMessage = (error as AxiosError)?.message || i18next.t(ERROR_MESSAGE_KEYS.NETWORK_ERROR);
+      toastManager.showError(errorMessage, 'network');
     } else {
       const axiosError = error as AxiosError;
       const status = axiosError.response?.status;

@@ -58,6 +58,7 @@ const ExpenseCategoriesPage: React.FC = () => {
       title: t('common.action'),
       key: 'action',
       align: 'right',
+      fixed: 'right',
       render: (_: any, record: ExpenseCategory) => (
         <Space className='flex justify-end'>
           <Button size="small" onClick={() => handleEdit(record)}>{editValues?.id === record.id ? t('common.editing') : t('common.edit')}</Button>
@@ -99,6 +100,7 @@ const ExpenseCategoriesPage: React.FC = () => {
             pageSizeOptions: ['5', '10', '20', '50'],
           }}
           onChange={handleTableChange}
+          scroll={{ x: 'max-content' }}
         />
       )}
     </div>

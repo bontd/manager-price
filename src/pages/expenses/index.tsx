@@ -78,14 +78,11 @@ const ExpensesPage: React.FC = () => {
     { title: t('expenses.date'), dataIndex: 'expense_date', key: 'expense_date', render: (expense_date: string) => dayjs(expense_date).format('DD/MM/YYYY HH:mm') },
     { title: t('expenses.paymentMethod'), dataIndex: 'payment_method', key: 'payment_method' },
     { title: t('expenses.location'), dataIndex: 'location', key: 'location' },
-    // { title: t('expenses.isRecurring'), dataIndex: 'is_recurring', key: 'is_recurring', render: (val: boolean) => val ? t('common.yes') : t('common.no') },
-    // { title: t('expenses.user'), dataIndex: 'user_id', key: 'user_id' },
-    // { title: t('expenses.createdAt'), dataIndex: 'created_at', key: 'created_at', render: (date: string) => dayjs(date).format('DD/MM/YYYY HH:mm') },
-    // { title: t('expenses.updatedAt'), dataIndex: 'updated_at', key: 'updated_at', render: (date: string) => dayjs(date).format('DD/MM/YYYY HH:mm') },
     {
       title: t('common.action'),
       key: 'action',
       align: 'right',
+      fixed: 'right',
       render: (_: any, record: Expense) => (
         <Space className='flex justify-end'>
           <Button size="small" onClick={() => handleEdit(record)}>{t('common.edit')}</Button>
@@ -125,6 +122,7 @@ const ExpensesPage: React.FC = () => {
             pageSizeOptions: ['5', '10', '20', '50'],
           }}
           onChange={handleTableChange}
+          scroll={{ x: 'max-content' }}
         />
       )}
       <Modal
@@ -145,4 +143,4 @@ const ExpensesPage: React.FC = () => {
   );
 };
 
-export default ExpensesPage; 
+export default ExpensesPage;

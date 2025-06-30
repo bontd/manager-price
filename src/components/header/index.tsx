@@ -106,12 +106,16 @@ export default function AppHeader({
     return (
         <Header 
           style={{
+            position: 'sticky',
+            top: 0,
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'space-between', 
             padding: isMobile ? '0 8px' : '0 16px', 
             background: colorBgContainer,
-            height: isMobile ? '56px' : '64px'
+            height: isMobile ? '56px' : '64px',
+            zIndex: 1000,
+            borderBottom: `1px solid rgba(0, 0, 0, 0.1)`,
           }}
         >
             <Button
@@ -130,7 +134,7 @@ export default function AppHeader({
               style={{paddingRight: isMobile ? '0.5rem' : '1rem'}}
             >
                 {/* Language selector - hide on very small screens */}
-                <div className={isMobile ? 'hidden sm:block' : ''}>
+                <div>
                   <Dropdown menu={languageMenu} placement="bottomRight" arrow>
                     <GlobalOutlined style={{ fontSize: isMobile ? 16 : 20, cursor: 'pointer' }} />
                   </Dropdown>
