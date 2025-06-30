@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { ExpenseCategory } from '@/hook/useExpenseCategories';
+import { ExpenseCategory, useExpenseCategories } from '@/hook/useExpenseCategories';
+import { toast } from 'react-toastify';
 
 export interface CreateExpenseCategoryModalProps {
   open: boolean;
   mode?: 'create' | 'edit';
   initialValues?: Partial<ExpenseCategory>;
   onClose: () => void;
-  onCreate?: (values: any) => void;
-  onEdit?: (values: any) => void;
   isLoading?: boolean;
-  isEditing?: boolean;
 }
 
 const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
@@ -19,13 +17,11 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
   mode = 'create',
   initialValues,
   onClose,
-  onCreate,
-  onEdit,
-  isLoading,
-  isEditing
 }) => {
   const [form] = Form.useForm();
   const { t } = useTranslation();
+
+  const { isLoading, error, create, isCreating, update, isUpdating, remove, isRemoving, refetch } = useExpenseCategories();
 
   useEffect(() => {
     if (open && mode === 'edit' && initialValues) {
@@ -38,12 +34,23 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
-      if (mode === 'edit' && onEdit) {
-        onEdit({ ...initialValues, ...values });
-      } else if (mode === 'create' && onCreate) {
-        onCreate(values);
+      if (mode === 'edit') {
+        update({ ...initialValues, ...values }, {
+          onSuccess: (data: any) => {
+            toast.success(t('expenses.createSuccess'));
+            form.resetFields();
+            onClose();
+          }
+        });
+      } else if (mode === 'create') {
+        create(values, {
+          onSuccess: (data: any) => {
+            toast.success(t('expenses.createSuccess'));
+            form.resetFields();
+            onClose();
+          }
+        });
       }
-      form.resetFields();
     } catch (err) {}
   };
 
@@ -59,18 +66,26 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[
-        <Button key="back" onClick={handleCancel} disabled={isLoading || isEditing}>{t('common.cancel')}</Button>,
-        <Button key="submit" type="primary" loading={isLoading || isEditing} onClick={handleOk}>
+        <Button key="back" onClick={handleCancel} disabled={isLoading || isUpdating}>{t('common.cancel')}</Button>,
+        <Button key="submit" type="primary" loading={isLoading || isUpdating} onClick={handleOk}>
           {mode === 'edit' ? t('common.save') : t('common.create')}
         </Button>,
       ]}
       destroyOnClose
     >
       <Form form={form} layout="vertical">
-        <Form.Item name="name" label={t('expenseCategories.name')} rules={[{ required: true, message: t('expenseCategories.nameRequired') }]}> <Input /> </Form.Item>
-        <Form.Item name="description" label={t('expenseCategories.description')}> <Input /> </Form.Item>
-        <Form.Item name="color" label={t('expenseCategories.color')}> <Input type="color" /> </Form.Item>
-        <Form.Item name="icon" label={t('expenseCategories.icon')}> <Input /> </Form.Item>
+        <Form.Item name="name" label={t('expenseCategories.name')} rules={[{ required: true, message: t('expenseCategories.nameRequired') }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="description" label={t('expenseCategories.description')}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="color" label={t('expenseCategories.color')}>
+          <Input type="color" />
+        </Form.Item>
+        <Form.Item name="icon" label={t('expenseCategories.icon')}>
+          <Input />
+        </Form.Item>
       </Form>
     </Modal>
   );

@@ -16,13 +16,9 @@ const ExpenseCategoriesPage: React.FC = () => {
     list,
     isLoading,
     error,
-    create,
     isCreating,
-    update,
     isUpdating,
-    remove,
-    isRemoving,
-    refetch
+    remove
   } = useExpenseCategories();
 
   const handleEdit = (cat: ExpenseCategory) => {
@@ -84,8 +80,6 @@ const ExpenseCategoriesPage: React.FC = () => {
         mode={modalMode}
         initialValues={editValues || undefined}
         onClose={handleCloseModal}
-        onCreate={create}
-        onEdit={update}
         isLoading={isCreating}
         isEditing={isUpdating}
       />
