@@ -11,6 +11,9 @@ import type { NavigationItem } from '@/utils/constants/navigation'
 import ResetPassword from '@/pages/auth/reset-password'
 import Register from '@/pages/auth/register'
 import ResetPasswordVerify from '@/pages/auth/reset-password/verify'
+import { getUserInfo } from '@/utils/helper/storage'
+import { ROLE } from '@/utils/constants/enum'
+import { roleStringToEnum } from '@/utils/constants/navigation'
 
 // Lazy load components
 const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'))
@@ -34,18 +37,27 @@ function flattenNavigationItems(items: NavigationItem[]): NavigationItem[] {
 
 const flatNavItems = flattenNavigationItems(NAVIGATION_ITEMS);
 
-const adminRoutes = flatNavItems.map(item => ({
-  path: item.path,
-  element: (
-    <Suspense fallback={<LoadingSpinner />}>
-      {item.path === '/' && <Dashboard />}
-      {item.path === '/users' && <Users />}
-      {item.path === '/expense-categories' && <ExpenseCategories />}
-      {item.path === '/quizzes' && <Users />}
-      {item.path === '/expenses' && <Expenses />}
-    </Suspense>
-  )
-}))
+const userInfo = getUserInfo();
+const userRole = userInfo?.role;
+
+const adminRoutes = flatNavItems
+  .filter(item => {
+    if (!item.allowedRoles) return true;
+    const allowedEnumRoles = item.allowedRoles.map(roleStringToEnum);
+    return userRole && allowedEnumRoles.includes(userRole);
+  })
+  .map(item => ({
+    path: item.path,
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        {item.path === '/' && <Dashboard />}
+        {item.path === '/users' && <Users />}
+        {item.path === '/expense-categories' && <ExpenseCategories />}
+        {item.path === '/quizzes' && <Users />}
+        {item.path === '/expenses' && <Expenses />}
+      </Suspense>
+    )
+  }));
 
 export const router = createBrowserRouter([
   {

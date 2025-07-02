@@ -28,7 +28,6 @@ export default function Login() {
         setCookie('refreshToken', refresh_token, { expires: refreshExpires });
         setUserInfo(user);
         navigate('/');
-        toast.success(t('axios.success.login'));
       }
     });
   }
