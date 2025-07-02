@@ -121,7 +121,7 @@ const retryRequest = async <T>(
       if (status && status >= 400 && status < 500) {
         toastManager.showError(errorMessage || i18next.t(ERROR_MESSAGE_KEYS.GENERIC_ERROR), 'client');
       } else if (status && status >= 500) {
-        toastManager.showError(i18next.t(ERROR_MESSAGE_KEYS.SERVER_ERROR), 'server');
+        toastManager.showError(errorMessage || i18next.t(ERROR_MESSAGE_KEYS.SERVER_ERROR), 'server');
       }
     }
     

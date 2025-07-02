@@ -54,7 +54,7 @@ export default function AdminLayout() {
         bodyStyle={{ padding: 0 }}
         className="md:hidden"
       >
-        <Sidebar collapsed={false} />
+        <Sidebar collapsed={false} onMenuClick={handleMobileClose} />
       </Drawer>
 
       <Layout 

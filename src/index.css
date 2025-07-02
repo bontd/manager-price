@@ -30,3 +30,18 @@ img, video, audio {
   /* Optimize media loading */
   loading: lazy;
 }
+
+.ant-modal {
+  top: 10px !important;
+}
+
+/* Custom toast width for mobile */
+@media (max-width: 640px) {
+  .custom-toast-container .Toastify__toast {
+    max-width: 90vw !important;
+    min-width: unset !important;
+    width: auto !important;
+    margin: 0 auto !important;
+    right: 0 !important;
+  }
+}

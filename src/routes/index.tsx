@@ -2,12 +2,15 @@ import { createBrowserRouter } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import AdminLayout from '@/layout/AdminLayout'
 import AuthLayout from '@/layout/AuthLayout'
-import Login from '@/pages/login/Login'
+import Login from '@/pages/auth/login/Login'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import NotFound from '@/pages/404'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import { NAVIGATION_ITEMS } from '@/utils/constants/navigation'
 import type { NavigationItem } from '@/utils/constants/navigation'
+import ResetPassword from '@/pages/auth/reset-password'
+import Register from '@/pages/auth/register'
+import ResetPasswordVerify from '@/pages/auth/reset-password/verify'
 
 // Lazy load components
 const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'))
@@ -53,6 +56,9 @@ export const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       { path: '/login', element: <Login /> },
+      { path: '/reset-password', element: <ResetPassword /> },
+      { path: '/register', element: <Register /> },
+      { path: `/reset-password/:token`, element: <ResetPasswordVerify /> },
     ],
   },
   { path: '*', element: <NotFound /> }

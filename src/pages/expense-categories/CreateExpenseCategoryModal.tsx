@@ -21,7 +21,7 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
   const [form] = Form.useForm();
   const { t } = useTranslation();
 
-  const { isLoading, error, create, isCreating, update, isUpdating, remove, isRemoving, refetch } = useExpenseCategories();
+  const { isLoading, create, update, isUpdating } = useExpenseCategories();
 
   useEffect(() => {
     if (open && mode === 'edit' && initialValues) {
@@ -37,7 +37,7 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
       if (mode === 'edit') {
         update({ ...initialValues, ...values }, {
           onSuccess: (data: any) => {
-            toast.success(t('expenses.createSuccess'));
+            toast.success(t('expenseCategories.updateSuccess'));
             form.resetFields();
             onClose();
           }
@@ -45,7 +45,7 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
       } else if (mode === 'create') {
         create(values, {
           onSuccess: (data: any) => {
-            toast.success(t('expenses.createSuccess'));
+            toast.success(t('expenseCategories.createSuccess'));
             form.resetFields();
             onClose();
           }
@@ -71,7 +71,6 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
           {mode === 'edit' ? t('common.save') : t('common.create')}
         </Button>,
       ]}
-      destroyOnClose
     >
       <Form form={form} layout="vertical">
         <Form.Item name="name" label={t('expenseCategories.name')} rules={[{ required: true, message: t('expenseCategories.nameRequired') }]}>

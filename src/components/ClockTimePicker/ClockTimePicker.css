@@ -1,0 +1,131 @@
+.clock-time-picker-button {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: #fff;
+  transition: all 0.3s;
+}
+
+.clock-time-picker-button:hover {
+  border-color: #1890ff;
+}
+
+.clock-time-picker-button:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.clock-canvas {
+  border: 1px solid #d9d9d9;
+  border-radius: 50%;
+  cursor: pointer;
+  max-width: 100%;
+  height: auto;
+  transition: all 0.3s;
+  margin: 10px 0;
+}
+
+.clock-canvas:hover {
+  border-color: #1890ff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clock-modal .ant-modal-content {
+  border-radius: 12px;
+}
+
+.clock-modal .ant-modal-header {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.clock-modal .ant-modal-body {
+}
+
+.clock-modal .ant-modal-footer {
+  border-top: 1px solid #f0f0f0;
+}
+
+.time-display {
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #1890ff;
+  text-align: center;
+}
+
+.hour-minute-toggle {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.hour-minute-toggle .ant-btn {
+  margin: 0 3px;
+  border-radius: 15px;
+  padding: 2px 12px;
+}
+
+.quick-selection {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.quick-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  max-width: 240px;
+  margin: 0 auto;
+}
+
+.quick-selection-btn {
+  min-width: 40px;
+  height: 32px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.quick-selection-btn.ant-btn-primary {
+  background: #1890ff;
+  border-color: #1890ff;
+}
+
+.quick-selection-btn.ant-btn-default {
+  background: #fff;
+  border-color: #d9d9d9;
+}
+
+.quick-selection-btn.ant-btn-default:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+@media (max-width: 768px) {
+  .clock-modal .ant-modal {
+    margin: 10px;
+  }
+  
+  .clock-modal .ant-modal-content {
+    border-radius: 8px;
+  }
+  
+  .clock-canvas {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .quick-selection-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+  }
+  
+  .quick-selection-btn {
+    min-width: 35px;
+    height: 28px;
+    font-size: 11px;
+  }
+} 

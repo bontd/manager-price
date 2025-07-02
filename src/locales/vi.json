@@ -10,7 +10,9 @@
         "rememberMe": "Ghi Nhớ Tôi",
         "forgotPassword": "Quên Mật Khẩu?",
         "singnUp": "Đăng Ký",
-        "dontHaveAccount": "Bạn chưa có tài khoản?"
+        "dontHaveAccount": "Bạn chưa có tài khoản?",
+        "haveAccount": "Bạn đã có tài khoản?",
+        "login": "Đăng Nhập"
     },
     "placeholder": {
         "name": "Nhập tên của bạn",
@@ -30,7 +32,8 @@
         "cancel": "Hủy bỏ",
         "reset": "Đặt lại",
         "login": "Đăng Nhập",
-        "singnUp": "Đăng Ký"
+        "singnUp": "Đăng Ký",
+        "resetPassword": "Đặt Lại Mật Khẩu"
     },
     "axios": {
         "loading": "Đang tải, vui lòng chờ...",
@@ -88,6 +91,7 @@
         "profile": "Hồ sơ",
         "settings": "Cài đặt",
         "logout": "Đăng xuất",
+        "expenseCategories": "Nhóm chi phí",
         "expenses": "Chi phí"
     },
     "expenseCategories": {
@@ -102,7 +106,9 @@
         "updatedAt": "Cập nhật",
         "nameRequired": "Vui lòng nhập tên",
         "confirmDelete": "Bạn có chắc chắn muốn xóa nhóm chi phí này?",
-        "editTitle": "Sửa nhóm chi phí"
+        "editTitle": "Sửa nhóm chi phí",
+        "createSuccess": "Tạo nhóm chi phí thành công!",
+        "updateSuccess": "Cập nhật nhóm chi phí thành công!"
     },
     "common": {
         "create": "Thêm mới",
@@ -120,6 +126,8 @@
         "category": "Danh mục",
         "selectCategory": "Chọn danh mục",
         "date": "Ngày",
+        "time": "Thời gian",
+        "selectTime": "Chọn thời gian",
         "paymentMethod": "Phương thức thanh toán",
         "location": "Địa điểm",
         "receiptImage": "Ảnh hóa đơn",
@@ -134,6 +142,7 @@
         "amountRequired": "Vui lòng nhập số tiền",
         "categoryRequired": "Vui lòng chọn danh mục",
         "dateRequired": "Vui lòng chọn ngày",
+        "timeRequired": "Vui lòng chọn thời gian",
         "confirmDelete": "Bạn có chắc chắn muốn xóa chi phí này không?",
         "confirmDeleteMessage": "Bạn có chắc chắn muốn xóa chi phí này? Hành động này không thể hoàn tác.",
         "createSuccess": "Tạo chi phí thành công!",
@@ -170,5 +179,11 @@
             "loadError": "Lỗi tải dữ liệu",
             "retry": "Thử lại"
         }
+    },
+    "resetPassword": {
+        "title": "Đặt Lại Mật Khẩu",
+        "description": "Nhập tên người dùng để đặt lại mật khẩu",
+        "success": "Gửi liên kết đặt lại mật khẩu thành công!",
+        "error": "Gửi liên kết đặt lại mật khẩu thất bại. Vui lòng thử lại."
     }
 }

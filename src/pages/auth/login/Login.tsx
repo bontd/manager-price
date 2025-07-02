@@ -1,20 +1,20 @@
 import { Button, Checkbox, Form, Input, Card } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from "react-i18next";
 import IconVI from '@/assets/ico/vi.svg';
 import IconEn from '@/assets/ico/en.svg';
 import '@/assets/css/login.css';
-import { useLogin } from "@/hook/useLogin";
 import { setCookie, setUserInfo } from "@/utils/helper/storage";
 import { calculateTokenExpiresFromResponse } from "@/utils/helper/tokenExpires";
 import { toast } from "react-toastify";
+import useAuth from "@/hook/useAuth";
 
 export default function Login() {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation();
 
-  const { login, isLoading, error} = useLogin();
+  const { login, isLoading, error} = useAuth();
 
   const handleLogin = async (values: any) => {
     login(values, {
@@ -48,13 +48,14 @@ export default function Login() {
         >
           <Form.Item
             name="username"
-            label={t('label.username')}
+            label={t('label.email')}
             rules={[{ required: true, message: t('validation.required') }]}
           >
             <Input
+              type="email"
               autoComplete="new-username"
               prefix={<UserOutlined className="text-gray-400" />}
-              placeholder={t('placeholder.username')}
+              placeholder={t('placeholder.email')}
               className="py-2"
             />
           </Form.Item>
@@ -76,9 +77,9 @@ export default function Login() {
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>{t('label.rememberMe')}</Checkbox>
             </Form.Item>
-            <a className="text-indigo-500 hover:underline text-sm" href="#">
+            <Link className="text-indigo-500 hover:underline text-sm" to="/reset-password">
               {t('label.forgotPassword')}
-            </a>
+            </Link>
           </div>
 
           <Form.Item className="mt-[10px]">
@@ -94,9 +95,9 @@ export default function Login() {
 
           <div className="text-center text-sm text-gray-500">
             {t('label.dontHaveAccount')}{" "}
-            <a href="#" className="text-indigo-500 hover:underline">
+            <Link to="/register" className="text-indigo-500 hover:underline">
               {t('label.singnUp')}
-            </a>
+            </Link>
           </div>
         </Form>
         <div className="flex justify-center gap-[10px] mt-[10px]">

@@ -9,9 +9,10 @@ const { Sider } = Layout;
 
 interface SidebarProps {
   collapsed: boolean;
+  onMenuClick?: () => void;
 }
 
-export default function Sidebar({ collapsed }: SidebarProps) {
+export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
     const { t } = useTranslation();
     const { activeMenuKey } = useNavigation();
 
@@ -50,6 +51,7 @@ export default function Sidebar({ collapsed }: SidebarProps) {
                   overflowY: 'auto'
                 }}
                 className="sidebar-menu"
+                onClick={onMenuClick}
             />
         </Sider>
     );

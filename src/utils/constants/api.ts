@@ -43,6 +43,8 @@ export const API_ENDPOINTS = {
     LOGOUT: "/api/logout",
     REFRESH: "/api/refresh",
     REGISTER: "/api/register",
+    RESET_PASSWORD: "/api/passwordReset",
+    VERIFY_RESET_PASSWORD: "/api/passwordReset/verify",
   },
   USER: {
     PROFILE: "/user/profile",

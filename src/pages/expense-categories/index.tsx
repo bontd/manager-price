@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Table, Skeleton, Button, Space } from 'antd';
+import { Table, Skeleton, Button, Space, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import CreateExpenseCategoryModal from './CreateExpenseCategoryModal';
 import { useExpenseCategories, ExpenseCategory } from '@/hook/useExpenseCategories';
+import { toast } from 'react-toastify';
 
 const ExpenseCategoriesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -10,6 +11,8 @@ const ExpenseCategoriesPage: React.FC = () => {
   const [editValues, setEditValues] = useState<ExpenseCategory | null>(null);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [openCreate, setOpenCreate] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [expenseToDelete, setExpenseToDelete] = useState<ExpenseCategory | null>(null);
 
   // Sử dụng custom hook
   const {
@@ -18,7 +21,8 @@ const ExpenseCategoriesPage: React.FC = () => {
     error,
     isCreating,
     isUpdating,
-    remove
+    remove,
+    isRemoving
   } = useExpenseCategories();
 
   const handleEdit = (cat: ExpenseCategory) => {
@@ -38,8 +42,26 @@ const ExpenseCategoriesPage: React.FC = () => {
     setEditValues(null);
   };
 
-  const handleDelete = (id: string) => {
-    if (window.confirm(t('expenseCategories.confirmDelete'))) remove(id);
+  const handleConfirmDelete = () => {
+    if (expenseToDelete) {
+      remove(expenseToDelete.id, {
+        onSuccess: () => {
+          setDeleteModalVisible(false);
+          setExpenseToDelete(null);
+          toast.success(t('expenseCategories.deleteSuccess'));
+        }
+      });
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteModalVisible(false);
+    setExpenseToDelete(null);
+  };
+
+  const handleDelete = (data: ExpenseCategory) => {
+    setExpenseToDelete(data);
+    setDeleteModalVisible(true);
   };
 
   const handleTableChange = (paginationInfo: any) => {
@@ -61,8 +83,8 @@ const ExpenseCategoriesPage: React.FC = () => {
       fixed: 'right',
       render: (_: any, record: ExpenseCategory) => (
         <Space className='flex justify-end'>
-          <Button size="small" onClick={() => handleEdit(record)}>{editValues?.id === record.id ? t('common.editing') : t('common.edit')}</Button>
-          <Button size="small" danger onClick={() => handleDelete(record.id)}>{t('common.delete')}</Button>
+          <Button size="small" onClick={() => handleEdit(record)}>{t('common.edit')}</Button>
+          <Button size="small" danger onClick={() => handleDelete(record)}>{t('common.delete')}</Button>
         </Space>
       )
     }
@@ -103,6 +125,20 @@ const ExpenseCategoriesPage: React.FC = () => {
           scroll={{ x: 'max-content' }}
         />
       )}
+      <Modal
+        title={t('expenses.confirmDelete')}
+        open={deleteModalVisible}
+        onOk={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        confirmLoading={isRemoving}
+        okText={t('common.delete')}
+        cancelText={t('common.cancel')}
+      >
+        <p>{t('expenses.confirmDeleteMessage')}</p>
+        {expenseToDelete && (
+          <p><strong>{expenseToDelete.name}</strong></p>
+        )}
+      </Modal>
     </div>
   );
 };
