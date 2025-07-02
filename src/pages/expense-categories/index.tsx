@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import CreateExpenseCategoryModal from './CreateExpenseCategoryModal';
 import { useExpenseCategories, ExpenseCategory } from '@/hook/useExpenseCategories';
 import { toast } from 'react-toastify';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const ExpenseCategoriesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -83,8 +84,8 @@ const ExpenseCategoriesPage: React.FC = () => {
       fixed: 'right',
       render: (_: any, record: ExpenseCategory) => (
         <Space className='flex justify-end'>
-          <Button size="small" onClick={() => handleEdit(record)}>{t('common.edit')}</Button>
-          <Button size="small" danger onClick={() => handleDelete(record)}>{t('common.delete')}</Button>
+          <Button size="small" onClick={() => handleEdit(record)}><EditOutlined /></Button>
+          <Button size="small" danger onClick={() => handleDelete(record)}><DeleteOutlined /></Button>
         </Space>
       )
     }

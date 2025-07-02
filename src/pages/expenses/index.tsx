@@ -5,6 +5,7 @@ import CreateExpenseModal from './CreateExpenseModal';
 import { useExpenses, Expense } from '@/hook/useExpenses';
 import dayjs from 'dayjs';
 import { formatCurrency } from '@/utils/helper';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const ExpensesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -85,8 +86,8 @@ const ExpensesPage: React.FC = () => {
       fixed: 'right',
       render: (_: any, record: Expense) => (
         <Space className='flex justify-end'>
-          <Button size="small" onClick={() => handleEdit(record)}>{t('common.edit')}</Button>
-          <Button size="small" danger onClick={() => handleDelete(record)}>{t('common.delete')}</Button>
+          <Button size="small" onClick={() => handleEdit(record)}><EditOutlined /></Button>
+          <Button size="small" danger onClick={() => handleDelete(record)}><DeleteOutlined /></Button>
         </Space>
       )
     }
