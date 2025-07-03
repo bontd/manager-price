@@ -88,7 +88,10 @@ axiosInstance.interceptors.request.use(
 // Response interceptor simplified
 axiosInstance.interceptors.response.use(
   (response) => {
-    toastManager.showSuccess(response.data.message, 'success');
+    // Chỉ hiện toast thành công nếu không phải GET
+    if (response.config.method?.toLowerCase() !== 'get') {
+      toastManager.showSuccess(response.data.message, 'success');
+    }
     return response;
   },
   (error: AxiosError) => {
