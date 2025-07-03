@@ -49,25 +49,22 @@ const Users = () => {
 
     return (
         <div className="card">
-            {isLoading ? (
-                <Skeleton active paragraph={{ rows: 3 }} />
-            ) : (
-                <Table 
-                    dataSource={dataColumns} 
-                    columns={columns}
-                    pagination={{
-                        current: pagination.current,
-                        pageSize: pagination.pageSize,
-                        total: data?.totalItems || 0,
-                        showSizeChanger: true,
-                        showQuickJumper: true,
-                        showTotal: (total, range) => 
-                            `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
-                        pageSizeOptions: ['5', '10', '20', '50'],
-                    }}
-                    onChange={handleTableChange}
-                />
-            )}
+            <Table 
+                dataSource={dataColumns} 
+                columns={columns}
+                pagination={{
+                    current: pagination.current,
+                    pageSize: pagination.pageSize,
+                    total: data?.totalItems || 0,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                    showTotal: (total, range) => 
+                        `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
+                    pageSizeOptions: ['5', '10', '20', '50'],
+                }}
+                onChange={handleTableChange}
+                loading={isLoading}
+            />
         </div>
     )
 };

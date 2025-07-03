@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { API_ENDPOINTS } from '@/utils/constants/api';
 import { get, post, put, del } from '@/api/config';
 import { AxiosHeaders } from 'axios';
+import qs from 'qs';
 
 export interface Expense {
   id: string;
@@ -28,14 +29,14 @@ export interface Expense {
   };
 }
 
-export const useExpenses = () => {
+export const useExpenses = (param: any) => {
   const queryClient = useQueryClient();
 
   // List
   const listQuery = useQuery({
-    queryKey: ['expenses'],
-    queryFn: () => get<any>(API_ENDPOINTS.EXPENSES.ROOT),
-    select: (res) => res.records?.data || [],
+    queryKey: ['expenses', param],
+    queryFn: () => get<any>(`${API_ENDPOINTS.EXPENSES.ROOT}?${qs.stringify(param)}`),
+    select: (res) => res.records || [],
   });
 
   // Create
@@ -72,7 +73,8 @@ export const useExpenses = () => {
   };
 
   return {
-    list: listQuery.data,
+    list: listQuery.data?.data,
+    meta: listQuery.data?.meta,
     isLoading: listQuery.isLoading,
     error: listQuery.error,
     create: createMutation.mutate,

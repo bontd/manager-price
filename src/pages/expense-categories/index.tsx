@@ -105,9 +105,7 @@ const ExpenseCategoriesPage: React.FC = () => {
         isLoading={isCreating}
         isEditing={isUpdating}
       />
-      {isLoading ? (
-        <Skeleton active paragraph={{ rows: 3 }} />
-      ) : (
+      
         <Table
           dataSource={dataSource}
           columns={columns}
@@ -122,8 +120,8 @@ const ExpenseCategoriesPage: React.FC = () => {
           }}
           onChange={handleTableChange}
           scroll={{ x: 'max-content' }}
+          loading={isLoading}
         />
-      )}
       <Modal
         title={t('expenses.confirmDelete')}
         open={deleteModalVisible}

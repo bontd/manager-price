@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Table, Skeleton, Button, Space, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import CreateExpenseModal from './CreateExpenseModal';
@@ -11,20 +11,25 @@ const ExpensesPage: React.FC = () => {
   const { t } = useTranslation();
   const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
   const [editValues, setEditValues] = useState<Expense | null>(null);
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [openCreate, setOpenCreate] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [expenseToDelete, setExpenseToDelete] = useState<Expense | null>(null);
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
 
-  // Sử dụng custom hook
+  const params = useMemo(() => ({
+    current: pagination.current,
+    pageSize: pagination.pageSize
+  }), [pagination.current, pagination.pageSize]);
+
   const {
     list,
+    meta,
     isLoading,
     error,
     remove,
     isRemoving,
     refetch
-  } = useExpenses();
+  } = useExpenses(params);
 
   const handleEdit = (expense: Expense) => {
     setEditValues(expense);
@@ -82,8 +87,8 @@ const ExpensesPage: React.FC = () => {
     {
       title: t('common.action'),
       key: 'action',
-      align: 'right',
-      fixed: 'right',
+      align: 'right' as const,
+      fixed: 'right' as const,
       render: (_: any, record: Expense) => (
         <Space className='flex justify-end'>
           <Button size="small" onClick={() => handleEdit(record)}><EditOutlined /></Button>
@@ -107,25 +112,22 @@ const ExpensesPage: React.FC = () => {
         initialValues={editValues || undefined}
         onClose={handleCloseModal}
       />
-      {isLoading ? (
-        <Skeleton active paragraph={{ rows: 3 }} />
-      ) : (
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          pagination={{
-            current: pagination.current,
-            pageSize: pagination.pageSize,
-            total: dataSource.length,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
-            pageSizeOptions: ['5', '10', '20', '50'],
-          }}
-          onChange={handleTableChange}
-          scroll={{ x: 'max-content' }}
-        />
-      )}
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        pagination={{
+          current: pagination.current,
+          pageSize: pagination.pageSize,
+          total: meta?.total,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (total, range) => `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
+          pageSizeOptions: ['5', '10', '20', '50'],
+        }}
+        loading={isLoading}
+        onChange={handleTableChange}
+        scroll={{ x: 'max-content' }}
+      />
       <Modal
         title={t('expenses.confirmDelete')}
         open={deleteModalVisible}
