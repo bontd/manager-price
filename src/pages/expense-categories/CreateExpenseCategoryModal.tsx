@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { ExpenseCategory, useExpenseCategories } from '@/hook/useExpenseCategories';
-import { toast } from 'react-toastify';
 
 export interface CreateExpenseCategoryModalProps {
   open: boolean;
@@ -37,7 +36,6 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
       if (mode === 'edit') {
         update({ ...initialValues, ...values }, {
           onSuccess: (data: any) => {
-            toast.success(t('expenseCategories.updateSuccess'));
             form.resetFields();
             onClose();
           }
@@ -45,7 +43,6 @@ const CreateExpenseCategoryModal: React.FC<CreateExpenseCategoryModalProps> = ({
       } else if (mode === 'create') {
         create(values, {
           onSuccess: (data: any) => {
-            toast.success(t('expenseCategories.createSuccess'));
             form.resetFields();
             onClose();
           }

@@ -21,7 +21,6 @@ const ResetPassword = () => {
             onSuccess: (data: any) => {
                 console.log(data);
                 
-                toast.success(t('resetPassword.success'));
             }
         });
     }

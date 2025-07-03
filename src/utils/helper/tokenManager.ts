@@ -41,28 +41,35 @@ class TokenManager {
   }
 
   async refreshToken(): Promise<string | null> {
+    if (this.isRefreshing) {
+      // If already refreshing, return a promise that resolves when refresh is done
+      return new Promise((resolve, reject) => {
+        this.addToQueue(resolve, reject);
+      });
+    }
+    this.setRefreshing(true);
     try {
       const refreshToken = getRefreshToken();
       if (!refreshToken) {
         throw new Error("No refresh token available");
       }
-
       // Call your refresh token endpoint
       const response = await post<any>(API_ENDPOINTS.AUTH.REFRESH, {
-        refresh_token:refreshToken,
+        refresh_token: refreshToken,
       });
-
       // Tính toán expires từ API response
       const { expires, refreshExpires } = calculateTokenExpiresFromResponse(response.data);
-
       // Store new tokens
       setCookie("token", response.data.access_token, { expires });
       setCookie("refreshToken", response.data.refresh_token, { expires: refreshExpires });
-
+      this.processQueue(null, response.data.access_token);
       return response.data.access_token;
     } catch (error) {
+      this.processQueue(error, null);
       console.error(i18next.t(ERROR_MESSAGE_KEYS.TOKEN_REFRESH_FAILED), error);
       return null;
+    } finally {
+      this.setRefreshing(false);
     }
   }
 

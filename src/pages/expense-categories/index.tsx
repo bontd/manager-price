@@ -3,7 +3,6 @@ import { Table, Skeleton, Button, Space, Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import CreateExpenseCategoryModal from './CreateExpenseCategoryModal';
 import { useExpenseCategories, ExpenseCategory } from '@/hook/useExpenseCategories';
-import { toast } from 'react-toastify';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const ExpenseCategoriesPage: React.FC = () => {
@@ -49,7 +48,6 @@ const ExpenseCategoriesPage: React.FC = () => {
         onSuccess: () => {
           setDeleteModalVisible(false);
           setExpenseToDelete(null);
-          toast.success(t('expenseCategories.deleteSuccess'));
         }
       });
     }

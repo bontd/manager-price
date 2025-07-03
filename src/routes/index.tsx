@@ -42,6 +42,7 @@ const userRole = userInfo?.role;
 
 const adminRoutes = flatNavItems
   .filter(item => {
+    if (!userRole) return item;
     if (!item.allowedRoles) return true;
     const allowedEnumRoles = item.allowedRoles.map(roleStringToEnum);
     return userRole && allowedEnumRoles.includes(userRole);
@@ -57,7 +58,7 @@ const adminRoutes = flatNavItems
         {item.path === '/expenses' && <Expenses />}
       </Suspense>
     )
-  }));
+}));
 
 export const router = createBrowserRouter([
   {

@@ -6,7 +6,6 @@ import { UploadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useExpenses } from '@/hook/useExpenses';
 import { useExpenseCategories } from '@/hook/useExpenseCategories';
-import { toast } from 'react-toastify';
 import ClockTimePicker from '@/components/ClockTimePicker';
 
 export interface CreateExpenseModalProps {
@@ -139,7 +138,6 @@ const CreateExpenseModal: React.FC<CreateExpenseModalProps> = ({
       if (mode === 'edit') {
         await update({ ...submitData, id: initialValues?.id }, {
           onSuccess: (data: any) => {
-            toast.success(t('expenses.updateSuccess'));
             form.resetFields();
             onClose();
           }
@@ -147,7 +145,6 @@ const CreateExpenseModal: React.FC<CreateExpenseModalProps> = ({
       } else {
         await create(submitData, {
           onSuccess: (data: any) => {
-            toast.success(t('expenses.createSuccess'));
             form.resetFields();
             onClose();
           }
@@ -155,7 +152,6 @@ const CreateExpenseModal: React.FC<CreateExpenseModalProps> = ({
       }
     } catch (err) {
       console.error('Form submission error:', err);
-      toast.error(t('expenses.saveError'));
     }
   };
 

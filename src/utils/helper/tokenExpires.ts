@@ -30,11 +30,9 @@ export const calculateTokenExpires = (config: TokenExpiresConfig): TokenExpiresR
   // Lấy expires_in và refresh_expires_in từ response (giây)
   const accessExpiresIn = expiresIn || defaultExpiresIn;
   const refreshExpiresInSeconds = refreshExpiresIn || defaultRefreshExpiresIn;
-  
   // Chuyển sang ngày (làm tròn lên 1 số thập phân)
-  const expires = Math.ceil(accessExpiresIn / 86400 * 10) / 10;
-  const refreshExpires = Math.ceil(refreshExpiresInSeconds / 86400 * 10) / 10;
-
+  const expires = (accessExpiresIn / 86400 * 10) / 10;
+  const refreshExpires = (refreshExpiresInSeconds / 86400 * 10) / 10;
   return { expires, refreshExpires };
 };
 

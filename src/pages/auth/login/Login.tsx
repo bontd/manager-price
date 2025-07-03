@@ -7,7 +7,6 @@ import IconEn from '@/assets/ico/en.svg';
 import '@/assets/css/login.css';
 import { setCookie, setUserInfo } from "@/utils/helper/storage";
 import { calculateTokenExpiresFromResponse } from "@/utils/helper/tokenExpires";
-import { toast } from "react-toastify";
 import useAuth from "@/hook/useAuth";
 
 export default function Login() {

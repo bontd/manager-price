@@ -34,6 +34,7 @@ export const ERROR_MESSAGE_KEYS = {
   TOKEN_REFRESH_FAILED: "axios.error.pleaseLoginAgain",
   TIMEOUT: "axios.error.timeout",
   NOT_FOUND: "axios.error.notFound",
+  SESSION_EXPIRED: "axios.error.sessionExpired",
 } as const;
 
 // API Endpoints

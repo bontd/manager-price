@@ -4,17 +4,13 @@ import tokenManager from '../utils/helper/tokenManager'
 import React, { useEffect, useState } from 'react'
 import LoadingSpinner from '../components/LoadingSpinner'
 
-const isAuthenticated = () => {
-  return !!getToken()
-}
-
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const [authChecked, setAuthChecked] = useState(false)
   const [isAuth, setIsAuth] = useState(false)
 
   useEffect(() => {
     const checkAuth = async () => {
-      let token = getToken()
+      let token = getToken();
       if (!token) {
         const refreshToken = getRefreshToken()
         if (refreshToken) {

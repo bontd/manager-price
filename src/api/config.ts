@@ -1,5 +1,5 @@
 import configs from "@/utils/constants/config";
-import { getToken } from "@/utils/helper/storage";
+import { getToken, getRefreshToken, removeCookie } from "@/utils/helper/storage";
 import axios, { AxiosHeaders, AxiosRequestHeaders, AxiosResponse, AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { tokenManager } from "@/utils/helper/tokenManager";
@@ -45,6 +45,16 @@ class ToastManager {
       toast.error(message);
     }
   }
+
+  showSuccess(message: string, errorType: string = 'default') {
+    const now = Date.now();
+    const key = `${errorType}:${message}`;
+    
+    if (!this.lastErrorTime[key] || (now - this.lastErrorTime[key]) > this.DEBOUNCE_TIME) {
+      this.lastErrorTime[key] = now;
+      toast.success(message);
+    }
+  }
 }
 
 const toastManager = new ToastManager();
@@ -58,21 +68,6 @@ const axiosInstance = axios.create({
   },
 });
 
-// Error handling utilities
-const handleNetworkError = () => {
-  return Promise.reject(new Error("No network connection"));
-};
-
-const handleUnauthorizedError = (message?: string) => {
-  toastManager.showError(message || i18next.t(ERROR_MESSAGE_KEYS.UNAUTHORIZED), 'unauthorized');
-  window.location.href = '/login';
-  return Promise.reject(new Error("Unauthorized access"));
-};
-
-const handleGenericError = (message?: string) => {
-  return Promise.reject(new Error(message || "Generic error"));
-};
-
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -82,6 +77,9 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `${API_CONSTANTS.HEADERS.AUTHORIZATION} ${token}`;
     }
     
+    // Add Accept-Language header
+    config.headers['Accept-Language'] = i18next.language || 'en';
+    
     return config;
   },
   (error) => Promise.reject(error)
@@ -89,11 +87,25 @@ axiosInstance.interceptors.request.use(
 
 // Response interceptor simplified
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    toastManager.showSuccess(response.data.message, 'success');
+    return response;
+  },
   (error: AxiosError) => {
     return Promise.reject(error); // Delegate error handling to retryRequest
   }
 );
+
+// Utility logout function for non-React usage
+const logout = () => {
+  // Remove all auth-related cookies and storage
+    removeCookie('token');
+    removeCookie('refreshToken');
+    removeCookie('userInfo');
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = '/login';
+};
 
 // Retry mechanism for failed requests
 const retryRequest = async <T>(
@@ -103,28 +115,52 @@ const retryRequest = async <T>(
   try {
     return await requestFn();
   } catch (error) {
-    if (retries > 0 && !(error as AxiosError).response) {
-      // Chỉ retry cho network errors, không hiển thị toast
+    const axiosError = error as AxiosError;
+    const status = axiosError.response?.status;
+    const errorData = axiosError.response?.data as any;
+    const token = getToken();
+
+    // Handle 401 Unauthenticated error
+    if (
+      !token &&
+      status === HTTP_STATUS.UNAUTHORIZED &&
+      (errorData?.error === 'Unauthenticated.' || errorData?.message === 'Unauthenticated.')
+    ) {
+      // Only one refreshToken request will be sent at a time; others will wait for the result
+      const refreshToken = getRefreshToken();
+      if (!refreshToken) {
+        logout();
+        return Promise.reject(new Error('Session expired. Please login again.'));
+      }
+      // Try to refresh token (queued if already refreshing)
+      const newToken = await tokenManager.refreshToken();
+      if (newToken) {
+        // Retry the original request with the new token
+        return retryRequest(requestFn, retries - 1);
+      } else {
+        // Refresh failed, logout
+        logout();
+        return Promise.reject(new Error('Session expired. Please login again.'));
+      }
+    }
+
+    if (retries > 0 && !axiosError.response) {
       await new Promise(resolve => setTimeout(resolve, API_CONSTANTS.RETRY_DELAY));
       return retryRequest(requestFn, retries - 1);
     }
-    
-    // Chỉ hiển thị toast khi tất cả retry đều thất bại
-    if (!(error as AxiosError).response) {
-      const errorMessage = (error as AxiosError)?.message || i18next.t(ERROR_MESSAGE_KEYS.NETWORK_ERROR);
+
+    if (!axiosError.response) {
+      const errorMessage = axiosError?.message || i18next.t(ERROR_MESSAGE_KEYS.NETWORK_ERROR);
       toastManager.showError(errorMessage, 'network');
     } else {
-      const axiosError = error as AxiosError;
       const status = axiosError.response?.status;
       const errorMessage = (axiosError.response?.data as any)?.message;
-      
       if (status && status >= 400 && status < 500) {
         toastManager.showError(errorMessage || i18next.t(ERROR_MESSAGE_KEYS.GENERIC_ERROR), 'client');
       } else if (status && status >= 500) {
         toastManager.showError(errorMessage || i18next.t(ERROR_MESSAGE_KEYS.SERVER_ERROR), 'server');
       }
     }
-    
     throw error;
   }
 };

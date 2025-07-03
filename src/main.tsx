@@ -41,8 +41,8 @@ createRoot(container).render(
         <RouterProvider router={router} />
         <ReactQueryDevtools initialIsOpen={false} />
         <ToastContainer 
-          position="top-right" 
-          autoClose={10000} 
+          position="bottom-right" 
+          autoClose={5000} 
           pauseOnHover={false} 
           pauseOnFocusLoss={false} 
           className="custom-toast-container"

@@ -24,7 +24,8 @@
             "badGateway": "Bad gateway error. The server is temporarily unavailable.",
             "serviceUnavailable": "Service temporarily unavailable. Please try again later.",
             "tokenExpired": "Your session has expired. Please log in again.",
-            "generic": "An unexpected error occurred. Please try again."
+            "generic": "An unexpected error occurred. Please try again.",
+            "sessionExpired": "Session has expired. Please log in again."
         }
     },
     "label": {
