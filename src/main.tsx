@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ConfigProvider } from 'antd';
 
-import { router } from './routes';
+import AppRouter from './routes/AppRouter';
 import { ToastContainer } from 'react-toastify';
 import './utils/performance';
 
@@ -38,7 +38,7 @@ createRoot(container).render(
   <StrictMode>
     <ConfigProvider {...antdConfig}>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <AppRouter />
         <ReactQueryDevtools initialIsOpen={false} />
         <ToastContainer 
           position="bottom-right" 

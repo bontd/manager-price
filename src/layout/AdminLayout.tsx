@@ -4,6 +4,10 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from '@/components/sidebar';
 import AppHeader from '@/components/header';
 import AppFooter from '@/components/footer';
+import { get } from '@/api/config';
+import { API_ENDPOINTS } from '@/utils/constants/api';
+import { useUserProfileStore } from '@/stores/useUserProfile';
+import { getToken } from '@/utils/helper/storage';
 
 const { Content } = Layout;
 
@@ -11,6 +15,26 @@ export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const setUserProfile = useUserProfileStore(state => state.setUserProfile);
+
+  // Call API to get user profile when component mounts (F5)
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const token = getToken();
+        if (token) {
+          const userInfo = await get<any>(API_ENDPOINTS.USER.PROFILE);
+          if (userInfo?.records?.data?.user) {
+            setUserProfile(userInfo.records.data.user);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch user profile:', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, [setUserProfile]);
 
   // Handle responsive breakpoints
   useEffect(() => {

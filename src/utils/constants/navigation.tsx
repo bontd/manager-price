@@ -2,8 +2,8 @@ import { DashboardOutlined, FolderOutlined, UserOutlined, VideoCameraOutlined } 
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { MenuProps } from 'antd';
-import { getUserInfo } from '@/utils/helper/storage';
 import { ROLE } from './enum';
+import { log } from 'node:console';
 
 export interface NavigationItem {
   key: string;
@@ -12,7 +12,7 @@ export interface NavigationItem {
   label: string;
   translationKey: string;
   children?: NavigationItem[];
-  allowedRoles?: string[];
+  allowedRoles?: ROLE[];
 }
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
@@ -22,7 +22,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     icon: DashboardOutlined,
     label: 'Dashboard',
     translationKey: 'navigation.dashboard',
-    allowedRoles: ['admin', 'user']
+    allowedRoles: [ROLE.ADMIN, ROLE.USER]
   },
   {
     key: '2',
@@ -35,7 +35,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         path: '/users',
         label: 'User List',
         translationKey: 'navigation.usersList',
-        allowedRoles: ['admin'],
+        allowedRoles: [ROLE.ADMIN],
       },
       // Thêm children khác nếu cần
     ]
@@ -51,7 +51,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         path: '/quizzes',
         label: 'Quiz List',
         translationKey: 'navigation.quizzesList',
-        allowedRoles: ['admin', 'user'],
+        allowedRoles: [ROLE.ADMIN, ROLE.USER],
       },
       // Thêm children khác nếu cần
     ]
@@ -62,7 +62,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     icon: FolderOutlined,
     label: 'Expense Categories',
     translationKey: 'navigation.expenseCategories',
-    allowedRoles: ['admin', 'user'],
+    allowedRoles: [ROLE.ADMIN, ROLE.USER],
   },
   {
     key: '5',
@@ -70,7 +70,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     icon: FolderOutlined,
     label: 'Expenses',
     translationKey: 'navigation.expenses',
-    allowedRoles: ['admin', 'user'],
+    allowedRoles: [ROLE.ADMIN, ROLE.USER],
   }
 ];
 
@@ -90,28 +90,55 @@ export const getActiveMenuKey = (pathname: string): string[] => {
 };
 
 // Shared function to map string role to enum value
-export const roleStringToEnum = (roleStr: string) => {
+export const roleStringToEnum = (roleStr: string | undefined | null): ROLE => {
+  if (!roleStr || typeof roleStr !== 'string') {
+    return ROLE.USER; // Default to USER role
+  }
+  
   switch (roleStr.toLowerCase()) {
     case 'admin': return ROLE.ADMIN;
     case 'user': return ROLE.USER;
-    default: return undefined;
+    default: return ROLE.USER;
   }
 };
 
-function mapItems(items: NavigationItem[], t: (key: string) => string): NonNullable<MenuProps['items']> {
-  const userInfo = getUserInfo();
-  const userRole = userInfo?.role;
+// Shared function to map number role to enum value
+export const roleNumberToEnum = (roleNum: number | undefined | null): ROLE => {
+  if (roleNum === undefined || roleNum === null) {
+    return ROLE.USER; // Default to USER role
+  }
+  
+  switch (roleNum) {
+    case 1: return ROLE.ADMIN;
+    case 3: return ROLE.USER;
+    default: return ROLE.USER;
+  }
+};
 
+function mapItems(
+  items: NavigationItem[],
+  t: (key: string) => string,
+  userRole: string | number | undefined | null
+): NonNullable<MenuProps['items']> {
   // Helper to check if an item or its children is allowed
+  
   const isItemAllowed = (item: NavigationItem): boolean => {
     if (item.allowedRoles) {
-      const allowedEnumRoles = item.allowedRoles.map(roleStringToEnum);
-      if (!userRole || !allowedEnumRoles.includes(userRole)) return false;
+      let userRoleEnum: ROLE;
+      
+      if (typeof userRole === 'number') {
+        userRoleEnum = roleNumberToEnum(userRole);
+      } else {
+        userRoleEnum = roleStringToEnum(userRole);
+      }
+      
+      if (!userRole || !item.allowedRoles.includes(userRoleEnum)) return false;
     }
     if (item.children) {
       // At least one child must be allowed
-      return item.children.some(isItemAllowed);
+      return item.children.some(child => isItemAllowed(child));
     }
+    
     return true;
   };
 
@@ -125,11 +152,14 @@ function mapItems(items: NavigationItem[], t: (key: string) => string): NonNulla
         key: item.key,
         icon: item.icon ? React.createElement(item.icon) : undefined,
         label,
-        children: item.children ? mapItems(item.children, t) : undefined,
+        children: item.children ? mapItems(item.children, t, userRole) : undefined,
       };
     });
 }
 
-export const getMenuItems = (t: (key: string) => string): NonNullable<MenuProps['items']> => {
-  return mapItems(NAVIGATION_ITEMS, t);
+export const getMenuItems = (
+  t: (key: string) => string,
+  userRole: string | number | undefined | null
+): NonNullable<MenuProps['items']> => {
+  return mapItems(NAVIGATION_ITEMS, t, userRole);
 };

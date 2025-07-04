@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getMenuItems } from '@/utils/constants/navigation';
 import { useNavigation } from '@/hook/useNavigation';
+import { useUserProfileStore } from '@/stores/useUserProfile';
 
 const { Sider } = Layout;
 
@@ -15,8 +16,9 @@ interface SidebarProps {
 export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
     const { t } = useTranslation();
     const { activeMenuKey } = useNavigation();
-
-    const menuItems = getMenuItems(t);
+    const userProfile = useUserProfileStore(state => state.userProfile);
+    const userRole = userProfile?.role;
+    const menuItems = getMenuItems(t, userRole);
 
     return (
         <Sider 

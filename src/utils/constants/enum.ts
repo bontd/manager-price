@@ -4,6 +4,7 @@ export enum CULTURE {
 }
 
 export enum ROLE {
-    ADMIN = 1,
-    USER = 3,
+    ADMIN = 'Admin',
+    USER = 'User',
+    SUPER_ADMIN = 'Super Admin',
 }

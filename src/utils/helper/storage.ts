@@ -19,12 +19,3 @@ export const getToken = (): string | undefined => {
 export const getRefreshToken = (): string | undefined => {
   return getCookie('refreshToken');
 }
-
-export const setUserInfo = (userInfo: Record<string, any>, options?: Cookies.CookieAttributes): void => {
-  setCookie('userInfo', JSON.stringify(userInfo), options);
-}
-
-export const getUserInfo = (): Record<string, any> | null => {
-  const userInfo = getCookie('userInfo');
-  return userInfo ? JSON.parse(userInfo) : null;
-}

@@ -48,8 +48,8 @@ export const API_ENDPOINTS = {
     VERIFY_RESET_PASSWORD: "/api/passwordReset/verify",
   },
   USER: {
-    PROFILE: "/user/profile",
-    UPDATE: "/user/update",
+    PROFILE: "/api/user/profile",
+    UPDATE: "/api/user/update",
   },
   EXPENSE_CATEGORIES: {
     ROOT: "/api/expense-categories",

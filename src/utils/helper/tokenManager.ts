@@ -1,8 +1,9 @@
 import { getToken, getRefreshToken, setCookie } from "@/utils/helper/storage";
-import { post } from "@/api/config";
+import { get, post } from "@/api/config";
 import { API_ENDPOINTS, ERROR_MESSAGE_KEYS } from "@/utils/constants/api";
 import { calculateTokenExpiresFromResponse } from "@/utils/helper/tokenExpires";
 import i18next from "i18next";
+import { useUserProfileStore } from "@/stores/useUserProfile";
 
 interface TokenResponse {
   accessToken: string;

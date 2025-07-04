@@ -125,7 +125,6 @@ const retryRequest = async <T>(
 
     // Handle 401 Unauthenticated error
     if (
-      !token &&
       status === HTTP_STATUS.UNAUTHORIZED &&
       (errorData?.error === 'Unauthenticated.' || errorData?.message === 'Unauthenticated.')
     ) {
@@ -142,7 +141,7 @@ const retryRequest = async <T>(
         return retryRequest(requestFn, retries - 1);
       } else {
         // Refresh failed, logout
-        logout();
+        // logout();
         return Promise.reject(new Error('Session expired. Please login again.'));
       }
     }
