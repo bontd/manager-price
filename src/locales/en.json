@@ -39,14 +39,22 @@
         "singnUp": "Sign Up",
         "dontHaveAccount": "Don't have an account?",
         "haveAccount": "Already have an account?",
-        "login": "Login"
+        "login": "Login",
+        "birthday": "Birthday",
+        "address": "Address",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
     },
     "placeholder": {
         "name": "Enter your name",
         "username": "Enter your username",
         "email": "Enter your email address",
         "password": "Enter your password",
-        "confirmPassword": "Re-enter your password"
+        "confirmPassword": "Re-enter your password",
+        "birthday": "Select your birthday",
+        "address": "Enter your address"
     },
     "validation": {
         "required": "This field is required.",
@@ -60,7 +68,8 @@
         "reset": "Reset",
         "login": "Login",
         "singnUp": "Sign Up",
-        "resetPassword": "Reset Password"
+        "resetPassword": "Reset Password",
+        "register": "Register"
     },
     "table": {
         "noData": "No data available",
@@ -190,5 +199,10 @@
         "description": "Enter your username to reset your password",
         "success": "Password reset link sent successfully!",
         "error": "Failed to send reset link. Please try again."
+    },
+    "register": {
+        "title": "Register",
+        "success": "Registration successful! Welcome!",
+        "alreadyHaveAccount": "Already have an account?"
     }
 }

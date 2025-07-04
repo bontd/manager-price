@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 import { ROLE } from './enum';
-import { log } from 'node:console';
+import { roleNumberToEnum } from '../helper';
 
 export interface NavigationItem {
   key: string;
@@ -51,7 +51,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         path: '/quizzes',
         label: 'Quiz List',
         translationKey: 'navigation.quizzesList',
-        allowedRoles: [ROLE.ADMIN, ROLE.USER],
+        allowedRoles: [ROLE.ADMIN],
       },
       // Thêm children khác nếu cần
     ]
@@ -98,19 +98,6 @@ export const roleStringToEnum = (roleStr: string | undefined | null): ROLE => {
   switch (roleStr.toLowerCase()) {
     case 'admin': return ROLE.ADMIN;
     case 'user': return ROLE.USER;
-    default: return ROLE.USER;
-  }
-};
-
-// Shared function to map number role to enum value
-export const roleNumberToEnum = (roleNum: number | undefined | null): ROLE => {
-  if (roleNum === undefined || roleNum === null) {
-    return ROLE.USER; // Default to USER role
-  }
-  
-  switch (roleNum) {
-    case 1: return ROLE.ADMIN;
-    case 3: return ROLE.USER;
     default: return ROLE.USER;
   }
 };

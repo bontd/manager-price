@@ -15,7 +15,8 @@ export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const setUserProfile = useUserProfileStore(state => state.setUserProfile);
+  const { setUserProfile } = useUserProfileStore();
+  const userProfile = useUserProfileStore(state => state.userProfile);
 
   // Call API to get user profile when component mounts (F5)
   useEffect(() => {
@@ -32,9 +33,10 @@ export default function AdminLayout() {
         console.error('Failed to fetch user profile:', error);
       }
     };
-
-    fetchUserProfile();
-  }, [setUserProfile]);
+    if (!userProfile) {
+      fetchUserProfile();
+    }
+  }, [userProfile]);
 
   // Handle responsive breakpoints
   useEffect(() => {

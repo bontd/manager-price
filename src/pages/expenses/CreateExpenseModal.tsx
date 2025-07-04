@@ -28,9 +28,9 @@ const CreateExpenseModal: React.FC<CreateExpenseModalProps> = ({
     isCreating,
     update,
     isUpdating
-  } = useExpenses();
+  } = useExpenses({});
   
-  const { list: categories, isLoading: categoriesLoading } = useExpenseCategories();
+  const { list: categories, isLoading: categoriesLoading } = useExpenseCategories({ enabled: open });
 
   const paymentMethods = [
     { id: 1, name: 'Cash' },

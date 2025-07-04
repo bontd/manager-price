@@ -13,14 +13,15 @@ export interface ExpenseCategory {
   updated_at?: string;
 }
 
-export const useExpenseCategories = () => {
+export const useExpenseCategories = (options?: { enabled?: boolean }) => {
   const queryClient = useQueryClient();
 
   // List
   const listQuery = useQuery({
     queryKey: ['expense-categories'],
     queryFn: () => get<any>(API_ENDPOINTS.EXPENSE_CATEGORIES.ROOT),
-    select: (res) => res.records?.data || [],
+    select: (res) => res.records.data || [],
+    enabled: options?.enabled !== undefined ? options.enabled : true,
   });
 
   // Create

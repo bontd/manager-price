@@ -156,11 +156,20 @@ const retryRequest = async <T>(
       toastManager.showError(errorMessage, 'network');
     } else {
       const status = axiosError.response?.status;
-      const errorMessage = (axiosError.response?.data as any)?.message;
-      if (status && status >= 400 && status < 500) {
-        toastManager.showError(errorMessage || i18next.t(ERROR_MESSAGE_KEYS.GENERIC_ERROR), 'client');
+      const errorData = axiosError.response?.data as any;
+      if (status === 422 && errorData?.errors) {
+        // Hiển thị từng lỗi validate
+        Object.entries(errorData.errors).forEach(([field, messages]) => {
+          if (Array.isArray(messages)) {
+            messages.forEach((msg) => toastManager.showError(msg, 'validation'));
+          } else if (typeof messages === 'string') {
+            toastManager.showError(messages, 'validation');
+          }
+        });
+      } else if (status && status >= 400 && status < 500) {
+        toastManager.showError(errorData?.message || i18next.t(ERROR_MESSAGE_KEYS.GENERIC_ERROR), 'client');
       } else if (status && status >= 500) {
-        toastManager.showError(errorMessage || i18next.t(ERROR_MESSAGE_KEYS.SERVER_ERROR), 'server');
+        toastManager.showError(errorData?.message || i18next.t(ERROR_MESSAGE_KEYS.SERVER_ERROR), 'server');
       }
     }
     throw error;

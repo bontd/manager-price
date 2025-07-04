@@ -1,5 +1,5 @@
 import { useUserProfileStore } from '@/stores/useUserProfile';
-import { roleStringToEnum, roleNumberToEnum, NAVIGATION_ITEMS } from '@/utils/constants/navigation';
+import { roleStringToEnum, NAVIGATION_ITEMS } from '@/utils/constants/navigation';
 import { ROLE } from '@/utils/constants/enum';
 import { Suspense, lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -12,6 +12,7 @@ import Login from '@/pages/auth/login/Login';
 import ResetPassword from '@/pages/auth/reset-password';
 import Register from '@/pages/auth/register';
 import ResetPasswordVerify from '@/pages/auth/reset-password/verify';
+import { roleNumberToEnum } from '@/utils/helper';
 
 const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'));
 const Users = lazy(() => import('@/pages/users'));

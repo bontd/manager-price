@@ -41,7 +41,7 @@ createRoot(container).render(
         <AppRouter />
         <ReactQueryDevtools initialIsOpen={false} />
         <ToastContainer 
-          position="bottom-right" 
+          position="top-right" 
           autoClose={5000} 
           pauseOnHover={false} 
           pauseOnFocusLoss={false} 

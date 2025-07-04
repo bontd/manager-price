@@ -1,3 +1,5 @@
+import { ROLE } from '../constants/enum';
+
 // Export all helpers
 export * from './storage';
 export { default as tokenManager } from './tokenManager';
@@ -9,3 +11,15 @@ export const formatCurrency = (amount: number) => {
     currency: 'VND'
   }).format(amount);
 }; 
+
+// Shared function to map number role to enum value
+export const roleNumberToEnum = (roleNum: number | undefined | null): ROLE => {
+  if (roleNum === undefined || roleNum === null) {
+    return ROLE.USER; // Default to USER role
+  }
+  switch (roleNum) {
+    case 1: return ROLE.ADMIN;
+    case 3: return ROLE.USER;
+    default: return ROLE.USER;
+  }
+};
