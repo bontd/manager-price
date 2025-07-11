@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Card, Spin, Select, Alert } from 'antd';
+import { Row, Col, Card, Spin, Select, Alert, Form } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { 
   DollarOutlined, 
@@ -9,14 +9,16 @@ import {
 } from '@ant-design/icons';
 import { StatsGrid } from '@/components/stats';
 import { LineChart, BarChart, PieChart } from '@/components/charts';
-import { useExpenseStatistics } from '@/hook/useExpenseStatistics';
+import { useExpenseStatistics, ExpenseStatisticsFilters } from '@/hook/useExpenseStatistics';
+import DashboardFilterForm from './DashboardFilterForm';
 
 const { Option } = Select;
 
 export default function Dashboard() {
     const { t } = useTranslation();
-    const [period, setPeriod] = useState('month');
-    const { statistics, loading, error, refetch } = useExpenseStatistics(period);
+    const [form] = Form.useForm();
+    const [filters, setFilters] = useState<ExpenseStatisticsFilters>({ period: 'month' });
+    const { statistics, loading, error, refetch } = useExpenseStatistics(filters);
 
     // Format currency
     const formatCurrency = (amount: string | number) => {
@@ -25,6 +27,17 @@ export default function Dashboard() {
             style: 'currency',
             currency: 'VND'
         }).format(num);
+    };
+
+    // Handle filter changes
+    const handleFilterChange = (newFilters: ExpenseStatisticsFilters) => {
+        setFilters(newFilters);
+    };
+
+    // Handle filter reset
+    const handleFilterReset = () => {
+        const defaultFilters: ExpenseStatisticsFilters = { period: 'month' };
+        setFilters(defaultFilters);
     };
 
     // Prepare stats data from API
@@ -140,19 +153,16 @@ export default function Dashboard() {
                         <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t('dashboard.title')}</h1>
                         <p className="text-sm md:text-base text-gray-600">{t('dashboard.subtitle')}</p>
                     </div>
-                    <Select 
-                        value={period} 
-                        onChange={setPeriod}
-                        style={{ width: '100%', maxWidth: 120 }}
-                        size="middle"
-                    >
-                        <Option value="week">{t('dashboard.periods.week')}</Option>
-                        <Option value="month">{t('dashboard.periods.month')}</Option>
-                        <Option value="year">{t('dashboard.periods.year')}</Option>
-                        <Option value="all">{t('dashboard.periods.all')}</Option>
-                    </Select>
                 </div>
             </div>
+
+            {/* Filter Form */}
+            <DashboardFilterForm
+                form={form}
+                onFinish={handleFilterChange}
+                onReset={handleFilterReset}
+                filters={filters}
+            />
 
             {/* Stats Cards */}
             {statistics && <StatsGrid stats={statsData} columns={4} className='mb-[20px] d-grid' />}

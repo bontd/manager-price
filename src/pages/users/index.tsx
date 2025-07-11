@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Skeleton, Table } from 'antd';
+import { Button, Skeleton, Space, Table, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useUserList } from '@/hook/useUserList';
+import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { log } from 'node:console';
 
 const Users = () => {
     const { t } = useTranslation();
@@ -10,7 +12,7 @@ const Users = () => {
         pageSize: 10,
     });
 
-    const { data, isLoading, error } = useUserList({
+    const { list: data, meta, isLoading, error } = useUserList({
         current: pagination.current,
         pageSize: pagination.pageSize
     });
@@ -26,17 +28,58 @@ const Users = () => {
             dataIndex: 'email',
             key: 'email',
         },
+        // {
+        //     title: t('table.label.address'),
+        //     dataIndex: 'address',
+        //     key: 'address',
+        // },
         {
-            title: t('table.label.address'),
-            dataIndex: 'address',
-            key: 'address',
+            title: t('table.label.status'),
+            dataIndex: 'status',
+            key: 'status',
+            render: (text: string, record: any) => (
+                <div onClick={() => handleStatus(record.id)}>
+                    {record.status == 'active' ? 
+                    <CheckCircleOutlined style={{ color: 'green' }}/>
+                     : 
+                    <CloseCircleOutlined style={{ color: 'red' }}/>
+                    }
+                </div>
+            ),
         },
+        {
+            title: t('common.action'),
+            dataIndex: 'action',
+            key: 'action',
+            align: 'right' as const,
+            fixed: 'right' as const,
+            render: (text: string, record: any) => (
+                record.role != 1 ? (
+                    <Space>
+                        <Button size="small" onClick={() => handleEdit(record.id)}><EditOutlined /></Button>
+                        <Button size="small" danger onClick={() => handleDelete(record.id)}><DeleteOutlined /></Button>
+                    </Space>
+                ) : null
+            ),
+        }
     ];
 
-    const dataColumns = (data?.data || []).map((item: any) => ({
+    const dataColumns = (data || []).map((item: any) => ({
         ...item,
         key: item.id,
     }));
+
+    const handleStatus = (id: string) => {
+        console.log(id);
+    };
+
+    const handleEdit = (id: string) => {
+        console.log(id);
+    };
+
+    const handleDelete = (id: string) => {
+        console.log(id);
+    };
 
     const handleTableChange = (paginationInfo: any) => {
         setPagination({
@@ -55,7 +98,7 @@ const Users = () => {
                 pagination={{
                     current: pagination.current,
                     pageSize: pagination.pageSize,
-                    total: data?.totalItems || 0,
+                    total: meta?.total || 0,
                     showSizeChanger: true,
                     showQuickJumper: true,
                     showTotal: (total, range) => 

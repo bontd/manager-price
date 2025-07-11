@@ -8,3 +8,9 @@ export enum ROLE {
     USER = 'User',
     SUPER_ADMIN = 'Super Admin',
 }
+
+export enum GENDER {
+    MALE = 'male',
+    FEMALE = 'female',
+    OTHER = 'other',
+}

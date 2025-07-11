@@ -18,6 +18,7 @@ const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'));
 const Users = lazy(() => import('@/pages/users'));
 const ExpenseCategories = lazy(() => import('@/pages/expense-categories'));
 const Expenses = lazy(() => import('@/pages/expenses'));
+const Profile = lazy(() => import('@/pages/profile'));
 
 function flattenNavigationItems(items: typeof NAVIGATION_ITEMS): any[] {
   let result: any[] = [];
@@ -60,6 +61,7 @@ export default function AppRouter() {
           {item.path === '/expense-categories' && <ExpenseCategories />}
           {item.path === '/quizzes' && <Users />}
           {item.path === '/expenses' && <Expenses />}
+          {item.path === '/profile' && <Profile />}
         </Suspense>
       )
     }));

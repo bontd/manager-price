@@ -16,12 +16,7 @@ const ResetPassword = () => {
         
         resetPassword({
             ...values,
-            url: 'http://' + window.location.host + '/reset-password/',
-        }, {
-            onSuccess: (data: any) => {
-                console.log(data);
-                
-            }
+            url: window.location.protocol + '//' + window.location.host + '/reset-password/',
         });
     }
 

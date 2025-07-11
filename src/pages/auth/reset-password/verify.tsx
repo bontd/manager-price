@@ -1,19 +1,20 @@
 import { Button, Card, Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "@/hook/useAuth";
-import { LockOutlined } from "@ant-design/icons";
+import { LockOutlined, EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { useState } from "react";
 
 const ResetPasswordVerify = () => {
     const { token } = useParams();
-
-    console.log(token);
-
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     const [form] = Form.useForm();
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
-    const { verifyResetPassword, isLoadingVerifyResetPassword, errorVerifyResetPassword } = useAuth();
+    const { verifyResetPassword, isLoadingVerifyResetPassword } = useAuth();
 
     const handleVerifyResetPassword = (values: any) => {
         verifyResetPassword({
@@ -21,7 +22,7 @@ const ResetPasswordVerify = () => {
             token: token,
         }, {
             onSuccess: (data: any) => {
-                console.log(data);
+                navigate('/login');
             }
         });
     }
@@ -44,16 +45,16 @@ const ResetPasswordVerify = () => {
                     label={t('label.password')}
                     rules={[{ required: true, message: t('validation.required') }, { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, message: t('validation.password') }]}
                     >
-                        <Input
-                            type="password"
-                            autoComplete="new-username"
+                        <Input.Password
+                            type={passwordVisible ? "text" : "password"}
+                            autoComplete="new-password"
                             prefix={<LockOutlined className="text-gray-400" />}
                             placeholder={t('placeholder.password')}
                             className="py-2"
                         />
                     </Form.Item>
                     <Form.Item
-                    name="confirmPassword"
+                    name="password_confirmation"
                     label={t('label.confirmPassword')}
                     rules={[{ required: true, message: t('validation.required') }, { validator: (_, value, callback) => {
                         if (value !== form.getFieldValue('password')) {
@@ -62,9 +63,9 @@ const ResetPasswordVerify = () => {
                         return Promise.resolve();
                     } }]}
                     >
-                        <Input
-                            type="password"
-                            autoComplete="new-username"
+                        <Input.Password
+                            type={confirmPasswordVisible ? "text" : "password"}
+                            autoComplete="new-password"
                             prefix={<LockOutlined className="text-gray-400" />}
                             placeholder={t('placeholder.confirmPassword')}
                             className="py-2"

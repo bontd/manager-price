@@ -1,0 +1,136 @@
+.profile-page {
+  padding: 0;
+}
+
+.profile-header-card {
+  height: fit-content;
+}
+
+.avatar-section {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  border: 4px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: white;
+  font-size: 24px;
+}
+
+.avatar-wrapper:hover .avatar-overlay {
+  opacity: 1;
+}
+
+.avatar-wrapper:hover .profile-avatar {
+  border-color: #1890ff;
+}
+
+.stats-row {
+  margin-top: 16px;
+}
+
+.profile-tabs .ant-tabs-tab {
+  padding: 12px 16px;
+}
+
+.profile-tabs .ant-tabs-tab-active {
+  background: #f6ffed;
+  border-color: #52c41a;
+}
+
+@media (max-width: 768px) {
+  .profile-header-card {
+    margin-bottom: 16px;
+  }
+}
+
+/* Profile Info Styles */
+.profile-info {
+  padding: 0;
+}
+
+.info-card {
+  height: 100%;
+}
+
+.info-card .ant-card-head {
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.info-card .ant-descriptions-item-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.info-card .ant-descriptions-item-content {
+  color: #333;
+}
+
+/* Edit Profile Styles */
+.edit-profile {
+  padding: 0;
+}
+
+.edit-form {
+  max-width: 800px;
+}
+
+.form-actions {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.ant-form-item-label > label {
+  font-weight: 500;
+  color: #666;
+}
+
+.ant-input {
+  border-radius: 6px;
+}
+
+.ant-input:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* Change Password Styles */
+.change-password {
+  padding: 0;
+}
+
+.password-form {
+  max-width: 800px;
+}
+
+.ant-input-password {
+  border-radius: 6px;
+}
+
+.ant-input-password:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+} 

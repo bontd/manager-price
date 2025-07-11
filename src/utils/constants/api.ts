@@ -40,24 +40,41 @@ export const ERROR_MESSAGE_KEYS = {
 // API Endpoints
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: "/api/login",
-    LOGOUT: "/api/logout",
-    REFRESH: "/api/refresh",
-    REGISTER: "/api/register",
-    RESET_PASSWORD: "/api/passwordReset",
-    VERIFY_RESET_PASSWORD: "/api/passwordReset/verify",
+    LOGIN: "/login",
+    LOGOUT: "/logout",
+    REFRESH: "/refresh",
+    REGISTER: "/register",
+    RESET_PASSWORD: "/passwordReset",
+    VERIFY_RESET_PASSWORD: "/passwordReset/verify",
   },
   USER: {
-    PROFILE: "/api/user/profile",
-    UPDATE: "/api/user/update",
+    ROOT: "/users",
+    PROFILE: "/user/profile",
+    STATUS: (id: string | number) => `/users/${id}/status`,
   },
   EXPENSE_CATEGORIES: {
-    ROOT: "/api/expense-categories",
-    DETAIL: (id: string | number) => `/api/expense-categories/${id}`,
+    ROOT: "/expense-categories"
   },
   EXPENSES: {
-    ROOT: "/api/expenses",
-    DETAIL: (id: string | number) => `/api/expenses/${id}`,
-    STATISTICS: (period: string = 'month') => `/api/expenses/statistics?period=${period}`,
+    ROOT: "/expenses",
+    DETAIL: (id: string | number) => `/expenses/${id}`,
+    STATISTICS: (filters: any = {}) => {
+      const params = new URLSearchParams();
+      
+      // Add period (default to month)
+      params.append('period', filters.period || 'month');
+      
+      // Add custom date filters
+      if (filters.start_date) params.append('start_date', filters.start_date);
+      if (filters.end_date) params.append('end_date', filters.end_date);
+      
+      // Add additional filters
+      if (filters.category) params.append('category', filters.category);
+      if (filters.payment_method) params.append('payment_method', filters.payment_method);
+      if (filters.min_amount) params.append('min_amount', filters.min_amount.toString());
+      if (filters.max_amount) params.append('max_amount', filters.max_amount.toString());
+      
+      return `/expenses/statistics?${params.toString()}`;
+    },
   },
 } as const; 

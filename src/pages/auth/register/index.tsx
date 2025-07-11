@@ -13,6 +13,8 @@ const Register = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
 
+    const [form] = Form.useForm();
+
     const handleRegister = async (values: any) => {
         try {
             await post(API_ENDPOINTS.AUTH.REGISTER, values);
@@ -30,6 +32,7 @@ const Register = () => {
                 </div>
                 <Form
                     name="register"
+                    form={form}
                     layout="vertical"
                     autoComplete="off"
                     onFinish={handleRegister}
@@ -61,7 +64,7 @@ const Register = () => {
                     <Form.Item
                         name="password"
                         label={t('label.password')}
-                        rules={[{ required: true, message: t('validation.required') }]}
+                        rules={[{ required: true, message: t('validation.required') }, { pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, message: t('validation.password') }]}
                     >
                         <Input.Password
                             autoComplete="new-password"
@@ -73,7 +76,12 @@ const Register = () => {
                     <Form.Item
                         name="password_confirmation"
                         label={t('label.confirmPassword')}
-                        rules={[{ required: true, message: t('validation.required') }]}
+                        rules={[{ required: true, message: t('validation.required') }, { validator: (_, value, callback) => {
+                            if (value !== form.getFieldValue('password')) {
+                                return Promise.reject(new Error(t('validation.confirmPassword')));
+                            }
+                            return Promise.resolve();
+                        } }]}
                     >
                         <Input.Password
                             autoComplete="new-password"

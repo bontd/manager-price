@@ -62,6 +62,7 @@ export default function AppHeader({
             key: 'profile',
             icon: <UserOutlined />,
             label: t('navigation.profile'),
+            path: '/profile',
           },
           {
             key: 'settings',

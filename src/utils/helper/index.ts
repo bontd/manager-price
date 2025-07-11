@@ -23,3 +23,14 @@ export const roleNumberToEnum = (roleNum: number | undefined | null): ROLE => {
     default: return ROLE.USER;
   }
 };
+
+export const genderStringToEnum = (gender: string | undefined | null): GENDER => {
+  if (gender === undefined || gender === null) {
+    return GENDER.MALE;
+  }
+  switch (gender) {
+    case 'male': return GENDER.MALE;
+    case 'female': return GENDER.FEMALE;
+    default: return GENDER.MALE;
+  }
+};

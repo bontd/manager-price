@@ -13,6 +13,7 @@ export interface NavigationItem {
   translationKey: string;
   children?: NavigationItem[];
   allowedRoles?: ROLE[];
+  isHidden?: boolean;
 }
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
@@ -71,6 +72,15 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     label: 'Expenses',
     translationKey: 'navigation.expenses',
     allowedRoles: [ROLE.ADMIN, ROLE.USER],
+  },
+  {
+    key: '6',
+    path: '/profile',
+    icon: UserOutlined,
+    label: 'Profile',
+    translationKey: 'navigation.profile',
+    allowedRoles: [ROLE.ADMIN, ROLE.USER],
+    isHidden: true,
   }
 ];
 
@@ -110,6 +120,7 @@ function mapItems(
   // Helper to check if an item or its children is allowed
   
   const isItemAllowed = (item: NavigationItem): boolean => {
+    if (item.key === '1') return true; // Always show Dashboard
     if (item.allowedRoles) {
       let userRoleEnum: ROLE;
       
@@ -125,6 +136,7 @@ function mapItems(
       // At least one child must be allowed
       return item.children.some(child => isItemAllowed(child));
     }
+    if (item.isHidden) return false;
     
     return true;
   };
