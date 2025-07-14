@@ -46,64 +46,56 @@ export default function Dashboard() {
     const statsData = statistics ? [
         {
             title: t('dashboard.stats.totalExpense'),
-            value: parseFloat(statistics.total_amount),
-            prefix: <DollarOutlined />,
+            value: parseFloat(statistics.total_expense),
+            prefix: <DollarOutlined />, 
             suffix: ' VNĐ',
-            icon: <DollarOutlined />,
-            trend: { value: 0, isPositive: true }, // Could be calculated from previous period
+            icon: <DollarOutlined />, 
+            trend: { value: 0, isPositive: true },
             color: '#52c41a'
         },
         {
             title: t('dashboard.stats.totalTransactions'),
-            value: statistics.total_count,
+            value: statistics.expense_count,
             prefix: '',
             suffix: '',
-            icon: <ShoppingCartOutlined />,
+            icon: <ShoppingCartOutlined />, 
             trend: { value: 0, isPositive: true },
             color: '#1890ff'
         },
-        {
-            title: t('dashboard.stats.averagePerTransaction'),
-            value: statistics.average_amount,
-            prefix: '',
-            suffix: ' VNĐ',
-            icon: <UserOutlined />,
-            trend: { value: 0, isPositive: true },
-            color: '#722ed1'
-        },
+        // Không còn average_amount, có thể bỏ hoặc tự tính nếu muốn
         {
             title: t('dashboard.stats.categories'),
-            value: statistics.category_statistics.length,
+            value: statistics?.expense_by_category?.length || 0,
             prefix: '',
             suffix: '',
-            icon: <RiseOutlined />,
+            icon: <RiseOutlined />, 
             trend: { value: 0, isPositive: true },
             color: '#faad14'
         }
     ] : [];
 
     // Prepare line chart data from daily statistics
-    const lineChartData = statistics?.daily_statistics.map(item => ({
+    const lineChartData = statistics?.expense_daily_statistics?.map((item: import('@/hook/useExpenseStatistics').ExpenseDailyStatistics) => ({
         name: new Date(item.date).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' }),
         chiTieu: parseFloat(item.total_amount),
         soGiaoDich: item.count
     })) || [];
 
     // Prepare bar chart data from category statistics
-    const barChartData = statistics?.category_statistics.map(item => ({
+    const barChartData = statistics?.expense_by_category?.map((item: import('@/hook/useExpenseStatistics').ExpenseByCategory) => ({
         name: item.category_name,
         tongTien: parseFloat(item.total_amount),
         soLuong: item.count
     })) || [];
 
     // Prepare pie chart data from category statistics
-    const pieChartData = statistics?.category_statistics.map(item => ({
+    const pieChartData = statistics?.expense_by_category?.map((item: import('@/hook/useExpenseStatistics').ExpenseByCategory) => ({
         name: item.category_name,
         value: parseFloat(item.total_amount)
     })) || [];
 
     // Prepare payment method statistics
-    const paymentMethodData = statistics?.payment_method_statistics.reduce((acc, item) => {
+    const paymentMethodData = statistics?.expense_payment_method_statistics?.reduce((acc: Array<{ payment_method: string; total_amount: string; count: number }>, item: import('@/hook/useExpenseStatistics').ExpensePaymentMethodStatistics) => {
         const existing = acc.find(p => p.payment_method === item.payment_method);
         if (existing) {
             existing.total_amount = (parseFloat(existing.total_amount) + parseFloat(item.total_amount)).toString();

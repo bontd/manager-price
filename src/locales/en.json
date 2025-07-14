@@ -106,7 +106,10 @@
         "settings": "Settings",
         "logout": "Logout",
         "expenseCategories": "Expense Categories",
-        "expenses": "Expenses"
+        "expenses": "Expenses",
+        "income": "Income",
+        "incomeList": "Income List",
+        "incomeCategories": "Income Categories"
     },
     "expenseCategories": {
         "title": "Expense Categories",

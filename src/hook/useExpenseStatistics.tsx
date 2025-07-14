@@ -2,20 +2,20 @@ import { useQuery } from '@tanstack/react-query';
 import { get } from '@/api';
 import { API_ENDPOINTS } from '@/utils/constants/api';
 
-export interface CategoryStatistics {
+export interface ExpenseByCategory {
   category_id: string;
   category_name: string;
   total_amount: string;
   count: number;
 }
 
-export interface DailyStatistics {
+export interface ExpenseDailyStatistics {
   date: string;
   total_amount: string;
   count: number;
 }
 
-export interface PaymentMethodStatistics {
+export interface ExpensePaymentMethodStatistics {
   date: string;
   total_amount: string;
   count: number;
@@ -23,13 +23,17 @@ export interface PaymentMethodStatistics {
 }
 
 export interface ExpenseStatistics {
-  total_amount: string;
-  total_count: number;
-  average_amount: number;
-  category_statistics: CategoryStatistics[];
-  daily_statistics: DailyStatistics[];
-  payment_method_statistics: PaymentMethodStatistics[];
+  total_income: number;
+  total_expense: string;
+  balance: number;
+  income_count: number;
+  expense_count: number;
+  income_by_category: any[];
+  expense_by_category: ExpenseByCategory[];
+  expense_daily_statistics: ExpenseDailyStatistics[];
+  expense_payment_method_statistics: ExpensePaymentMethodStatistics[];
   period: string;
+  filters_applied: any[];
 }
 
 export interface ExpenseStatisticsResponse {

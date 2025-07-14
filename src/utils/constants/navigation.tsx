@@ -44,37 +44,50 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     key: '3',
     icon: VideoCameraOutlined,
-    label: 'Quizzes',
-    translationKey: 'navigation.quizzes',
+    label: 'Income',
+    translationKey: 'navigation.income',
     children: [
       {
         key: '3-1',
-        path: '/quizzes',
-        label: 'Quiz List',
-        translationKey: 'navigation.quizzesList',
-        allowedRoles: [ROLE.ADMIN],
+        path: '/income',
+        label: 'Income List',
+        translationKey: 'navigation.incomeList',
+        allowedRoles: [ROLE.ADMIN, ROLE.USER],
+      },
+      {
+        key: '3-2',
+        path: '/income-categories',
+        label: 'Income Categories',
+        translationKey: 'navigation.incomeCategories',
+        allowedRoles: [ROLE.ADMIN, ROLE.USER],
       },
       // Thêm children khác nếu cần
     ]
   },
   {
     key: '4',
-    path: '/expense-categories',
-    icon: FolderOutlined,
-    label: 'Expense Categories',
-    translationKey: 'navigation.expenseCategories',
-    allowedRoles: [ROLE.ADMIN, ROLE.USER],
-  },
-  {
-    key: '5',
-    path: '/expenses',
     icon: FolderOutlined,
     label: 'Expenses',
     translationKey: 'navigation.expenses',
-    allowedRoles: [ROLE.ADMIN, ROLE.USER],
+    children: [
+      {
+        key: '4-1',
+        path: '/expenses',
+        label: 'Expenses',
+        translationKey: 'navigation.expenses',
+        allowedRoles: [ROLE.ADMIN, ROLE.USER],
+      },
+      {
+        key: '4-2',
+        path: '/expense-categories',
+        label: 'Expense Categories',
+        translationKey: 'navigation.expenseCategories',
+        allowedRoles: [ROLE.ADMIN, ROLE.USER],
+      },
+    ]
   },
   {
-    key: '6',
+    key: '5',
     path: '/profile',
     icon: UserOutlined,
     label: 'Profile',

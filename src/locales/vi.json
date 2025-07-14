@@ -106,7 +106,10 @@
         "settings": "Cài đặt",
         "logout": "Đăng xuất",
         "expenseCategories": "Nhóm chi phí",
-        "expenses": "Chi phí"
+        "expenses": "Chi phí",
+        "income": "Thu nhập",
+        "incomeList": "Danh sách thu nhập",
+        "incomeCategories": "Nhóm thu nhập"
     },
     "expenseCategories": {
         "title": "Nhóm chi phí",
