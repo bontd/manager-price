@@ -48,7 +48,7 @@ const ExpensesPage: React.FC = () => {
     remove,
     isRemoving,
     refetch
-  } = useExpenses(params);
+  } = useExpenses(params);  
 
   const handleEdit = (expense: Expense) => {
     setEditValues(expense);
@@ -202,9 +202,9 @@ const ExpensesPage: React.FC = () => {
         dataSource={dataSource}
         columns={columns}
         pagination={{
-          current: pagination.current,
-          pageSize: pagination.pageSize,
-          total: meta?.total,
+          current: meta?.currentPage || 1,
+          pageSize: meta?.perPage,
+          total: meta?.totalCount,
           showSizeChanger: true,
           showQuickJumper: true,
           showTotal: (total, range) => `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,

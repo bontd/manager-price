@@ -310,5 +310,11 @@
         "title": "Đăng ký",
         "success": "Đăng ký thành công! Chào mừng bạn!",
         "alreadyHaveAccount": "Bạn đã có tài khoản?"
+    },
+    "users": {
+        "title": "Người dùng",
+        "createUser": "Thêm người dùng",
+        "editUser": "Sửa người dùng",
+        "deleteUser": "Xóa người dùng"
     }
 }

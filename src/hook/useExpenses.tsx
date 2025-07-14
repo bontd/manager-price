@@ -37,7 +37,19 @@ export const useExpenses = (param: any) => {
     queryKey: ['expenses', param],
     enabled: !!param && Object.values(param).every(value => value !== undefined && value !== null),
     queryFn: () => get<any>(`${API_ENDPOINTS.EXPENSES.ROOT}?${qs.stringify(param)}`),
-    select: (res) => res.records || [],
+    select: (res) => {
+      return {
+        data: res?.records.data || [],
+        meta: {
+          currentPage: Number(res?.headers['x-current-page']),
+          pageCount: Number(res?.headers['x-page-count']),
+          perPage: Number(res?.headers['x-per-page']),
+          rateLimit: Number(res?.headers['x-ratelimit-limit']),
+          rateRemaining: Number(res?.headers['x-ratelimit-remaining']),
+          totalCount: Number(res?.headers['x-total-count']),
+        }
+      }
+    },
   });
 
   // Create

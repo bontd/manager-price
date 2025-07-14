@@ -202,11 +202,11 @@ export const get = async <T>(
     const config = createConfig(headers, params);
     const response: AxiosResponse<T> = await axiosInstance.get(endpoint, config);
     
-    const totalItems = response?.headers?.["totalrecords"]
-      ? +response.headers["totalrecords"]
+    const totalItems = response?.headers?.["x-ratelimit-remaining"]
+      ? +response.headers["x-ratelimit-remaining"]
       : 0;
 
-    return { records: response.data, totalItems };
+    return { records: response.data, headers: response.headers, totalItems };
   });
 };
 
@@ -234,6 +234,22 @@ export const put = async <T>(
   return retryRequest(async () => {
     const config = createConfig(headers);
     const response: AxiosResponse<T> = await axiosInstance.put(
+      endpoint,
+      data,
+      config
+    );
+    return response.data;
+  });
+};
+
+export const patch = async <T>(
+  endpoint: string,
+  data?: Record<string, any>,
+  headers?: AxiosRequestHeaders
+): Promise<T> => {
+  return retryRequest(async () => {
+    const config = createConfig(headers);
+    const response: AxiosResponse<T> = await axiosInstance.patch(
       endpoint,
       data,
       config

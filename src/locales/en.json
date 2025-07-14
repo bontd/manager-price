@@ -313,5 +313,11 @@
         "title": "Register",
         "success": "Registration successful! Welcome!",
         "alreadyHaveAccount": "Already have an account?"
+    },
+    "users": {
+        "title": "Users",
+        "createUser": "Create User",
+        "editUser": "Edit User",
+        "deleteUser": "Delete User"
     }
 }

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Card, Spin, Select, Alert, Form } from 'antd';
+import { Row, Col, Card, Spin, Select, Alert, Form, Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { 
   DollarOutlined, 
   ShoppingCartOutlined, 
   UserOutlined, 
-  RiseOutlined 
+  RiseOutlined,
+  FilterOutlined
 } from '@ant-design/icons';
 import { StatsGrid } from '@/components/stats';
 import { LineChart, BarChart, PieChart } from '@/components/charts';
@@ -18,6 +19,7 @@ export default function Dashboard() {
     const { t } = useTranslation();
     const [form] = Form.useForm();
     const [filters, setFilters] = useState<ExpenseStatisticsFilters>({ period: 'month' });
+    const [showFilters, setShowFilters] = useState(false);
     const { statistics, loading, error, refetch } = useExpenseStatistics(filters);
 
     // Format currency
@@ -153,16 +155,25 @@ export default function Dashboard() {
                         <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t('dashboard.title')}</h1>
                         <p className="text-sm md:text-base text-gray-600">{t('dashboard.subtitle')}</p>
                     </div>
+                    <Button 
+                        type={showFilters ? "primary" : "default"}
+                        icon={<FilterOutlined />}
+                        onClick={() => setShowFilters(!showFilters)}
+                    >
+                        {showFilters ? t('common.hideFilters') : t('common.showFilters')}
+                    </Button>
                 </div>
             </div>
 
             {/* Filter Form */}
-            <DashboardFilterForm
-                form={form}
-                onFinish={handleFilterChange}
-                onReset={handleFilterReset}
-                filters={filters}
-            />
+            {showFilters && (
+                <DashboardFilterForm
+                    form={form}
+                    onFinish={handleFilterChange}
+                    onReset={handleFilterReset}
+                    filters={filters}
+                />
+            )}
 
             {/* Stats Cards */}
             {statistics && <StatsGrid stats={statsData} columns={4} className='mb-[20px] d-grid' />}
