@@ -18,7 +18,9 @@ export const roleNumberToEnum = (roleNum: number | undefined | null): ROLE => {
     return ROLE.USER; // Default to USER role
   }
   switch (roleNum) {
+    case 99: return ROLE.ADMINISTRATOR;
     case 1: return ROLE.ADMIN;
+    case 2: return ROLE.MANAGER;
     case 3: return ROLE.USER;
     default: return ROLE.USER;
   }

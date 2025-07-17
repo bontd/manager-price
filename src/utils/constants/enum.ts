@@ -4,9 +4,10 @@ export enum CULTURE {
 }
 
 export enum ROLE {
+    ADMINISTRATOR = 'Administrator',
     ADMIN = 'Admin',
+    MANAGER = 'Manager',
     USER = 'User',
-    SUPER_ADMIN = 'Super Admin',
 }
 
 export enum GENDER {

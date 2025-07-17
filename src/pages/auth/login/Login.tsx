@@ -52,10 +52,10 @@ export default function Login() {
             rules={[{ required: true, message: t('validation.required') }]}
           >
             <Input
-              type="email"
+              type="text"
               autoComplete="new-username"
               prefix={<UserOutlined className="text-gray-400" />}
-              placeholder={t('placeholder.email')}
+              placeholder={t('placeholder.username')}
               className="py-2"
             />
           </Form.Item>

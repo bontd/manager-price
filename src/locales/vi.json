@@ -38,6 +38,7 @@
         "confirmPassword": "Mật khẩu không khớp."
     },
     "button": {
+        "save": "Lưu",
         "submit": "Gửi đi",
         "cancel": "Hủy bỏ",
         "reset": "Đặt lại",
@@ -318,6 +319,25 @@
         "title": "Người dùng",
         "createUser": "Thêm người dùng",
         "editUser": "Sửa người dùng",
-        "deleteUser": "Xóa người dùng"
+        "deleteUser": "Xóa người dùng",
+        "deleteUserConfirm": "Bạn có chắc chắn muốn xóa người dùng này không?"
+    },
+    "income": {
+        "title": "Thu nhập",
+        "createTitle": "Thêm thu nhập",
+        "editTitle": "Sửa thu nhập",
+        "deleteTitle": "Xóa thu nhập",
+        "createIncome": "Thêm thu nhập",
+        "name": "Tên",
+        "amount": "Số tiền",
+        "date": "Ngày"
+    },
+    "incomeCategory": {
+        "title": "Nhóm thu nhập",
+        "createTitle": "Thêm nhóm thu nhập",
+        "editTitle": "Sửa nhóm thu nhập",
+        "deleteTitle": "Xóa nhóm thu nhập",
+        "name": "Tên",
+        "description": "Mô tả"
     }
 }

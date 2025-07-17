@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Button, Skeleton, Space, Table, Tag, Spin, Modal, Form, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useUserList } from '@/hook/useUserList';
+import { useUser } from '@/hook/useUser';
 import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import UserForm from '@/components/UserForm';
+import CreateOrEditUser from './createOrEdit';
 
 const Users = () => {
     const { t } = useTranslation();
@@ -13,12 +13,11 @@ const Users = () => {
     });
     const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
 
-    const { list: data, meta, isLoading, error, updateStatus, deleteUser } = useUserList({
+    const { list: data, meta, isLoading, error, updateStatus, deleteUser } = useUser({
         current: pagination.current,
         pageSize: pagination.pageSize
     });
     
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editUserId, setEditUserId] = useState<string | null>(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
@@ -27,6 +26,12 @@ const Users = () => {
     useEffect(() => {
         setLoadingUserId(null);
     }, [data]);
+
+    useEffect(() => {
+        if (!isCreateModalOpen) {
+            setEditUserId(null);
+        }
+    }, [isCreateModalOpen]);
 
     const columns = [
         {
@@ -44,7 +49,6 @@ const Users = () => {
             dataIndex: 'status',
             key: 'status',
             render: (text: string, record: any) => (
-                record.role != 1 ? (
                 <div onClick={() => handleStatus(record.id, record.status)} style={{ cursor: 'pointer' }}>
                     {loadingUserId === record.id ? (
                         <Spin size="small" />
@@ -54,7 +58,6 @@ const Users = () => {
                         <CloseCircleOutlined style={{ color: 'red' }}/>
                     )}
                 </div>
-                ) : null
             ),
         },
         {
@@ -64,17 +67,13 @@ const Users = () => {
             align: 'right' as const,
             fixed: 'right' as const,
             render: (text: string, record: any) => (
-                record.role != 1 ? (
-                    <Space>
-                        <Button size="small" onClick={() => handleEdit(record.id)}><EditOutlined /></Button>
-                        <Button size="small" danger onClick={() => handleDelete(record.id)}><DeleteOutlined /></Button>
-                    </Space>
-                ) : null
+                <Space>
+                    <Button size="small" onClick={() => {setEditUserId(record.id); setIsCreateModalOpen(true);}}><EditOutlined /></Button>
+                    <Button size="small" danger onClick={() => {setIsDeleteModalOpen(true); setDeleteUserId(record.id);}}><DeleteOutlined /></Button>
+                </Space>
             ),
         }
     ];
-
-    const [form] = Form.useForm();
 
     const dataColumns = (data || []).map((item: any) => ({
         ...item,
@@ -90,34 +89,10 @@ const Users = () => {
         }
     };
 
-    const handleEdit = () => {
-        setIsEditModalOpen(true);
-    };
-
-    const handleUpdate = (values: any) => {
-        console.log(values);
-    };
-
-    const handleDelete = (id: string) => {
-        setIsDeleteModalOpen(true);
-        setDeleteUserId(id);
-    };
-
     const handleConfirmDelete = () => {
         deleteUser(deleteUserId);
         setIsDeleteModalOpen(false);
         setDeleteUserId(null);
-    };
-
-    const handleTableChange = (paginationInfo: any) => {
-        setPagination({
-            current: paginationInfo.current,
-            pageSize: paginationInfo.pageSize,
-        });
-    };
-
-    const handleCreate = () => {
-        setIsCreateModalOpen(true);
     };
 
     if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
@@ -126,7 +101,13 @@ const Users = () => {
         <div className="card">
             <div className="flex justify-between mb-[20px]">
                 <Typography.Title level={5}>{t('users.title')}</Typography.Title>
-                <Button type="primary" onClick={handleCreate}>{t('users.createUser')}</Button>
+                <Button 
+                    type="primary" 
+                    onClick={() => {
+                        setEditUserId(null);
+                        setIsCreateModalOpen(true);
+                    }}
+                >{t('users.createUser')}</Button>
             </div>
             <Table 
                 dataSource={dataColumns} 
@@ -141,21 +122,20 @@ const Users = () => {
                         `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
                     pageSizeOptions: ['5', '10', '20', '50'],
                 }}
-                onChange={handleTableChange}
+                onChange={(pagination) => {
+                    setPagination({
+                        current: pagination.current || 1,
+                        pageSize: pagination.pageSize || 10,
+                    });
+                }}
                 loading={isLoading}
             />
-            <Modal
-                title="Edit User"
-                open={isEditModalOpen}
-                onCancel={() => setIsEditModalOpen(false)}
-                footer={null}
-            >
-                <UserForm 
-                    onFinish={handleUpdate}
-                    showPasswordFields={false}
-                    form={form}
-                />
-            </Modal>
+            <CreateOrEditUser 
+                type={editUserId ? 'edit' : 'create'} 
+                isCreateModalOpen={isCreateModalOpen} 
+                setIsCreateModalOpen={setIsCreateModalOpen} 
+                initialValues={editUserId ? dataColumns.find((item: any) => item.id === editUserId) : {}} 
+            />
             <Modal
                 title="Delete User"
                 open={isDeleteModalOpen}
@@ -165,7 +145,7 @@ const Users = () => {
                     <Button key="delete" danger onClick={handleConfirmDelete}>Delete</Button>
                 ]}
             >
-                <p>Are you sure you want to delete this user?</p>
+                <p>{t('users.deleteUserConfirm')}</p>
             </Modal>
         </div>
     )

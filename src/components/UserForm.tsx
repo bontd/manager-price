@@ -1,7 +1,7 @@
 import { Button, Form, Input, DatePicker, Radio } from "antd";
 import { LockOutlined, UserOutlined, CalendarOutlined, HomeOutlined, ManOutlined, WomanOutlined, SmileOutlined } from "@ant-design/icons";
 import { useTranslation } from 'react-i18next';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface UserFormProps {
     onFinish: (values: any) => void;
@@ -15,10 +15,18 @@ const UserForm: React.FC<UserFormProps> = ({ onFinish, initialValues, showPasswo
     const [internalForm] = Form.useForm();
     const usedForm = form || internalForm;
 
+    useEffect(() => {
+        if (initialValues && Object.keys(initialValues).length > 0) {
+            usedForm.setFieldsValue(initialValues);
+        } else {
+            usedForm.resetFields();
+        }
+    }, [initialValues]);
+
     return (
         <Form
             name="userForm"
-            form={usedForm}
+            form={form}
             layout="vertical"
             autoComplete="off"
             onFinish={onFinish}
@@ -116,9 +124,9 @@ const UserForm: React.FC<UserFormProps> = ({ onFinish, initialValues, showPasswo
                 label={t('label.gender')}
             >
                 <Radio.Group className="w-full flex flex-col gap-[10px]">
-                    <Radio value="1"><ManOutlined className="mr-[5px]" />{t('label.male')}</Radio>
-                    <Radio value="2"><WomanOutlined className="mr-[5px]" />{t('label.female')}</Radio>
-                    <Radio value="3"><SmileOutlined className="mr-[5px]" />{t('label.other')}</Radio>
+                    <Radio value={1}><ManOutlined className="mr-[5px]" />{t('label.male')}</Radio>
+                    <Radio value={2}><WomanOutlined className="mr-[5px]" />{t('label.female')}</Radio>
+                    <Radio value={3}><SmileOutlined className="mr-[5px]" />{t('label.other')}</Radio>
                 </Radio.Group>
             </Form.Item>
             <Form.Item className="mt-[10px]">

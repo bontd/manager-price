@@ -23,7 +23,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     icon: DashboardOutlined,
     label: 'Dashboard',
     translationKey: 'navigation.dashboard',
-    allowedRoles: [ROLE.ADMIN, ROLE.USER]
+    allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER]
   },
   {
     key: '2',
@@ -36,7 +36,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         path: '/users',
         label: 'User List',
         translationKey: 'navigation.usersList',
-        allowedRoles: [ROLE.ADMIN],
+        allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN],
       },
       // Thêm children khác nếu cần
     ]
@@ -52,7 +52,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         path: '/income',
         label: 'Income List',
         translationKey: 'navigation.incomeList',
-        allowedRoles: [ROLE.ADMIN, ROLE.USER],
+        allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
       },
       {
         key: '3-2',
@@ -75,14 +75,14 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         path: '/expenses',
         label: 'Expenses',
         translationKey: 'navigation.expenses',
-        allowedRoles: [ROLE.ADMIN, ROLE.USER],
+        allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
       },
       {
         key: '4-2',
         path: '/expense-categories',
         label: 'Expense Categories',
         translationKey: 'navigation.expenseCategories',
-        allowedRoles: [ROLE.ADMIN, ROLE.USER],
+        allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
       },
     ]
   },
@@ -92,7 +92,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     icon: UserOutlined,
     label: 'Profile',
     translationKey: 'navigation.profile',
-    allowedRoles: [ROLE.ADMIN, ROLE.USER],
+    allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
     isHidden: true,
   }
 ];
@@ -112,6 +112,28 @@ export const getActiveMenuKey = (pathname: string): string[] => {
   return key ? [key] : ['1']; // Default to dashboard
 };
 
+export const getOpenMenuKeys = (pathname: string): string[] => {
+  const openKeys: string[] = [];
+  const findOpenKeys = (items: NavigationItem[], parentKey?: string): boolean => {
+    for (const item of items) {
+      if (item.path === pathname) {
+        if (parentKey) openKeys.push(parentKey);
+        return true;
+      }
+      if (item.children) {
+        if (findOpenKeys(item.children, item.key)) {
+          if (parentKey) openKeys.push(parentKey);
+          else openKeys.push(item.key);
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+  findOpenKeys(NAVIGATION_ITEMS);
+  return openKeys;
+};
+
 // Shared function to map string role to enum value
 export const roleStringToEnum = (roleStr: string | undefined | null): ROLE => {
   if (!roleStr || typeof roleStr !== 'string') {
@@ -119,7 +141,9 @@ export const roleStringToEnum = (roleStr: string | undefined | null): ROLE => {
   }
   
   switch (roleStr.toLowerCase()) {
+    case 'administrator': return ROLE.ADMINISTRATOR;
     case 'admin': return ROLE.ADMIN;
+    case 'manager': return ROLE.MANAGER;
     case 'user': return ROLE.USER;
     default: return ROLE.USER;
   }

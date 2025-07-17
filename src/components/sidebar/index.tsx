@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, Layout } from 'antd';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getMenuItems } from '@/utils/constants/navigation';
+import { getMenuItems, getOpenMenuKeys } from '@/utils/constants/navigation';
 import { useNavigation } from '@/hook/useNavigation';
 import { useUserProfileStore } from '@/stores/useUserProfile';
 
@@ -15,10 +15,20 @@ interface SidebarProps {
 
 export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
     const { t } = useTranslation();
-    const { activeMenuKey } = useNavigation();
+    const { activeMenuKey, pathname } = useNavigation();
     const userProfile = useUserProfileStore(state => state.userProfile);
     const userRole = userProfile?.role;
     const menuItems = getMenuItems(t, userRole);
+
+    const [openKeys, setOpenKeys] = useState<string[]>(() => getOpenMenuKeys(pathname));
+
+    useEffect(() => {
+      setOpenKeys(getOpenMenuKeys(pathname));
+    }, [pathname]);
+
+    const handleOpenChange = (keys: string[]) => {
+      setOpenKeys(keys);
+    };
 
     return (
         <Sider 
@@ -46,6 +56,8 @@ export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
                 theme="dark"
                 mode="inline"
                 selectedKeys={activeMenuKey}
+                openKeys={openKeys}
+                onOpenChange={handleOpenChange}
                 items={menuItems}
                 style={{
                   borderRight: 0,

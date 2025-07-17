@@ -32,8 +32,6 @@ const ExpensesPage: React.FC = () => {
   });
   const [showFilters, setShowFilters] = useState(false);
 
-
-
   const params = useMemo(() => ({
     current: pagination.current,
     pageSize: pagination.pageSize,
@@ -62,11 +60,6 @@ const ExpensesPage: React.FC = () => {
     setOpenCreate(true);
   };
 
-  const handleCloseModal = () => {
-    setOpenCreate(false);
-    setEditValues(null);
-  };
-
   const handleDelete = (expense: Expense) => {
     setExpenseToDelete(expense);
     setDeleteModalVisible(true);
@@ -86,13 +79,6 @@ const ExpensesPage: React.FC = () => {
   const handleCancelDelete = () => {
     setDeleteModalVisible(false);
     setExpenseToDelete(null);
-  };
-
-  const handleTableChange = (paginationInfo: any) => {
-    setPagination({
-      current: paginationInfo.current,
-      pageSize: paginationInfo.pageSize,
-    });
   };
 
   const handleFilterChange = (values: any) => {
@@ -196,7 +182,10 @@ const ExpensesPage: React.FC = () => {
         open={openCreate}
         mode={modalMode}
         initialValues={editValues || undefined}
-        onClose={handleCloseModal}
+        onClose={() => {
+          setOpenCreate(false);
+          setEditValues(null);
+        }}
       />
       <Table
         dataSource={dataSource}
@@ -211,7 +200,12 @@ const ExpensesPage: React.FC = () => {
           pageSizeOptions: ['5', '10', '20', '50'],
         }}
         loading={isLoading}
-        onChange={handleTableChange}
+        onChange={(pagination) => {
+          setPagination({
+            current: pagination.current || 1,
+            pageSize: pagination.pageSize || 10,
+          });
+        }}
         scroll={{ x: 'max-content' }}
       />
       <Modal

@@ -75,6 +75,12 @@ export const API_ENDPOINTS = {
       if (filters.max_amount) params.append('max_amount', filters.max_amount.toString());
       
       return `/expenses/statistics?${params.toString()}`;
-    },
+    }
   },
+  INCOME: {
+    ROOT: "/incomes",
+  },
+  INCOME_CATEGORIES: {
+    ROOT: "/income-categories"
+  }
 } as const; 

@@ -1,9 +1,21 @@
 import qs from 'qs';
-import { del, get, patch } from '@/api/config';
-import { useQuery } from '@tanstack/react-query';
+import { del, get, patch, post } from '@/api/config';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { API_ENDPOINTS } from '@/utils/constants/api';
 
-export const useUserList = (param: any) => {
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: number;
+  status: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export const useUser = (param?: any) => {
+  const queryClient = useQueryClient();
   const fetchUserList = useQuery({
     queryKey: ['userList', param],
     queryFn: () => get(`${API_ENDPOINTS.USER.ROOT}?${qs.stringify(param)}`),
@@ -19,6 +31,20 @@ export const useUserList = (param: any) => {
           totalCount: Number(res?.headers['x-total-count']),
         }
       }
+    }
+  });
+
+  const createUser = useMutation({
+    mutationFn: (payload: Partial<User>) => post(`${API_ENDPOINTS.AUTH.REGISTER}`, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userList'] });
+    }
+  });
+
+  const updateUser = useMutation({
+    mutationFn: (payload: Partial<User>) => patch(`${API_ENDPOINTS.USER.ROOT}/${payload.id}`, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userList'] });
     }
   });
 
@@ -47,6 +73,8 @@ export const useUserList = (param: any) => {
     isLoading: fetchUserList.isLoading,
     error: fetchUserList.error,
     refetch: fetchUserList.refetch,
+    createUser,
+    updateUser,
     updateStatus,
     deleteUser
   };

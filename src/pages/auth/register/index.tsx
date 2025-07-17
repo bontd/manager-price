@@ -18,7 +18,10 @@ const Register = () => {
 
     const handleRegister = async (values: any) => {
         try {
-            await post(API_ENDPOINTS.AUTH.REGISTER, values);
+            await post(API_ENDPOINTS.AUTH.REGISTER, {
+                ...values,
+                gender: String(values.gender)
+            });
             navigate('/login');
         } catch (error: any) {
             console.log(error);
