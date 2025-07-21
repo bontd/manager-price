@@ -42,13 +42,13 @@ const LineChart: React.FC<LineChartProps> = ({
       title={title}
       loading={loading}
       className="chart-card"
-      bodyStyle={{ padding: '20px' }}
+      bodyStyle={{ padding: '10px' }}
     >
       <ResponsiveContainer width="100%" height={height}>
-        <RechartsLineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+        <RechartsLineChart data={data} margin={{ top: 5, bottom: 5, left: -10, right: 0 }}>
           {showGrid && <CartesianGrid strokeDasharray="3 3" />}
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis tickFormatter={value => value >= 100 ? (value / 1000) + 'k' : value} />
           <Tooltip />
           {showLegend && <Legend />}
           {dataKeys.map((key, index) => (

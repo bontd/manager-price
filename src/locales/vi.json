@@ -338,6 +338,7 @@
         "editTitle": "Sửa nhóm thu nhập",
         "deleteTitle": "Xóa nhóm thu nhập",
         "name": "Tên",
-        "description": "Mô tả"
+        "description": "Mô tả",
+        "color": "Màu sắc"
     }
 }

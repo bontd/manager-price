@@ -3,6 +3,7 @@ import { Button, Form, Input, Table } from "antd";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Row, Col } from "antd";
 
 
 const IncomeCategory = () => {
@@ -56,8 +57,8 @@ const IncomeCategory = () => {
     }
 
     return (
-        <div className="flex items-start gap-[40px]">
-            <div className="w-[300px]">
+        <Row gutter={24} className="items-start">
+            <Col xs={24} lg={8} xl={6}>
                 <Form form={form} onFinish={onFinish} layout="vertical">
                     <Form.Item name="name" label={t('incomeCategory.name')} rules={[{ required: true, message: t('validation.required') }]}>
                         <Input />
@@ -69,11 +70,11 @@ const IncomeCategory = () => {
                         <Input type="color" className="w-[50px]" />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">{t('button.save')}</Button>
+                        <Button type="primary" htmlType="submit" loading={incomeCategoryCreate.isPending} disabled={incomeCategoryCreate.isPending}>{t('button.save')}</Button>
                     </Form.Item>
                 </Form>
-            </div>
-            <div className="w-[calc(100%-300px)] border border-[#e0e0e0] rounded-md">
+            </Col>
+            <Col xs={24} lg={16} xl={18} className="border border-[#e0e0e0] rounded-md">
                 <Table 
                     columns={columns}
                     dataSource={data}
@@ -91,8 +92,8 @@ const IncomeCategory = () => {
                         },
                     }}
                 />
-            </div>
-        </div>
+            </Col>
+        </Row>
     )
 }
 

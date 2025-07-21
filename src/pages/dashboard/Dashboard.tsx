@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Card, Spin, Select, Alert, Form, Button } from 'antd';
+import { Row, Col, Card, Spin, Select, Alert, Form, Button, Skeleton } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { 
   DollarOutlined, 
@@ -112,9 +112,37 @@ export default function Dashboard() {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-64">
-                <Spin size="large" />
-            </div>
+            <>
+                <Row gutter={24} className='flex gap-y-[20px]'>
+                    <Col xs={24} lg={24}>
+                        <Skeleton active />
+                    </Col>
+                    <Col xs={24} lg={6}>
+                        <Skeleton active />
+                    </Col>
+                    <Col xs={24} lg={6}>
+                        <Skeleton active />
+                    </Col>
+                    <Col xs={24} lg={6}>
+                        <Skeleton active />
+                    </Col>
+                    <Col xs={24} lg={6}>
+                        <Skeleton active />
+                    </Col>
+                    <Col xs={24} lg={12}>
+                        <Skeleton active />
+                    </Col>
+                    <Col xs={24} lg={12}>
+                        <Skeleton active />
+                    </Col>
+                    <Col xs={24} lg={12}>
+                        <Skeleton active />
+                    </Col>
+                    <Col xs={24} lg={12}>
+                        <Skeleton active />
+                    </Col>
+                </Row>
+            </>
         );
     }
 
@@ -168,7 +196,7 @@ export default function Dashboard() {
             )}
 
             {/* Stats Cards */}
-            {statistics && <StatsGrid stats={statsData} columns={4} className='mb-[20px] d-grid' />}
+            {statistics && <StatsGrid stats={statsData} columns={4} className='mb-[20px] flex gap-y-[10px]' />}
 
             {/* Charts Section */}
             <Row className='flex-col gap-[20px]'>

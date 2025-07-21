@@ -341,6 +341,7 @@
         "editTitle": "Edit Income Category",
         "deleteTitle": "Delete Income Category",
         "name": "Name",
-        "description": "Description"
+        "description": "Description",
+        "color": "Color"
     }
 }
