@@ -1,4 +1,4 @@
-import { DashboardOutlined, FolderOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { DashboardOutlined, FileTextOutlined, FolderOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { MenuProps } from 'antd';
@@ -88,6 +88,28 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   },
   {
     key: '5',
+    icon: FileTextOutlined,
+    label: 'News',
+    translationKey: 'navigation.news',
+    children: [
+      {
+        key: '5-1',
+        path: '/news',
+        label: 'List',
+        translationKey: 'navigation.newsList',
+        allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
+      },
+      {
+        key: '5-2',
+        path: '/news-categories',
+        label: 'News Categories',
+        translationKey: 'navigation.newsCategories',
+        allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
+      }
+    ]
+  },
+  {
+    key: '6',
     path: '/profile',
     icon: UserOutlined,
     label: 'Profile',

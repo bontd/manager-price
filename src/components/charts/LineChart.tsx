@@ -10,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
+import CustomTooltip from './customToolTip';
 
 interface DataPoint {
   name: string;
@@ -49,7 +50,7 @@ const LineChart: React.FC<LineChartProps> = ({
           {showGrid && <CartesianGrid strokeDasharray="3 3" />}
           <XAxis dataKey="name" />
           <YAxis tickFormatter={value => value >= 100 ? (value / 1000) + 'k' : value} />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           {showLegend && <Legend />}
           {dataKeys.map((key, index) => (
             <Line

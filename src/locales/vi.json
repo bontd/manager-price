@@ -110,7 +110,10 @@
         "expenses": "Chi phí",
         "income": "Thu nhập",
         "incomeList": "Danh sách thu nhập",
-        "incomeCategories": "Nhóm thu nhập"
+        "incomeCategories": "Nhóm thu nhập",
+        "news": "Tin tức",
+        "newsList": "Danh sách tin tức",
+        "newsCategories": "Nhóm tin tức"
     },
     "expenseCategories": {
         "title": "Nhóm chi phí",
@@ -340,5 +343,8 @@
         "name": "Tên",
         "description": "Mô tả",
         "color": "Màu sắc"
+    },
+    "chart": {
+        "money": "Tiền"
     }
 }

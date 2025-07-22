@@ -110,7 +110,10 @@
         "expenses": "Expenses",
         "income": "Income",
         "incomeList": "Income List",
-        "incomeCategories": "Income Categories"
+        "incomeCategories": "Income Categories",
+        "news": "News",
+        "newsList": "News List",
+        "newsCategories": "News Categories"
     },
     "expenseCategories": {
         "title": "Expense Categories",
@@ -343,5 +346,8 @@
         "name": "Name",
         "description": "Description",
         "color": "Color"
+    },
+    "chart": {
+        "money": "Money"
     }
 }

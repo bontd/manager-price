@@ -8,6 +8,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
+import CustomTooltip from './customToolTip';
 
 interface DataPoint {
   name: string;
@@ -82,7 +83,7 @@ const PieChart: React.FC<PieChartProps> = ({
               <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           {showLegend && <Legend />}
         </RechartsPieChart>
       </ResponsiveContainer>
