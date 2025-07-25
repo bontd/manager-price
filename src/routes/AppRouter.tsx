@@ -22,6 +22,7 @@ const Profile = lazy(() => import('@/pages/profile'));
 const Income = lazy(() => import('@/pages/income'));
 const IncomeCategory = lazy(() => import('@/pages/income/category'));
 const News = lazy(() => import('@/pages/news'));
+const CreateNews = lazy(() => import('@/pages/news/create'));
 const NewsCategories = lazy(() => import('@/pages/news/categories'));
 
 function flattenNavigationItems(items: typeof NAVIGATION_ITEMS): any[] {
@@ -69,7 +70,8 @@ export default function AppRouter() {
           {item.path === '/income' && <Income />}
           {item.path === '/income-categories' && <IncomeCategory />}
           {item.path === '/news' && <News />}
-          {item.path === '/news-categories' && <NewsCategories />}
+          {item.path === '/news/create' && <CreateNews />}
+          {item.path === '/news/categories' && <NewsCategories />}
         </Suspense>
       )
     }));

@@ -101,8 +101,15 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
       },
       {
         key: '5-2',
-        path: '/news-categories',
-        label: 'News Categories',
+        path: '/news/create',
+        label: 'Create',
+        translationKey: 'navigation.newsCreate',
+        allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
+      },
+      {
+        key: '5-3',
+        path: '/news/categories',
+        label: 'Categories',
         translationKey: 'navigation.newsCategories',
         allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
       }

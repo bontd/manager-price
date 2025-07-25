@@ -43,3 +43,27 @@ img, video, audio {
     width: auto !important;
   }
 }
+
+.tiptap {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 20px;
+  min-height: 300px;
+}
+
+.group-btn button,
+.btn-custom { 
+  border: 0;
+  padding: 8px;
+  background-color: transparent!important;
+}
+
+.btn-custom {
+  padding: 0;
+}
+
+.group-btn button img,
+.group-btn .btn-custom img {
+  width: 16px;
+  height: 16px;
+}
