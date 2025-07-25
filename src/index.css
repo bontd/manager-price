@@ -62,6 +62,11 @@ img, video, audio {
   padding: 0;
 }
 
+.group-btn button:hover:not(:disabled),
+.btn-custom:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.2)!important;
+}
+
 .group-btn button img,
 .group-btn .btn-custom img {
   width: 16px;
