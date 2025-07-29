@@ -98,7 +98,7 @@ const Users = () => {
     if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
 
     return (
-        <div className="card">
+        <div className="card !p-[20px] bg-[#ffffff]">
             <div className="flex justify-between mb-[20px]">
                 <Typography.Title level={5}>{t('users.title')}</Typography.Title>
                 <Button 

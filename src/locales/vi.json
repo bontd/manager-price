@@ -113,6 +113,7 @@
         "incomeCategories": "Nhóm thu nhập",
         "news": "Tin tức",
         "newsList": "Danh sách tin tức",
+        "newsCreate": "Tạo tin tức",
         "newsCategories": "Nhóm tin tức"
     },
     "expenseCategories": {
@@ -346,5 +347,20 @@
     },
     "chart": {
         "money": "Tiền"
+    },
+    "news": {
+        "title": "Tin tức",
+        "createTitle": "Tạo tin tức",
+        "editTitle": "Chỉnh sửa tin tức",
+        "deleteTitle": "Xóa tin tức",
+        "titleRequired": "Vui lòng nhập tiêu đề tin tức",
+        "contentRequired": "Vui lòng nhập nội dung tin tức",
+        "categoryRequired": "Vui lòng chọn danh mục tin tức",
+        "createSuccess": "Tạo tin tức thành công!",
+        "updateSuccess": "Cập nhật tin tức thành công!",
+        "deleteSuccess": "Xóa tin tức thành công!",
+        "searchPlaceholder": "Tìm kiếm theo tiêu đề hoặc nội dung",
+        "status": "Trạng thái",
+        "publishDate": "Ngày xuất bản"
     }
 }

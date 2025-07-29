@@ -113,6 +113,7 @@
         "incomeCategories": "Income Categories",
         "news": "News",
         "newsList": "News List",
+        "newsCreate": "Create News",
         "newsCategories": "News Categories"
     },
     "expenseCategories": {
@@ -349,5 +350,28 @@
     },
     "chart": {
         "money": "Money"
+    },
+    "news": {
+        "title": "News",
+        "createTitle": "Create News",
+        "editTitle": "Edit News",
+        "deleteTitle": "Delete News",
+        "name": "Name",
+        "description": "Description",
+        "content": "Content",
+        "image": "Image",
+        "thumbnail": "Thumbnail",
+        "uploadThumbnail": "Upload Thumbnail",
+        "category": "Category",
+        "selectCategory": "Select Category",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At",
+        "confirmDelete": "Are you sure you want to delete this news?",
+        "createSuccess": "News created successfully!",
+        "updateSuccess": "News updated successfully!",
+        "deleteSuccess": "News deleted successfully!",
+        "deleteError": "Failed to delete news. Please try again.",
+        "status": "Status",
+        "publishDate": "Publish Date"
     }
 }

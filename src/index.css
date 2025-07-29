@@ -54,6 +54,7 @@ img, video, audio {
 .group-btn button,
 .btn-custom { 
   border: 0;
+  border-radius: 0;
   padding: 8px;
   background-color: transparent!important;
 }
@@ -62,9 +63,20 @@ img, video, audio {
   padding: 0;
 }
 
+.group-btn > .ant-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
 .group-btn button:hover:not(:disabled),
-.btn-custom:hover:not(:disabled) {
-  background-color: rgba(0, 0, 0, 0.2)!important;
+.group-btn .ant-dropdown-trigger:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05)!important;
+}
+
+.group-btn button.active,
+.group-btn .ant-dropdown-trigger.active {
+  background-color: rgba(0, 0, 0, 0.05)!important;
 }
 
 .group-btn button img,

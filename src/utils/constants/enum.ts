@@ -11,7 +11,13 @@ export enum ROLE {
 }
 
 export enum GENDER {
-    MALE = 'male',
-    FEMALE = 'female',
-    OTHER = 'other',
+    MALE = 'Male',
+    FEMALE = 'Female',
+    OTHER = 'Other',
+}
+
+export enum NEW_STATUS {
+    ACTIVE = 'Active',
+    INACTIVE = 'Inactive',
+    DRAFT = 'Draft'
 }

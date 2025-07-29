@@ -155,7 +155,7 @@ const ExpensesPage: React.FC = () => {
   if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
 
   return (
-    <div className="card">
+    <div className="card !p-[20px] bg-[#ffffff]">
       <h2>{t('expenses.title')}</h2>
       
       {/* Filter Toggle Button */}

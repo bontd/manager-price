@@ -1,5 +1,5 @@
 import { Editor, useEditorState } from "@tiptap/react";
-import { Button, Dropdown, Menu, Select } from "antd";
+import { Button, ColorPicker, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { Level } from "@tiptap/extension-heading";
 import IcoBluletList from '@/assets/ico/bullet_list.svg';
@@ -7,14 +7,39 @@ import IcoOrderedList from '@/assets/ico/ordered_list.svg';
 import IcoTaskList from '@/assets/ico/task_list.svg';
 import IcoRedo from '@/assets/ico/redo.svg';
 import IcoUndo from '@/assets/ico/undo.svg';
+import IcoBlockquote from '@/assets/ico/blockquote.svg';
+import IcoCodeBlock from '@/assets/ico/code_block.svg';
+import IcoBold from '@/assets/ico/bold.svg';
+import IcoItalic from '@/assets/ico/italic.svg';
+import IcoStrike from '@/assets/ico/strike.svg';
+import IcoCode from '@/assets/ico/code.svg';
+import IcoUnderline from '@/assets/ico/underline.svg';
+import IcoHighlight from '@/assets/ico/highlight.svg';
+import IcoLink from '@/assets/ico/link.svg';
+import IcoSuperscript from '@/assets/ico/superscript.svg';
+import IcoSubscript from '@/assets/ico/subscript.svg';
+import IcoAlignLeft from '@/assets/ico/align_left.svg';
+import IcoAlignCenter from '@/assets/ico/align_center.svg';
+import IcoAlignRight from '@/assets/ico/align_right.svg';
+import IcoAlignJustify from '@/assets/ico/align_justify.svg';
+import IcoAddImage from '@/assets/ico/add_image.svg';
 
 const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
     if (!editor) return null;
+
+    const handleAddImage = () => {
+        const url = window.prompt('Enter image URL:');
+        if (url) {
+            editor.chain().focus().setImage({ src: url }).run();
+        }
+    };
 
     const editorState = useEditorState({
         editor,
         selector: ctx => {
             return {
+                canUndo: ctx.editor.can().undo(),
+                canRedo: ctx.editor.can().redo(),
                 isBold: ctx.editor.isActive('bold'),
                 canBold: ctx.editor.can().toggleBold(),
                 isItalic: ctx.editor.isActive('italic'),
@@ -36,26 +61,35 @@ const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
                 isTaskList: ctx.editor.isActive('taskList'),
                 isCodeBlock: ctx.editor.isActive('codeBlock'),
                 isBlockquote: ctx.editor.isActive('blockquote'),
-                canUndo: ctx.editor.can().undo(),
-                canRedo: ctx.editor.can().redo(),
+                isUnderline: ctx.editor.isActive('underline'),
+                isAlignLeft: ctx.editor.isActive({ textAlign: 'left' }),
+                isAlignCenter: ctx.editor.isActive({ textAlign: 'center' }),
+                isAlignRight: ctx.editor.isActive({ textAlign: 'right' }),
+                isAlignJustify: ctx.editor.isActive({ textAlign: 'justify' }),
+                isHighlight: ctx.editor.isActive('highlight'),
+                canHighlight: ctx.editor.can().setHighlight(),
+                isColor: ctx.editor.isActive('color'),
+                isAddImage: ctx.editor.isActive('image'),
+                isLink: ctx.editor.isActive('link'),
             };
         },
     });
 
     const headingItems = [
-        { key: '1', label: (<Button onClick={() => editor?.chain().focus().toggleHeading({ level: 1 as Level }).run()}>H1</Button>), level: 1 },
-        { key: '2', label: (<Button onClick={() => editor?.chain().focus().toggleHeading({ level: 2 as Level }).run()}>H2</Button>), level: 2 },
-        { key: '3', label: (<Button onClick={() => editor?.chain().focus().toggleHeading({ level: 3 as Level }).run()}>H3</Button>), level: 3 },
-        { key: '4', label: (<Button onClick={() => editor?.chain().focus().toggleHeading({ level: 4 as Level }).run()}>H4</Button>), level: 4 },
-        { key: '5', label: (<Button onClick={() => editor?.chain().focus().toggleHeading({ level: 5 as Level }).run()}>H5</Button>), level: 5 },
-        { key: '6', label: (<Button onClick={() => editor?.chain().focus().toggleHeading({ level: 6 as Level }).run()}>H6</Button>), level: 6 },
+        { key: 'p', label: (<Button className="btn-custom" onClick={() => editor?.chain().focus().setParagraph().run()}>Paragraph</Button>), level: 0 },
+        { key: '1', label: (<Button className="btn-custom" onClick={() => editor?.chain().focus().toggleHeading({ level: 1 as Level }).run()}>Heading 1</Button>), level: 1 },
+        { key: '2', label: (<Button className="btn-custom" onClick={() => editor?.chain().focus().toggleHeading({ level: 2 as Level }).run()}>Heading 2</Button>), level: 2 },
+        { key: '3', label: (<Button className="btn-custom" onClick={() => editor?.chain().focus().toggleHeading({ level: 3 as Level }).run()}>Heading 3</Button>), level: 3 },
+        { key: '4', label: (<Button className="btn-custom" onClick={() => editor?.chain().focus().toggleHeading({ level: 4 as Level }).run()}>Heading 4</Button>), level: 4 },
+        { key: '5', label: (<Button className="btn-custom" onClick={() => editor?.chain().focus().toggleHeading({ level: 5 as Level }).run()}>Heading 5</Button>), level: 5 },
+        { key: '6', label: (<Button className="btn-custom" onClick={() => editor?.chain().focus().toggleHeading({ level: 6 as Level }).run()}>Heading 6</Button>), level: 6 },
     ];
 
     const listItems = [
         {
             key: '1',
             label: (
-                <Button onClick={() => editor.chain().focus().toggleBulletList().run()} disabled={!editor.can().toggleBulletList()}>
+                <Button className="btn-custom" onClick={() => editor.chain().focus().toggleBulletList().run()}>
                     <img src={IcoBluletList} alt="Bullet List" />
                 </Button>
             ),
@@ -63,7 +97,7 @@ const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
         {
             key: '2',
             label: (
-                <Button onClick={() => editor.chain().focus().toggleOrderedList().run()} disabled={!editor.can().toggleOrderedList()}>
+                <Button className="btn-custom" onClick={() => editor.chain().focus().toggleOrderedList().run()}>
                     <img src={IcoOrderedList} alt="Ordered List" />
                 </Button>
             ),
@@ -71,27 +105,109 @@ const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
         {
             key: '3',
             label: (
-                <Button onClick={() => editor.chain().focus().toggleTaskList().run()}>
+                <Button className="btn-custom" onClick={() => editor.chain().focus().toggleTaskList().run()}>
                     <img src={IcoTaskList} alt="Task List" />
+                </Button>
+            ),
+        },
+    ];      
+
+    const highlightItems = [
+        {
+            key: '1',
+            label: (
+                <ColorPicker defaultValue="#000000" onChange={(value) => {
+                    console.log('value', value.toHexString());
+                    
+                    editor.chain().focus().setHighlight({ color: value.toHexString() }).run();
+                }} />
+            )
+        },
+        {
+            key: '2',
+            label: (
+                <Button className="btn-custom" onClick={() => editor.chain().focus().unsetHighlight().run()}>
+                    <span className={`flex w-[30px] h-[30px] bg-[#ccc]`}></span>
                 </Button>
             ),
         },
     ];
 
+    const getActiveHeadingLabel = () => {
+        if (editorState.isHeading1) return 'Heading 1';
+        if (editorState.isHeading2) return 'Heading 2';
+        if (editorState.isHeading3) return 'Heading 3';
+        if (editorState.isHeading4) return 'Heading 4';
+        if (editorState.isHeading5) return 'Heading 5';
+        if (editorState.isHeading6) return 'Heading 6';
+        return 'Paragraph';
+    };
+
     return (
         <div className="group-btn flex gap-2 border border-solid border-[#E5E7EB] border-b-0 rounded-t-[5px] bg-white p-2">
-            <Button onClick={() => editor.chain().focus().undo().run()} disabled={!editorState.canUndo}>
+            <Button className={editorState.canUndo ? 'active' : ''} onClick={() => editor.chain().focus().undo().run()} title="Undo" >
                 <img src={IcoUndo} alt="Undo" />
             </Button>
-            <Button onClick={() => editor.chain().focus().redo().run()} disabled={!editorState.canRedo}>
+            <Button className={editorState.canRedo ? 'active' : ''} onClick={() => editor.chain().focus().redo().run()} title="Redo">
                 <img src={IcoRedo} alt="Redo" />
             </Button>
-            <Dropdown menu={{ items: headingItems }} trigger={['click']} className="c-dropdown">
-                <div className="flex align-center text-[16px] px-[10px] py-[3px]">H <DownOutlined className="text-[8px] ml-[5px]" /></div>
+            <div className="w-[1px] h-[20px] bg-[#eaeaea] my-[6px] mx-[5px]"></div>
+            <Dropdown menu={{ items: headingItems }}>
+                <div className="flex align-center text-[16px] px-[10px] py-[3px]">{getActiveHeadingLabel()} <DownOutlined className="text-[8px] ml-[5px]" /></div>
             </Dropdown>
-            <Dropdown menu={{ items: listItems }} trigger={['click']} className="c-dropdown">
-                <img src={IcoBluletList} alt="" />
+            <Dropdown
+                className={
+                    editorState.isBulletList || editorState.isOrderedList || editorState.isTaskList
+                    ? 'active' : ''
+                }
+                menu={{ items: listItems }}
+            >
+                <img src={IcoBluletList} alt="ico blule list" />
             </Dropdown>
+            <Button onClick={() => editor.chain().focus().setBlockquote().run()}>
+                <img src={IcoBlockquote} alt="ico Blockquote" />
+            </Button>
+            <Button onClick={() => editor.chain().focus().setCodeBlock().run()}>
+                <img src={IcoCodeBlock} alt="ico Code block" />
+            </Button>
+            <div className="w-[1px] h-[20px] bg-[#eaeaea] my-[6px] mx-[5px]"></div>
+            <Button className={editorState.isBold ? 'active' : ''} onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editorState.canBold}>
+                <img src={IcoBold} alt="Bold" />
+            </Button>
+            <Button className={editorState.isItalic ? 'active' : ''} onClick={() => editor.chain().focus().toggleItalic().run()} disabled={!editorState.canItalic}>
+                <img src={IcoItalic} alt="Italic" />
+            </Button>
+            <Button className={editorState.isStrike ? 'active' : ''} onClick={() => editor.chain().focus().toggleStrike().run()} disabled={!editorState.canStrike}>
+                <img src={IcoStrike} alt="Strike" />
+            </Button>
+            <Button className={editorState.isCode ? 'active' : ''} onClick={() => editor.chain().focus().toggleCode().run()}>
+                <img src={IcoCode} alt="Code" />
+            </Button>
+            <Button className={editorState.isUnderline ? 'active' : ''} onClick={() => editor.chain().focus().toggleUnderline().run()}>
+                <img src={IcoUnderline} alt="Underline" />
+            </Button>
+            <Button className={editorState.isHighlight ? 'active' : ''}>
+                <Dropdown menu={{ items: highlightItems }} trigger={['click']}>
+                    <img src={IcoHighlight} alt="ico Hignlight" />
+                </Dropdown>
+            </Button>
+            <div className="w-[1px] h-[20px] bg-[#eaeaea] my-[6px] mx-[5px]"></div>
+            <Button className={editorState.isAlignLeft ? 'active' : ''} onClick={() => editor.chain().focus().setTextAlign('left').run()}>
+                <img src={IcoAlignLeft} alt="ico Align left" />
+            </Button>
+            <Button className={editorState.isAlignCenter ? 'active' : ''} onClick={() => editor.chain().focus().setTextAlign('center').run()}>
+                <img src={IcoAlignCenter} alt="ico Align center" />
+            </Button>
+            <Button className={editorState.isAlignRight ? 'active' : ''} onClick={() => editor.chain().focus().setTextAlign('right').run()}>
+                <img src={IcoAlignRight} alt="ico Align right" />
+            </Button>
+            <Button className={editorState.isAlignJustify ? 'active' : ''} onClick={() => editor.chain().focus().setTextAlign('justify').run()}>
+                <img src={IcoAlignJustify} alt="ico Align justify" />
+            </Button>
+            <div className="w-[1px] h-[20px] bg-[#eaeaea] my-[6px] mx-[5px]"></div>
+            <Button className={editorState.isAddImage ? 'active' : ''} onClick={handleAddImage}>
+                <img src={IcoAddImage} alt="ico Add image" />
+            </Button>
         </div>
     );
 };

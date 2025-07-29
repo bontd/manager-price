@@ -1,0 +1,143 @@
+.link-bubble {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  min-width: 300px;
+  max-width: 400px;
+  animation: slideIn 0.2s ease-out;
+  transform-origin: bottom center;
+
+  .link-bubble-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .link-input-group {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 4px 8px;
+    border: 1px solid #e0e0e0;
+    transition: border-color 0.2s ease;
+
+    &:focus-within {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+
+    .link-icon {
+      color: #6b7280;
+      margin-right: 8px;
+      font-size: 14px;
+    }
+
+    .link-input {
+      border: none;
+      background: transparent;
+      flex: 1;
+      font-size: 14px;
+      color: #374151;
+      padding: 0;
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+
+      &:focus {
+        box-shadow: none;
+        border: none;
+        outline: none;
+      }
+    }
+  }
+
+  .link-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .ant-btn {
+      padding: 4px 6px;
+      height: 28px;
+      min-width: 28px;
+      border: none;
+      background: transparent;
+      color: #6b7280;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #f3f4f6;
+        color: #374151;
+        transform: scale(1.05);
+      }
+
+      &.ant-btn-dangerous {
+        color: #ef4444;
+
+        &:hover {
+          background: #fef2f2;
+          color: #dc2626;
+        }
+      }
+
+      &:disabled {
+        color: #d1d5db;
+        cursor: not-allowed;
+
+        &:hover {
+          background: transparent;
+          transform: none;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Responsive design
+@media (max-width: 640px) {
+  .link-bubble {
+    min-width: 250px;
+    max-width: calc(100vw - 32px);
+
+    .link-bubble-content {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .link-input-group {
+      width: 100%;
+    }
+
+    .link-actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+}
+
+// Ensure bubble appears above content
+.tiptap {
+  position: relative;
+  
+  .link-bubble {
+    position: absolute;
+    z-index: 1000;
+  }
+}

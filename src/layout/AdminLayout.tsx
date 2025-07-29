@@ -98,9 +98,7 @@ export default function AdminLayout() {
         />
         <Content 
           style={{ 
-            margin: isMobile ? '8px' : '24px 16px', 
-            padding: isMobile ? 16 : 24, 
-            background: '#fff',
+            padding: 16, 
             borderRadius: isMobile ? 8 : 0,
             minHeight: isMobile ? 'calc(100vh - 56px - 60px)' : 'calc(100vh - 64px - 70px)' // Account for header and footer
           }}

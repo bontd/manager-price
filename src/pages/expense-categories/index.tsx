@@ -94,7 +94,7 @@ const ExpenseCategoriesPage: React.FC = () => {
   if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
 
   return (
-    <div className="card">
+    <div className="card !p-[20px] bg-[#ffffff]">
       <h2>{t('expenseCategories.title')}</h2>
       <Button type="primary" style={{ marginBottom: 20 }} onClick={handleCreate}>{t('common.create')}</Button>
       <CreateExpenseCategoryModal

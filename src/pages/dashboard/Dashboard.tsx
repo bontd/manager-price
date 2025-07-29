@@ -168,7 +168,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="dashboard-page">
+        <div className="dashboard-page !p-[20px] bg-[#ffffff]">
             <div className="mb-4 md:mb-6">
                 <div className="flex justify-between items-center gap-4 mb-2">
                     <div>
