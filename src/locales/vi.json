@@ -112,9 +112,9 @@
         "incomeList": "Danh sách thu nhập",
         "incomeCategories": "Nhóm thu nhập",
         "news": "Tin tức",
-        "newsList": "Danh sách tin tức",
-        "newsCreate": "Tạo tin tức",
-        "newsCategories": "Nhóm tin tức"
+        "newsList": "Danh sách",
+        "newsCreate": "Tạo",
+        "newsCategories": "Danh mục"
     },
     "expenseCategories": {
         "title": "Nhóm chi phí",
@@ -362,5 +362,20 @@
         "searchPlaceholder": "Tìm kiếm theo tiêu đề hoặc nội dung",
         "status": "Trạng thái",
         "publishDate": "Ngày xuất bản"
+    },
+    "newsCategories": {
+        "title": "Danh mục tin tức",
+        "createTitle": "Thêm danh mục tin tức",
+        "editTitle": "Sửa danh mục tin tức",
+        "deleteTitle": "Xóa danh mục tin tức",
+        "name": "Tên",
+        "description": "Mô tả",
+        "create": "Thêm",
+        "cancel": "Hủy",
+        "edit": "Sửa",
+        "delete": "Xóa",
+        "save": "Lưu",
+        "reset": "Đặt lại",
+        "search": "Tìm kiếm"
     }
 }

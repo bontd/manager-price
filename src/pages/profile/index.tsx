@@ -32,13 +32,14 @@ import EditProfile from './components/EditProfile';
 import ChangePassword from './components/ChangePassword';
 import './profile.css';
 import { roleStringToEnum } from '@/utils/constants/navigation';
+import { getCookie } from '@/utils/helper';
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
 const Profile = () => {
   const { t } = useTranslation();
-  const { userProfile } = useUserProfileStore();
+  const user = JSON.parse(getCookie('user') || '{}');
   const [activeTab, setActiveTab] = useState('info');
 
   const handleTabChange = (key: string) => {
@@ -74,7 +75,7 @@ const Profile = () => {
                   <div className="avatar-wrapper">
                     <Avatar 
                       size={120} 
-                      src={userProfile?.avatar}
+                      src={user?.avatar}
                       icon={<UserOutlined />}
                       className="profile-avatar"
                     />
@@ -86,16 +87,16 @@ const Profile = () => {
               </div>
               
               <Title level={3} className="mb-2">
-                {userProfile?.name || t('profile.defaultName')}
+                {user?.name || t('profile.defaultName')}
               </Title>
               
               <Text type="secondary" className="mb-3 block">
-                {userProfile?.email || 'user@example.com'}
+                {user?.email || 'user@example.com'}
               </Text>
               
               <Space className="mb-4">
-                <Tag color="blue">{roleStringToEnum(userProfile?.role) || 'User'}</Tag>
-                <Tag color="green">{userProfile?.status ? t('profile.statusActive') : t('profile.statusInactive')}</Tag>
+                <Tag color="blue">{roleStringToEnum(user?.role) || 'User'}</Tag>
+                <Tag color="green">{user?.status ? t('profile.statusActive') : t('profile.statusInactive')}</Tag>
               </Space>
               
               <Divider />
@@ -104,20 +105,20 @@ const Profile = () => {
                 <Col span={8}>
                   <Statistic 
                     title={t('profile.totalExpenses')} 
-                    value={userProfile?.totalExpenses || 0}
+                    value={user?.totalExpenses || 0}
                     prefix="$"
                   />
                 </Col>
                 <Col span={8}>
                   <Statistic 
                     title={t('profile.categories')} 
-                    value={userProfile?.categoriesCount || 0}
+                    value={user?.categoriesCount || 0}
                   />
                 </Col>
                 <Col span={8}>
                   <Statistic 
                     title={t('profile.daysActive')} 
-                    value={userProfile?.daysActive || 0}
+                    value={user?.daysActive || 0}
                   />
                 </Col>
               </Row>
@@ -143,7 +144,7 @@ const Profile = () => {
                 } 
                 key="info"
               >
-                <ProfileInfo userProfile={userProfile} />
+                <ProfileInfo userProfile={user} />
               </TabPane>
               
               <TabPane 
@@ -155,7 +156,7 @@ const Profile = () => {
                 } 
                 key="edit"
               >
-                <EditProfile userProfile={userProfile} />
+                <EditProfile userProfile={user} />
               </TabPane>
               
               <TabPane 

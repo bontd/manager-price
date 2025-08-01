@@ -1,7 +1,8 @@
 import { Editor, useEditorState } from "@tiptap/react";
-import { Button, ColorPicker, Dropdown } from "antd";
+import { Button, ColorPicker, Dropdown, Popover } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { Level } from "@tiptap/extension-heading";
+import { useState } from "react";
 import IcoBluletList from '@/assets/ico/bullet_list.svg';
 import IcoOrderedList from '@/assets/ico/ordered_list.svg';
 import IcoTaskList from '@/assets/ico/task_list.svg';
@@ -23,15 +24,62 @@ import IcoAlignCenter from '@/assets/ico/align_center.svg';
 import IcoAlignRight from '@/assets/ico/align_right.svg';
 import IcoAlignJustify from '@/assets/ico/align_justify.svg';
 import IcoAddImage from '@/assets/ico/add_image.svg';
+import IcoTextColor from '@/assets/ico/text_color.svg';
 
-const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
+interface TiptapMenuProps {
+    editor: Editor | null;
+    onLinkButtonClick?: () => void;
+    onImageButtonClick?: () => void;
+}
+
+const TiptapMenu = ({ editor, onLinkButtonClick, onImageButtonClick }: TiptapMenuProps) => {
+    const [colorPickerVisible, setColorPickerVisible] = useState(false);
+    const [highlightPickerVisible, setHighlightPickerVisible] = useState(false);
+    
     if (!editor) return null;
 
     const handleAddImage = () => {
-        const url = window.prompt('Enter image URL:');
-        if (url) {
-            editor.chain().focus().setImage({ src: url }).run();
+        // Trigger image bubble directly without inserting placeholder
+        onImageButtonClick?.();
+    };
+
+    const handleLinkButtonClick = () => {
+        // If there's a selection, trigger link bubble
+        if (!editor.state.selection.empty) {
+            onLinkButtonClick?.();
+        } else {
+            // If no selection, just trigger link bubble without inserting placeholder
+            onLinkButtonClick?.();
         }
+    };
+
+    const handleColorChange = (color: any) => {
+        console.log('Color changed:', color.toHexString());
+        try {
+            editor.chain().focus().setColor(color.toHexString()).run();
+        } catch (error) {
+            console.error('Error with setColor, trying setMark:', error);
+            editor.chain().focus().setMark('textStyle', { color: color.toHexString() }).run();
+        }
+        setColorPickerVisible(false);
+    };
+
+    const handleClearColor = () => {
+        console.log('Clear color clicked');
+        editor.chain().focus().unsetMark('textStyle').run();
+        setColorPickerVisible(false);
+    };
+
+    const handleHighlightChange = (color: any) => {
+        console.log('Highlight color changed:', color.toHexString());
+        editor.chain().focus().setHighlight({ color: color.toHexString() }).run();
+        setHighlightPickerVisible(false);
+    };
+
+    const handleClearHighlight = () => {
+        console.log('Clear highlight clicked');
+        editor.chain().focus().unsetHighlight().run();
+        setHighlightPickerVisible(false);
     };
 
     const editorState = useEditorState({
@@ -68,7 +116,7 @@ const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
                 isAlignJustify: ctx.editor.isActive({ textAlign: 'justify' }),
                 isHighlight: ctx.editor.isActive('highlight'),
                 canHighlight: ctx.editor.can().setHighlight(),
-                isColor: ctx.editor.isActive('color'),
+                isColor: ctx.editor.isActive('textStyle', { color: true }),
                 isAddImage: ctx.editor.isActive('image'),
                 isLink: ctx.editor.isActive('link'),
             };
@@ -112,26 +160,11 @@ const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
         },
     ];      
 
-    const highlightItems = [
-        {
-            key: '1',
-            label: (
-                <ColorPicker defaultValue="#000000" onChange={(value) => {
-                    console.log('value', value.toHexString());
-                    
-                    editor.chain().focus().setHighlight({ color: value.toHexString() }).run();
-                }} />
-            )
-        },
-        {
-            key: '2',
-            label: (
-                <Button className="btn-custom" onClick={() => editor.chain().focus().unsetHighlight().run()}>
-                    <span className={`flex w-[30px] h-[30px] bg-[#ccc]`}></span>
-                </Button>
-            ),
-        },
-    ];
+
+
+
+
+
 
     const getActiveHeadingLabel = () => {
         if (editorState.isHeading1) return 'Heading 1';
@@ -143,8 +176,52 @@ const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
         return 'Paragraph';
     };
 
+    const colorPickerContent = (
+        <div className="p-3">
+            <div className="mb-3">
+                <div className="text-sm font-medium mb-2">Choose Text Color</div>
+                <ColorPicker 
+                    defaultValue="#000000" 
+                    onChange={handleColorChange}
+                    showText
+                    size="middle"
+                />
+            </div>
+            <Button 
+                size="small" 
+                onClick={handleClearColor}
+                className="w-full"
+                danger
+            >
+                Clear Color
+            </Button>
+        </div>
+    );
+
+    const highlightPickerContent = (
+        <div className="p-3">
+            <div className="mb-3">
+                <div className="text-sm font-medium mb-2">Choose Highlight Color</div>
+                <ColorPicker 
+                    defaultValue="#ffff00" 
+                    onChange={handleHighlightChange}
+                    showText
+                    size="middle"
+                />
+            </div>
+            <Button 
+                size="small" 
+                onClick={handleClearHighlight}
+                className="w-full"
+                danger
+            >
+                Clear Highlight
+            </Button>
+        </div>
+    );
+
     return (
-        <div className="group-btn flex gap-2 border border-solid border-[#E5E7EB] border-b-0 rounded-t-[5px] bg-white p-2">
+        <div className="group-btn flex flex-wrap gap-2 border border-solid border-[#E5E7EB] border-b-0 rounded-t-[5px] bg-white p-2">
             <Button className={editorState.canUndo ? 'active' : ''} onClick={() => editor.chain().focus().undo().run()} title="Undo" >
                 <img src={IcoUndo} alt="Undo" />
             </Button>
@@ -186,11 +263,44 @@ const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
             <Button className={editorState.isUnderline ? 'active' : ''} onClick={() => editor.chain().focus().toggleUnderline().run()}>
                 <img src={IcoUnderline} alt="Underline" />
             </Button>
-            <Button className={editorState.isHighlight ? 'active' : ''}>
-                <Dropdown menu={{ items: highlightItems }} trigger={['click']}>
-                    <img src={IcoHighlight} alt="ico Hignlight" />
-                </Dropdown>
-            </Button>
+            <Popover
+                content={colorPickerContent}
+                title="Text Color"
+                trigger="click"
+                open={colorPickerVisible}
+                onOpenChange={setColorPickerVisible}
+                placement="bottom"
+            >
+                <Button 
+                    className={editorState.isColor ? 'active' : ''} 
+                    onClick={() => {
+                        console.log('Text color button clicked');
+                        setColorPickerVisible(!colorPickerVisible);
+                    }}
+                    title="Text Color"
+                >
+                    <img src={IcoTextColor} alt="ico text color" />
+                </Button>
+            </Popover>
+            <Popover
+                content={highlightPickerContent}
+                title="Highlight Color"
+                trigger="click"
+                open={highlightPickerVisible}
+                onOpenChange={setHighlightPickerVisible}
+                placement="bottom"
+            >
+                <Button 
+                    className={editorState.isHighlight ? 'active' : ''} 
+                    onClick={() => {
+                        console.log('Highlight button clicked');
+                        setHighlightPickerVisible(!highlightPickerVisible);
+                    }}
+                    title="Highlight Color"
+                >
+                    <img src={IcoHighlight} alt="ico Highlight" />
+                </Button>
+            </Popover>
             <div className="w-[1px] h-[20px] bg-[#eaeaea] my-[6px] mx-[5px]"></div>
             <Button className={editorState.isAlignLeft ? 'active' : ''} onClick={() => editor.chain().focus().setTextAlign('left').run()}>
                 <img src={IcoAlignLeft} alt="ico Align left" />
@@ -207,6 +317,9 @@ const TiptapMenu = ({ editor }: { editor: Editor | null }) => {
             <div className="w-[1px] h-[20px] bg-[#eaeaea] my-[6px] mx-[5px]"></div>
             <Button className={editorState.isAddImage ? 'active' : ''} onClick={handleAddImage}>
                 <img src={IcoAddImage} alt="ico Add image" />
+            </Button>
+            <Button className={editorState.isLink ? 'active' : ''} onClick={handleLinkButtonClick}>
+                <img src={IcoLink} alt="ico Link" />
             </Button>
         </div>
     );

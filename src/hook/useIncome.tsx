@@ -4,10 +4,10 @@ import { del, get, patch, post } from "@/api/config";
 import qs from "qs";
 
 export interface Income {
-    id: string;
-    user_id: string;
-    category_id: string;
-    amount: number;
+    id?: string;
+    user_id?: string;
+    category_id?: string;
+    amount?: number;
     description?: string;
     current?: string | number | null;
     pageSize?: string | number | null;

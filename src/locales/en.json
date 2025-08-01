@@ -112,9 +112,9 @@
         "incomeList": "Income List",
         "incomeCategories": "Income Categories",
         "news": "News",
-        "newsList": "News List",
-        "newsCreate": "Create News",
-        "newsCategories": "News Categories"
+        "newsList": "List",
+        "newsCreate": "Create",
+        "newsCategories": "Categories"
     },
     "expenseCategories": {
         "title": "Expense Categories",
@@ -373,5 +373,20 @@
         "deleteError": "Failed to delete news. Please try again.",
         "status": "Status",
         "publishDate": "Publish Date"
+    },
+    "newsCategories": {
+        "title": "News Categories",
+        "createTitle": "Create News Category",
+        "editTitle": "Edit News Category",
+        "deleteTitle": "Delete News Category",
+        "name": "Name",
+        "description": "Description",
+        "create": "Create",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "reset": "Reset",
+        "search": "Search"
     }
 }

@@ -11,7 +11,7 @@
 
   .link-bubble-content {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 8px;
   }
 
@@ -56,6 +56,35 @@
     }
   }
 
+  .link-text-input-group {
+    width: 100%;
+
+    .link-text-input {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+
+      &:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        outline: none;
+      }
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+    }
+  }
+
+  .link-submit-group {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .link-actions {
     display: flex;
     align-items: center;
@@ -66,16 +95,7 @@
       height: 28px;
       min-width: 28px;
       border: none;
-      background: transparent;
-      color: #6b7280;
       border-radius: 4px;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background: #f3f4f6;
-        color: #374151;
-        transform: scale(1.05);
-      }
 
       &.ant-btn-dangerous {
         color: #ef4444;

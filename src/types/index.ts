@@ -59,4 +59,13 @@ export type LoadingState = 'idle' | 'loading' | 'success' | 'error';
 export interface ErrorState {
   message: string;
   code?: string;
-} 
+}
+
+export interface Meta {
+  currentPage: number;
+  pageCount: number;
+  perPage: number;
+  rateLimit: number;
+  rateRemaining: number;
+  totalCount: number;
+}

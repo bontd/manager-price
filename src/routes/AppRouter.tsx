@@ -12,7 +12,7 @@ import Login from '@/pages/auth/login/Login';
 import ResetPassword from '@/pages/auth/reset-password';
 import Register from '@/pages/auth/register';
 import ResetPasswordVerify from '@/pages/auth/reset-password/verify';
-import { roleNumberToEnum } from '@/utils/helper';
+import { getUser, roleNumberToEnum } from '@/utils/helper';
 
 const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'));
 const Users = lazy(() => import('@/pages/users'));
@@ -39,8 +39,8 @@ function flattenNavigationItems(items: typeof NAVIGATION_ITEMS): any[] {
 }
 
 export default function AppRouter() {
-  const userProfile = useUserProfileStore(state => state.userProfile);
-  const userRole = userProfile?.role;
+  const user = getUser();
+  const userRole = user?.role;
   
   let userRoleEnum: ROLE | undefined;
   if (typeof userRole === 'number') {

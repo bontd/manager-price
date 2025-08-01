@@ -5,52 +5,84 @@ import { Editor } from '@tiptap/react';
 
 interface LinkBubbleProps {
   editor: Editor | null;
+  isVisible: boolean;
+  onClose: () => void;
+  onVisibilityChange: (visible: boolean) => void;
 }
 
-const LinkBubble: React.FC<LinkBubbleProps> = ({ editor }) => {
+const LinkBubble: React.FC<LinkBubbleProps> = ({ editor, isVisible, onClose, onVisibilityChange }) => {
   const [url, setUrl] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
+  const [linkText, setLinkText] = useState('');
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const bubbleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!editor) return;
+    if (!editor || !isVisible) return;
 
-    const updateBubble = () => {
-      const { from, to } = editor.state.selection;
-      const link = editor.isActive('link');
+    // Calculate position when bubble becomes visible    
+    setPosition({
+      top: 0,
+      left: 0,
+    });
+
+    // Set current link URL if editing existing link
+    if (editor.isActive('link')) {
+      const linkAttributes = editor.getAttributes('link');
+      setUrl(linkAttributes.href || '');
       
-      if (link || (!editor.state.selection.empty && from !== to)) {
-        // Calculate position
-        const coords = editor.view.coordsAtPos(from);
-        if (coords) {
-          setPosition({
-            top: coords.top - 60, // Position above the selection
-            left: coords.left,
-          });
+      // Get the text content of the link by temporarily extending the selection
+      const originalFrom = editor.state.selection.from;
+      const originalTo = editor.state.selection.to;
+      
+      // Extend to full link range to get text
+      editor.chain().focus().extendMarkRange('link').run();
+      const linkText = editor.state.doc.textBetween(editor.state.selection.from, editor.state.selection.to);
+      setLinkText(linkText || '');
+      
+      // Restore original cursor position
+      editor.chain().focus().setTextSelection({ from: originalFrom, to: originalTo }).run();
+    } else {
+      setUrl('');
+      // Get selected text if any
+      const { from, to } = editor.state.selection;
+      const selectedText = editor.state.doc.textBetween(from, to);
+      setLinkText(selectedText || '');
+    }
+  }, [editor, isVisible]);
+
+  // Handle click outside to close bubble
+  useEffect(() => {
+    if (!editor || !isVisible) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (bubbleRef.current && !bubbleRef.current.contains(event.target as Node)) {
+        // Check if click is outside the bubble
+        const editorElement = editor.view.dom;
+        if (editorElement.contains(event.target as Node)) {
+          // Click is inside editor but outside bubble
+          onVisibilityChange(false);
         }
-        setIsVisible(true);
-        
-        // Set current link URL if editing
-        if (link) {
-          const linkAttributes = editor.getAttributes('link');
-          setUrl(linkAttributes.href || '');
-        } else {
-          setUrl('');
-        }
-      } else {
-        setIsVisible(false);
       }
     };
 
-    editor.on('selectionUpdate', updateBubble);
-    editor.on('focus', updateBubble);
+    const handleSelectionChange = () => {
+      const { from, to } = editor.state.selection;
+      const link = editor.isActive('link');
+      
+      // Hide bubble if no selection or no link
+      if (editor.state.selection.empty && !link) {
+        onVisibilityChange(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    editor.on('selectionUpdate', handleSelectionChange);
 
     return () => {
-      editor.off('selectionUpdate', updateBubble);
-      editor.off('focus', updateBubble);
+      document.removeEventListener('mousedown', handleClickOutside);
+      editor.off('selectionUpdate', handleSelectionChange);
     };
-  }, [editor]);
+  }, [editor, isVisible, onVisibilityChange]);
 
   const handleSetLink = () => {
     if (!editor || !url.trim()) return;
@@ -62,20 +94,31 @@ const LinkBubble: React.FC<LinkBubbleProps> = ({ editor }) => {
       // Create new link
       if (editor.state.selection.empty) {
         // If no selection, insert the URL as text
-        editor.chain().focus().insertContent(`<a href="${url.trim()}">${url.trim()}</a>`).run();
+        const displayText = linkText.trim() || url.trim();
+        editor.chain().focus().insertContent(`<a href="${url.trim()}">${displayText}</a>`).run();
       } else {
-        // If there's a selection, make it a link
-        editor.chain().focus().setLink({ href: url.trim() }).run();
+        // If there's a selection, make it a link with custom text if provided
+        const { from, to } = editor.state.selection;
+        const selectedText = editor.state.doc.textBetween(from, to);
+        
+        if (linkText.trim() && linkText.trim() !== selectedText) {
+          // Replace selection with custom text as link
+          editor.chain().focus().deleteRange({ from, to }).insertContent(`<a href="${url.trim()}">${linkText.trim()}</a>`).run();
+        } else {
+          // Make existing selection a link
+          editor.chain().focus().setLink({ href: url.trim() }).run();
+        }
       }
     }
     setUrl('');
-    setIsVisible(false);
+    setLinkText('');
+    onClose();
   };
 
   const handleRemoveLink = () => {
     if (!editor) return;
     editor.chain().focus().unsetLink().run();
-    setIsVisible(false);
+    onClose();
   };
 
   const handleOpenLink = () => {
@@ -88,6 +131,12 @@ const LinkBubble: React.FC<LinkBubbleProps> = ({ editor }) => {
   const handleUndo = () => {
     if (!editor) return;
     editor.chain().focus().undo().run();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
   };
 
   if (!editor || !isVisible) {
@@ -105,19 +154,44 @@ const LinkBubble: React.FC<LinkBubbleProps> = ({ editor }) => {
         zIndex: 1000,
       }}
     >
-      <div className="link-bubble-content">
-        <div className="link-input-group">
-          <LinkOutlined className="link-icon" />
-          <Input
-            placeholder="Paste a link..."
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            onPressEnter={handleSetLink}
-            className="link-input"
-            autoFocus
-          />
-        </div>
+             <div className="link-bubble-content">
+         <div className="link-input-group">
+           <LinkOutlined className="link-icon" />
+           <Input
+             placeholder="Paste a link..."
+             value={url}
+             onChange={(e) => setUrl(e.target.value)}
+             onPressEnter={handleSetLink}
+             onKeyDown={handleKeyDown}
+             className="link-input"
+             autoFocus
+           />
+         </div>
+         
+         <div className="link-text-input-group">
+           <Input
+             placeholder="Link text (optional)"
+             value={linkText}
+             onChange={(e) => setLinkText(e.target.value)}
+             onPressEnter={handleSetLink}
+             className="link-text-input"
+           />
+         </div>
+         
+         <div className="link-submit-group">
+           <Button
+             type="primary"
+             size="small"
+             className='bg-blue-500'
+             onClick={handleSetLink}
+             disabled={!url.trim()}
+             title="Set link"
+           >
+             Set
+           </Button>
+         </div>
         <div className="link-actions">
+          
           <Button
             type="text"
             size="small"

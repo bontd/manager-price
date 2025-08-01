@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
-
+import TableComponent from "@/components/table";
 
 const IncomeCategory = () => {
     const { t } = useTranslation();
@@ -56,6 +56,8 @@ const IncomeCategory = () => {
         }
     }
 
+    console.log(meta);
+
     return (
         <Row gutter={24} className="items-start">
             <Col xs={24} lg={8}>
@@ -77,23 +79,13 @@ const IncomeCategory = () => {
                 </div>
             </Col>
             <Col xs={24} lg={16} className="border border-[#e0e0e0] rounded-md !p-[0] bg-[#ffffff]">
-                <Table 
-                    columns={columns}
+                <TableComponent 
                     dataSource={data}
-                    loading={isLoading}
-                    pagination={{
-                        className: '!px-[20px]',
-                        current: meta?.currentPage || 1,
-                        pageSize: meta?.perPage || 10,
-                        total: meta?.totalCount || 0,
-                        showSizeChanger: true,
-                        showQuickJumper: true,
-                        showTotal: (total, range) => `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
-                        pageSizeOptions: ['5', '10', '20', '50'],
-                        onChange: (page, pageSize) => {
-                            setPagination({ current: page, pageSize });
-                        },
-                    }}
+                    columns={columns}
+                    meta={meta as any}
+                    isLoading={isLoading}
+                    setPagination={setPagination}
+                    t={t}
                 />
             </Col>
         </Row>

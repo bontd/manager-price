@@ -7,6 +7,7 @@ import { useExpenses, Expense } from '@/hook/useExpenses';
 import dayjs from 'dayjs';
 import { formatCurrency } from '@/utils/helper';
 import { EditOutlined, DeleteOutlined, FilterOutlined } from '@ant-design/icons';
+import TableComponent from '@/components/table';
 
 const ExpensesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -39,31 +40,13 @@ const ExpensesPage: React.FC = () => {
   }), [pagination.current, pagination.pageSize, filters]);
 
   const {
-    list,
+    list: data,
     meta,
     isLoading,
     error,
     remove,
-    isRemoving,
-    refetch
-  } = useExpenses(params);  
-
-  const handleEdit = (expense: Expense) => {
-    setEditValues(expense);
-    setModalMode('edit');
-    setOpenCreate(true);
-  };
-
-  const handleCreate = () => {
-    setEditValues(null);
-    setModalMode('create');
-    setOpenCreate(true);
-  };
-
-  const handleDelete = (expense: Expense) => {
-    setExpenseToDelete(expense);
-    setDeleteModalVisible(true);
-  };
+    isRemoving
+  } = useExpenses(params);
 
   const handleConfirmDelete = () => {
     if (expenseToDelete) {
@@ -143,14 +126,19 @@ const ExpensesPage: React.FC = () => {
       fixed: 'right' as const,
       render: (_: any, record: Expense) => (
         <Space className='flex justify-end'>
-          <Button size="small" onClick={() => handleEdit(record)}><EditOutlined /></Button>
-          <Button size="small" danger onClick={() => handleDelete(record)}><DeleteOutlined /></Button>
+          <Button size="small" onClick={() => {
+            setEditValues(record);
+            setModalMode('edit');
+            setOpenCreate(true);
+          }}><EditOutlined /></Button>
+          <Button size="small" danger onClick={() => {
+            setExpenseToDelete(record);
+            setDeleteModalVisible(true);
+          }}><DeleteOutlined /></Button>
         </Space>
       )
     }
   ];
-
-  const dataSource = (list || []).map((item: Expense) => ({ ...item, key: item.id }));
 
   if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
 
@@ -160,7 +148,11 @@ const ExpensesPage: React.FC = () => {
       
       {/* Filter Toggle Button */}
       <div className='flex justify-between items-center' style={{ marginBottom: 20 }}>
-        <Button type="primary" onClick={handleCreate}>{t('common.create')}</Button>
+        <Button type="primary" onClick={() => {
+          setEditValues(null);
+          setModalMode('create');
+          setOpenCreate(true);
+        }}>{t('common.create')}</Button>
         <Button 
           type={showFilters ? "primary" : "default"}
           icon={<FilterOutlined />}
@@ -187,26 +179,13 @@ const ExpensesPage: React.FC = () => {
           setEditValues(null);
         }}
       />
-      <Table
-        dataSource={dataSource}
+      <TableComponent 
+        dataSource={data}
         columns={columns}
-        pagination={{
-          current: meta?.currentPage || 1,
-          pageSize: meta?.perPage,
-          total: meta?.totalCount,
-          showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal: (total, range) => `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
-          pageSizeOptions: ['5', '10', '20', '50'],
-        }}
-        loading={isLoading}
-        onChange={(pagination) => {
-          setPagination({
-            current: pagination.current || 1,
-            pageSize: pagination.pageSize || 10,
-          });
-        }}
-        scroll={{ x: 'max-content' }}
+        meta={meta}
+        isLoading={isLoading}
+        setPagination={setPagination}
+        t={t}
       />
       <Modal
         title={t('expenses.confirmDelete')}

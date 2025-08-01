@@ -2,10 +2,15 @@ import { Button, Col, DatePicker, Form, Input, Row, Select, Upload } from "antd"
 import { UploadOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import Tiptap from "@/components/tiptap";
+import dayjs from "dayjs";
+import useNewsCategories from "@/hook/useNewsCategories";
 
 
 const CreateNews = () => {
     const { t } = useTranslation();
+
+    const { clientData: categories } = useNewsCategories();
+
     const [form] = Form.useForm();
     const onFinish = (values: any) => {
         console.log("Form values:", values);
@@ -29,8 +34,8 @@ const CreateNews = () => {
                             <Form.Item name="status" label={t('news.status')} required>
                                 <Select options={[{ label: t('news.status.active'), value: 'active' }, { label: t('news.status.inactive'), value: 'inactive' }]} />
                             </Form.Item>
-                            <Form.Item name="publishDate" label={t('news.publishDate')} required>
-                                <DatePicker />
+                            <Form.Item name="publishDate" label={t('news.publishDate')} required initialValue={dayjs(new Date())}>
+                                <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                             </Form.Item>
                             <div className="w-[100%] text-right">
                                 <Button type="primary" htmlType="submit">Save</Button>
@@ -43,7 +48,7 @@ const CreateNews = () => {
                                 </Upload>
                             </Form.Item>
                             <Form.Item className="!mb-[0]" name="category" label={t('news.category')} required>
-                                <Select options={[{ label: t('news.category.active'), value: 'active' }, { label: t('news.category.inactive'), value: 'inactive' }]} />
+                                <Select options={categories?.map((category: any) => ({ label: category.name, value: category.id }))} />
                             </Form.Item>
                         </div>
                     </Col>

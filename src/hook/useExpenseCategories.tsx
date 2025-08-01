@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { API_ENDPOINTS } from '@/utils/constants/api';
 import { get, post, put, del } from '@/api/config';
+import qs from 'qs';
 
 export interface ExpenseCategory {
   id: string;
@@ -13,15 +14,27 @@ export interface ExpenseCategory {
   updated_at?: string;
 }
 
-export const useExpenseCategories = (options?: { enabled?: boolean }) => {
+export const useExpenseCategories = (param?: any) => {
   const queryClient = useQueryClient();
 
   // List
   const listQuery = useQuery({
-    queryKey: ['expense-categories'],
-    queryFn: () => get<any>(API_ENDPOINTS.EXPENSE_CATEGORIES.ROOT),
-    select: (res) => res.records.data || [],
-    enabled: options?.enabled !== undefined ? options.enabled : true,
+    queryKey: ['expense-categories', param],
+    enabled: !!param && Object.values(param).every(value => value !== undefined && value !== null),
+    queryFn: () => get<any>(`${API_ENDPOINTS.EXPENSE_CATEGORIES.ROOT}?${qs.stringify(param)}`),
+    select: (res) => {
+      return {
+        data: res?.records.data || [],
+        meta: {
+          currentPage: Number(res?.headers['x-current-page']),
+          pageCount: Number(res?.headers['x-page-count']),
+          perPage: Number(res?.headers['x-per-page']),
+          rateLimit: Number(res?.headers['x-ratelimit-limit']),
+          rateRemaining: Number(res?.headers['x-ratelimit-remaining']),
+          totalCount: Number(res?.headers['x-total-count']),
+        }
+      }
+    }
   });
 
   // Create
@@ -43,7 +56,8 @@ export const useExpenseCategories = (options?: { enabled?: boolean }) => {
   });
 
   return {
-    list: listQuery.data,
+    list: listQuery.data?.data,
+    meta: listQuery.data?.meta,
     isLoading: listQuery.isLoading,
     error: listQuery.error,
     create: createMutation.mutate,

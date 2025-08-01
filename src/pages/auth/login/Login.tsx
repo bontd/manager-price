@@ -5,17 +5,15 @@ import { useTranslation } from "react-i18next";
 import IconVI from '@/assets/ico/vi.svg';
 import IconEn from '@/assets/ico/en.svg';
 import '@/assets/css/login.css';
-import { setCookie } from "@/utils/helper/storage";
+import { setCookie, setUser } from "@/utils/helper/storage";
 import { calculateTokenExpiresFromResponse } from "@/utils/helper/tokenExpires";
 import useAuth from "@/hook/useAuth";
-import { useUserProfileStore } from "@/stores/useUserProfile";
 
 export default function Login() {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation();
 
   const { login, isLoading, error} = useAuth();
-  const { setUserProfile } = useUserProfileStore();
 
   const handleLogin = async (values: any) => {
     login(values, {
@@ -27,7 +25,7 @@ export default function Login() {
         
         setCookie('token', access_token, { expires });
         setCookie('refreshToken', refresh_token, { expires: refreshExpires });
-        setUserProfile(user);
+        setUser(user);
         navigate('/');
       }
     });

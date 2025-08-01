@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import CreateExpenseCategoryModal from './CreateExpenseCategoryModal';
 import { useExpenseCategories, ExpenseCategory } from '@/hook/useExpenseCategories';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import TableComponent from '@/components/table';
 
 const ExpenseCategoriesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -16,14 +17,15 @@ const ExpenseCategoriesPage: React.FC = () => {
 
   // Sử dụng custom hook
   const {
-    list,
+    list: data,
+    meta,
     isLoading,
     error,
     isCreating,
     isUpdating,
     remove,
     isRemoving
-  } = useExpenseCategories();
+  } = useExpenseCategories(pagination);
 
   const handleEdit = (cat: ExpenseCategory) => {
     setEditValues(cat);
@@ -63,13 +65,6 @@ const ExpenseCategoriesPage: React.FC = () => {
     setDeleteModalVisible(true);
   };
 
-  const handleTableChange = (paginationInfo: any) => {
-    setPagination({
-      current: paginationInfo.current,
-      pageSize: paginationInfo.pageSize,
-    });
-  };
-
   const columns = [
     { title: t('expenseCategories.name'), dataIndex: 'name', key: 'name' },
     { title: t('expenseCategories.description'), dataIndex: 'description', key: 'description' },
@@ -89,8 +84,6 @@ const ExpenseCategoriesPage: React.FC = () => {
     }
   ];
 
-  const dataSource = (list || []).map((item: ExpenseCategory) => ({ ...item, key: item.id }));
-
   if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
 
   return (
@@ -106,22 +99,14 @@ const ExpenseCategoriesPage: React.FC = () => {
         isEditing={isUpdating}
       />
       
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          pagination={{
-            current: pagination.current,
-            pageSize: pagination.pageSize,
-            total: dataSource.length,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
-            pageSizeOptions: ['5', '10', '20', '50'],
-          }}
-          onChange={handleTableChange}
-          scroll={{ x: 'max-content' }}
-          loading={isLoading}
-        />
+      <TableComponent 
+        dataSource={data}
+        columns={columns}
+        meta={meta}
+        isLoading={isLoading}
+        setPagination={setPagination}
+        t={t}
+      />
       <Modal
         title={t('expenses.confirmDelete')}
         open={deleteModalVisible}

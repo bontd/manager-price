@@ -19,3 +19,11 @@ export const getToken = (): string | undefined => {
 export const getRefreshToken = (): string | undefined => {
   return getCookie('refreshToken');
 }
+
+export const setUser = (user: any): void => {
+  setCookie('user', JSON.stringify(user));
+}
+
+export const getUser = (): any => {
+  return JSON.parse(getCookie('user') || '{}');
+}

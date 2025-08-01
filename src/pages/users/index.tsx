@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useUser } from '@/hook/useUser';
 import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import CreateOrEditUser from './createOrEdit';
+import TableComponent from '@/components/table';
 
 const Users = () => {
     const { t } = useTranslation();
@@ -109,26 +110,13 @@ const Users = () => {
                     }}
                 >{t('users.createUser')}</Button>
             </div>
-            <Table 
-                dataSource={dataColumns} 
+            <TableComponent 
+                dataSource={data}
                 columns={columns}
-                pagination={{
-                    current: meta?.currentPage || 1,
-                    pageSize: meta?.perPage,
-                    total: meta?.totalCount,
-                    showSizeChanger: true,
-                    showQuickJumper: true,
-                    showTotal: (total, range) => 
-                        `${t('table.pagination.showing')} ${range[0]}-${range[1]} ${t('table.pagination.of')} ${total} ${t('table.pagination.items')}`,
-                    pageSizeOptions: ['5', '10', '20', '50'],
-                }}
-                onChange={(pagination) => {
-                    setPagination({
-                        current: pagination.current || 1,
-                        pageSize: pagination.pageSize || 10,
-                    });
-                }}
-                loading={isLoading}
+                meta={meta}
+                isLoading={isLoading}
+                setPagination={setPagination}
+                t={t}
             />
             <CreateOrEditUser 
                 type={editUserId ? 'edit' : 'create'} 

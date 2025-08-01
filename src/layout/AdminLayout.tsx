@@ -6,8 +6,7 @@ import AppHeader from '@/components/header';
 import AppFooter from '@/components/footer';
 import { get } from '@/api/config';
 import { API_ENDPOINTS } from '@/utils/constants/api';
-import { useUserProfileStore } from '@/stores/useUserProfile';
-import { getToken } from '@/utils/helper/storage';
+import { getToken, getUser, setCookie } from '@/utils/helper/storage';
 
 const { Content } = Layout;
 
@@ -15,8 +14,7 @@ export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { setUserProfile } = useUserProfileStore();
-  const userProfile = useUserProfileStore(state => state.userProfile);
+  const user = getUser();
 
   // Call API to get user profile when component mounts (F5)
   useEffect(() => {
@@ -26,17 +24,17 @@ export default function AdminLayout() {
         if (token) {
           const userInfo = await get<any>(API_ENDPOINTS.USER.PROFILE);
           if (userInfo?.records?.data?.user) {
-            setUserProfile(userInfo.records.data.user);
+            setCookie('user', JSON.stringify(userInfo.records.data.user));
           }
         }
       } catch (error) {
         console.error('Failed to fetch user profile:', error);
       }
     };
-    if (!userProfile) {
+    if (Object.keys(user).length === 0) {
       fetchUserProfile();
     }
-  }, [userProfile]);
+  }, [user]);
 
   // Handle responsive breakpoints
   useEffect(() => {

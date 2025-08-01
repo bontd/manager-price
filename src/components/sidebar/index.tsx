@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, Layout } from 'antd';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getMenuItems, getOpenMenuKeys } from '@/utils/constants/navigation';
 import { useNavigation } from '@/hook/useNavigation';
-import { useUserProfileStore } from '@/stores/useUserProfile';
+import { getUser } from '@/utils/helper';
 
 const { Sider } = Layout;
 
@@ -16,15 +15,19 @@ interface SidebarProps {
 export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
     const { t } = useTranslation();
     const { activeMenuKey, pathname } = useNavigation();
-    const userProfile = useUserProfileStore(state => state.userProfile);
-    const userRole = userProfile?.role;
-    const menuItems = getMenuItems(t, userRole);
+    const [menuItems, setMenuItems] = useState<any[]>([]);
+    const user = getUser();
+    const userRole = user?.role;
 
     const [openKeys, setOpenKeys] = useState<string[]>(() => getOpenMenuKeys(pathname));
 
     useEffect(() => {
       setOpenKeys(getOpenMenuKeys(pathname));
     }, [pathname]);
+
+    useEffect(() => {
+      setMenuItems(getMenuItems(t, userRole));
+    }, [userRole, t]);
 
     const handleOpenChange = (keys: string[]) => {
       setOpenKeys(keys);

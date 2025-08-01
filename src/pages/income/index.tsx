@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import useIncome from "@/hook/useIncome";
+import TableComponent from "@/components/table";
 
 const IncomePage = () => {
     const { t } = useTranslation();
@@ -39,7 +40,14 @@ const IncomePage = () => {
             <div className="flex justify-end mb-[20px]">
                 <Button type="primary" icon={<PlusOutlined />}>{t('income.createIncome')}</Button>
             </div>
-            <Table dataSource={[]} columns={columns} />
+            <TableComponent 
+                dataSource={data}
+                columns={columns}
+                meta={meta}
+                isLoading={isLoading}
+                setPagination={setPagination}
+                t={t}
+            />
         </div>
     )
 }
