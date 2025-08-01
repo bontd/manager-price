@@ -9,7 +9,11 @@ const CustomTooltip = ({ active, payload }: any) => {
             {payload.map((item: any, index: number) => (
                 <div key={item.name} className={`flex flex-col p-[10px] ${index !== 0 ? 'border-t border-[#e0e0e0]' : ''}`}>
                     <div className="text-sm"><b>{item.name}</b></div>
-                    <div className="text-sm">{t('chart.money')}: {item.value.toLocaleString(2)}</div>
+                    <div className="text-sm">{t('chart.money')}: {
+                        item.value >= 1000000 ? (item.value / 1000000).toFixed(2) + 'M' :
+                        item.value >= 1000 ? (item.value / 1000).toFixed(2) + 'K' :
+                        item.value.toFixed(2)
+                    }</div>
                 </div>
             ))}
         </div>

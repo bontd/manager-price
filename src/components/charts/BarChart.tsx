@@ -51,7 +51,14 @@ const BarChart: React.FC<BarChartProps> = ({
         <RechartsBarChart data={data} margin={{ top: 5, bottom: 5, left: -10, right: 0 }}>
           {showGrid && <CartesianGrid strokeDasharray="3 3" />}
           <XAxis dataKey="name" />
-          <YAxis tickFormatter={value => value >= 100 ? (value / 1000) + 'k' : value} />
+          <YAxis tickFormatter={value => {
+            if (value >= 1000000) {
+              return (value / 1000000) + 'M';
+            } else if (value >= 1000) {
+              return (value / 1000) + 'K';
+            }
+            return value;
+          }} />
           <Tooltip content={<CustomTooltip />} />
           {showLegend && <Legend />}
           {dataKeys.map((key, index) => (
