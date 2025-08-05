@@ -71,6 +71,7 @@ export default function AppRouter() {
           {item.path === '/income-categories' && <IncomeCategory />}
           {item.path === '/news' && <News />}
           {item.path === '/news/create' && <CreateNews />}
+          {item.path === '/news/edit/:id' && <CreateNews />}
           {item.path === '/news/categories' && <NewsCategories />}
         </Suspense>
       )

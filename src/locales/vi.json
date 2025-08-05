@@ -360,8 +360,15 @@
         "updateSuccess": "Cập nhật tin tức thành công!",
         "deleteSuccess": "Xóa tin tức thành công!",
         "searchPlaceholder": "Tìm kiếm theo tiêu đề hoặc nội dung",
-        "status": "Trạng thái",
-        "publishDate": "Ngày xuất bản"
+        "label": {
+            "status": "Trạng thái",
+            "publishDate": "Ngày xuất bản"
+        },
+        "status": {
+            "published": "Đã xuất bản",
+            "archived": "Đã lưu trữ",
+            "draft": "Nháp"
+        }
     },
     "newsCategories": {
         "title": "Danh mục tin tức",
@@ -376,6 +383,11 @@
         "delete": "Xóa",
         "save": "Lưu",
         "reset": "Đặt lại",
-        "search": "Tìm kiếm"
+        "search": "Tìm kiếm",
+        "slug": "Slug",
+        "color": "Màu sắc",
+        "editSlug": "Sửa Slug",
+        "saveSlug": "Lưu Slug",
+        "deleteContent": "Bạn có chắc chắn muốn xóa danh mục này? Hành động này không thể hoàn tác."
     }
 }

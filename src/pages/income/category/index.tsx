@@ -1,5 +1,5 @@
 import useIncomeCategories from "@/hook/useIncomeCategories";
-import { Button, Form, Input, Table } from "antd";
+import { Button, Form, Input, Popconfirm, Table } from "antd";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -38,7 +38,14 @@ const IncomeCategory = () => {
             render: (text: string, record: any) => (
                 <div className="flex gap-[10px] justify-end">
                     <Button size="small"><EditOutlined /></Button>
-                    <Button size="small" danger><DeleteOutlined /></Button>
+                    <Popconfirm 
+                        title="Are you sure you want to delete this item?" 
+                        onConfirm={() => incomeCategoryDelete.mutate(record.id)}
+                        okText={t('common.delete')}
+                        cancelText={t('common.cancel')}
+                    >
+                        <Button size="small" danger loading={incomeCategoryDelete.isPending}><DeleteOutlined /></Button>
+                    </Popconfirm>
                 </div>
             ),
         }

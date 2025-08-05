@@ -371,8 +371,15 @@
         "updateSuccess": "News updated successfully!",
         "deleteSuccess": "News deleted successfully!",
         "deleteError": "Failed to delete news. Please try again.",
-        "status": "Status",
-        "publishDate": "Publish Date"
+        "label": {
+            "status": "Status",
+            "publishDate": "Publish Date"
+        },
+        "status": {
+            "published": "Published",
+            "archived": "Archived",
+            "draft": "Draft"
+        }
     },
     "newsCategories": {
         "title": "News Categories",
@@ -387,6 +394,11 @@
         "delete": "Delete",
         "save": "Save",
         "reset": "Reset",
-        "search": "Search"
+        "search": "Search",
+        "slug": "Slug",
+        "color": "Color",
+        "editSlug": "Edit Slug",
+        "saveSlug": "Save Slug",
+        "deleteContent": "Are you sure you want to delete this category? This action cannot be undone."
     }
 }

@@ -41,13 +41,38 @@ const Tiptap = ({value, setTiptap} : {value?: string, setTiptap?: any}) => {
                     class: 'text-blue-600 underline hover:text-blue-800',
                 },
             }),
-    ],
+        ],
         content: value,
         onUpdate: ({ editor }) => {
-            // console.log(editor.getHTML());
             setTiptap(editor.getHTML());
         }
     });
+
+    // Update editor content when value prop changes
+    useEffect(() => {
+        if (editor && value !== undefined) {
+            const currentContent = editor.getHTML();
+            // Handle different cases for content updates
+            if (value === '' && currentContent !== '') {
+                // Clear content when value is empty
+                editor.commands.setContent('');
+            } else if (value !== '' && currentContent !== value) {
+                // Update content when value is not empty and different from current
+                editor.commands.setContent(value);
+            }
+        }
+    }, [editor, value]);
+
+    // Additional effect to handle initial content setting
+    useEffect(() => {
+        if (editor && value !== undefined && value !== '') {
+            const currentContent = editor.getHTML();
+            // If editor is empty but we have a value, set the content
+            if (currentContent === '<p></p>' && value !== '') {
+                editor.commands.setContent(value);
+            }
+        }
+    }, [editor, value]);
 
     // Handle bubble visibility based on selection
     useEffect(() => {
@@ -58,9 +83,6 @@ const Tiptap = ({value, setTiptap} : {value?: string, setTiptap?: any}) => {
             const isLinkActive = editor.isActive('link');
             const isImageActive = editor.isActive('image');
             const selectedText = editor.state.doc.textBetween(from, to);
-            
-            // Debug: Log selection changes
-            console.log('Selection update:', { from, to, selectedText, isLinkActive, isImageActive });
             
             // Show link bubble when clicking on existing link
             if (isLinkActive && from === to) {

@@ -1,10 +1,11 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { del, get, post, put } from "@/api/config";
 import { API_ENDPOINTS } from "@/utils/constants/api";
 import qs from "qs";
 import { NewsCategory } from "@/types/news";
 
 const useNewsCategories = (param?: NewsCategory) => {
+    const queryClient = useQueryClient();
     const listQuery = useQuery({
         queryKey: ['news-categories', param],
         queryFn: () => get(`${API_ENDPOINTS.NEWS_CATEGORIES.ROOT}?${qs.stringify(param)}`),
@@ -23,32 +24,24 @@ const useNewsCategories = (param?: NewsCategory) => {
         }
     });
 
-    const clientQuery = useQuery({
-        queryKey: ['news-categories-client', param],
-        queryFn: () => get(`${API_ENDPOINTS.NEWS_CATEGORIES.CLIENT}?${qs.stringify(param)}`),
-        select: (res: any) => {
-            return res?.records.data || [];
-        }
-    });
-
     const createQuery = useMutation({
         mutationFn: (data: any) => post(`${API_ENDPOINTS.NEWS_CATEGORIES.ROOT}`, data),
         onSuccess: () => {
-            listQuery.refetch();
+            queryClient.invalidateQueries({ queryKey: ['news-categories'] });
         }
     });
 
     const updateQuery = useMutation({
         mutationFn: (data: any) => put(`${API_ENDPOINTS.NEWS_CATEGORIES.ROOT}/${data.id}`, data),
         onSuccess: () => {
-            listQuery.refetch();
+            queryClient.invalidateQueries({ queryKey: ['news-categories'] });
         }
     });
 
     const deleteQuery = useMutation({
         mutationFn: (id: string) => del(`${API_ENDPOINTS.NEWS_CATEGORIES.ROOT}/${id}`),
         onSuccess: () => {
-            listQuery.refetch();
+            queryClient.invalidateQueries({ queryKey: ['news-categories'] });
         }
     });
 
@@ -59,9 +52,10 @@ const useNewsCategories = (param?: NewsCategory) => {
         isFetching: listQuery.isFetching,
         isError: listQuery.isError,
         createQuery,
+        createLoading: createQuery.isPending,
         updateQuery,
         deleteQuery,
-        clientData: clientQuery.data,
+        isDeleting: deleteQuery.isPending
     }
 }
 

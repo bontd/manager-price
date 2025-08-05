@@ -17,7 +17,7 @@ export enum GENDER {
 }
 
 export enum NEW_STATUS {
-    ACTIVE = 'Active',
-    INACTIVE = 'Inactive',
-    DRAFT = 'Draft'
+    PUBLISHED = 'published',
+    ARCHIVED = 'archived',
+    DRAFT = 'draft'
 }

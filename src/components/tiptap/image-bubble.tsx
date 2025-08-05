@@ -40,8 +40,6 @@ const ImageBubble: React.FC<ImageBubbleProps> = ({ editor, isVisible, onClose, o
       setUrl('');
     }
 
-    // Debug: Log when bubble becomes visible
-    console.log('Image bubble visible:', { isVisible });
   }, [editor, isVisible]);
 
   // Handle click outside to close bubble

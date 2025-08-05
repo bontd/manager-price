@@ -59,7 +59,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         path: '/income-categories',
         label: 'Income Categories',
         translationKey: 'navigation.incomeCategories',
-        allowedRoles: [ROLE.ADMIN, ROLE.USER],
+        allowedRoles: [ROLE.ADMIN, ROLE.USER, ROLE.ADMINISTRATOR],
       },
       // Thêm children khác nếu cần
     ]
@@ -108,6 +108,14 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
       },
       {
         key: '5-3',
+        path: '/news/edit/:id',
+        label: 'Edit',
+        translationKey: 'navigation.newsEdit',
+        allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
+        isHidden: true,
+      },
+      {
+        key: '5-4',
         path: '/news/categories',
         label: 'Categories',
         translationKey: 'navigation.newsCategories',
@@ -127,28 +135,55 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
 ];
 
 export const getActiveMenuKey = (pathname: string): string[] => {
-  const findKey = (items: NavigationItem[]): string | undefined => {
+  const findKey = (items: NavigationItem[], parentKey?: string): { key: string; parentKey?: string } | undefined => {
     for (const item of items) {
-      if (item.path === pathname) return item.key;
+      // Check exact match first
+      if (item.path === pathname) return { key: item.key, parentKey };
+      
+      // Check for dynamic routes (paths with :id, :slug, etc.)
+      if (item.path && item.path.includes(':')) {
+        const pathPattern = item.path.replace(/:[^/]+/g, '[^/]+');
+        const regex = new RegExp(`^${pathPattern}$`);
+        if (regex.test(pathname)) {
+          // For hidden dynamic routes, return parent key instead
+          if (item.isHidden && parentKey) {
+            return { key: parentKey };
+          }
+          return { key: item.key, parentKey };
+        }
+      }
+      
       if (item.children) {
-        const childKey = findKey(item.children);
-        if (childKey) return childKey;
+        const result = findKey(item.children, item.key);
+        if (result) return result;
       }
     }
     return undefined;
   };
-  const key = findKey(NAVIGATION_ITEMS);
-  return key ? [key] : ['1']; // Default to dashboard
+  const result = findKey(NAVIGATION_ITEMS);
+  return result ? [result.key] : ['1']; // Default to dashboard
 };
 
 export const getOpenMenuKeys = (pathname: string): string[] => {
   const openKeys: string[] = [];
   const findOpenKeys = (items: NavigationItem[], parentKey?: string): boolean => {
     for (const item of items) {
+      // Check exact match first
       if (item.path === pathname) {
         if (parentKey) openKeys.push(parentKey);
         return true;
       }
+      
+      // Check for dynamic routes (paths with :id, :slug, etc.)
+      if (item.path && item.path.includes(':')) {
+        const pathPattern = item.path.replace(/:[^/]+/g, '[^/]+');
+        const regex = new RegExp(`^${pathPattern}$`);
+        if (regex.test(pathname)) {
+          if (parentKey) openKeys.push(parentKey);
+          return true;
+        }
+      }
+      
       if (item.children) {
         if (findOpenKeys(item.children, item.key)) {
           if (parentKey) openKeys.push(parentKey);
@@ -202,7 +237,12 @@ function mapItems(
       // At least one child must be allowed
       return item.children.some(child => isItemAllowed(child));
     }
-    if (item.isHidden) return false;
+    // Don't hide items that are dynamic routes (like /news/edit/:id)
+    if (item.isHidden && (!item.path || !item.path.includes(':'))) return false;
+    
+    // For dynamic routes, we need to check if they should be shown in menu
+    // Dynamic routes like /news/edit/:id should not be shown in menu but should be active when accessed
+    if (item.path && item.path.includes(':') && item.isHidden) return false;
     
     return true;
   };
