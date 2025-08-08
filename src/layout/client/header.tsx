@@ -1,13 +1,21 @@
-import { Button, Col, Menu, Row, Drawer, Grid } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
+import { Button, Col, Menu, Row, Drawer, Grid, Avatar, Dropdown } from "antd";
+import { DashboardOutlined, LogoutOutlined, MenuOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import Logo from "@/assets/images/Logo.svg";
+import { Link, useNavigate } from "react-router-dom";
+import { getUser } from "@/utils/helper/storage";
+import { useTranslation } from "react-i18next";
+import { useLogout } from '@/hook/useLogout';
 
 const { useBreakpoint } = Grid;
 
 const Header = () => {
   const screens = useBreakpoint();
   const isMobile = !screens.md;
+  const userInfor = getUser()
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const logout = useLogout();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -19,6 +27,53 @@ const Header = () => {
     { key: "how-it-works", label: <a href="/how-it-work">How it Works</a> },
     { key: "hire", label: <a href="/hire">Hire</a> },
   ];
+
+  const userMenu: any = {
+    items: [
+      {
+        key: 'dashboard',
+        icon: <DashboardOutlined />,
+        label: t('navigation.dashboard'),
+        path: '/dashboard',
+      },
+      {
+        key: 'profile',
+        icon: <UserOutlined />,
+        label: t('navigation.profile'),
+        path: '/profile',
+      },
+      {
+        key: 'settings',
+        icon: <SettingOutlined />,
+        label: t('navigation.settings'),
+        path: '/settings',
+      },
+      {
+        key: 'logout',
+        icon: <LogoutOutlined />,
+        label: t('navigation.logout'),
+        danger: true,
+      },
+    ],
+    onClick: ({ key } : any) => {
+        switch (key) {
+        case 'profile':
+            navigate('/profile');
+            break;
+        case 'dashboard':
+            navigate('/dashboard');
+            break;
+        case 'settings':
+            navigate('/settings');
+            break;
+        case 'logout':
+            logout();
+            break;
+        default:
+            break;
+        }
+    }
+  };
 
   return (
     <div className="w-full sticky top-[0] z-[9999] px-[20px] py-[10px] bg-[#fff] shadow-[0_0_10px_0_rgba(0,0,0,0.1)]">
@@ -37,13 +92,26 @@ const Header = () => {
         )}
 
         <Col className="flex items-center gap-4">
-          {!isMobile && (
-            <Button
-              type="primary"
-              className="border-none bg-gradient-to-r from-[#6675F7] to-[#57007B] text-white px-6 py-5 font-bold !text-[16px]"
-            >
-              Contact Us
-            </Button>
+          {userInfor && userInfor.role ? (
+            <Dropdown menu={userMenu} placement="bottomRight" arrow trigger={['click']}>
+              <Avatar 
+                  icon={<UserOutlined />} 
+                  style={{ 
+                  cursor: 'pointer',
+                  width: isMobile ? 32 : 40,
+                  height: isMobile ? 32 : 40
+                  }}
+              />
+            </Dropdown>
+          ) : (
+            <div className="flex items-center gap-4 text-[16px]">
+              <Link to="/login">
+                Login
+              </Link>
+              <Link to="/register">
+                Register
+              </Link>
+            </div>
           )}
 
           {isMobile && (
@@ -65,14 +133,6 @@ const Header = () => {
                   className="!bg-transparent !border-none text-base font-semibold"
                   onClick={() => setDrawerOpen(false)}
                 />
-                <div className="mt-4">
-                  <Button
-                    type="primary"
-                    className="w-full bg-gradient-to-r from-[#6675F7] to-[#57007B] text-white font-bold"
-                  >
-                    Contact Us
-                  </Button>
-                </div>
               </Drawer>
             </>
           )}

@@ -10,13 +10,6 @@ input:-webkit-autofill {
 }
 
 .login-page {
-    margin-top: 4rem;
+    min-height: 100vh;
 }
-
-@media screen and (min-width: 1024px) {
-    .login-page {
-        min-height: 100vh;
-        margin-top: 0;
-    }
     
-}

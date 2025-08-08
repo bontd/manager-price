@@ -17,7 +17,7 @@ export const useLogout = () => {
     // Xóa toàn bộ dữ liệu xác thực ngay lập tức
     removeCookie('token');
     removeCookie('refreshToken');
-    removeCookie('userInfo');
+    removeCookie('user');
     localStorage.clear();
     sessionStorage.clear();
 

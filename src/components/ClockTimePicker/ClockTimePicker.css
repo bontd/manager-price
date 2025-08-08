@@ -24,7 +24,7 @@
   max-width: 100%;
   height: auto;
   transition: all 0.3s;
-  margin: 10px 0;
+  margin: 10px auto;
 }
 
 .clock-canvas:hover {

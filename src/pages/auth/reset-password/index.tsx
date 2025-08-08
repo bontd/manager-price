@@ -21,10 +21,10 @@ const ResetPassword = () => {
     }
 
     return (
-        <div className="login-page w-[350px] sm:w-[400px] mx-auto flex items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-100 font-sans">
-            <Card className="w-full max-w-md p-8 rounded-2xl shadow-2xl border border-gray-200 bg-white">
+        <div className="login-page w-full mx-auto flex items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-100 font-sans">
+            <Card className="w-full max-w-[320px] md:max-w-md rounded-2xl shadow-2xl border border-gray-200 bg-white">
             <div className="text-center mb-6">
-                <h1 className="text-3xl font-bold text-indigo-600 mb-2">{t('resetPassword.title')}</h1>
+                <h1 className="text-3xl font-bold mb-2">{t('resetPassword.title')}</h1>
             </div>
             <Form
                 name="resetPassword"
@@ -67,16 +67,16 @@ const ResetPassword = () => {
             <div className="flex justify-center gap-[10px] mt-[10px]">
                 <div
                     onClick={() => i18n.changeLanguage('en')}
-                    className={`text-sm px-3 py-1 cursor-pointer ${
-                    i18n.language === 'en' ? 'bg-indigo-100 text-indigo-700' : 'opacity-50'
+                    className={`text-sm px-0 py-1 cursor-pointer ${
+                    i18n.language === 'en' ? 'opacity-100' : 'opacity-50'
                     }`}
                 >
                     <img src={IconEn} alt="English" className="inline-block w-5 h-5 mr-1" />
                 </div>
                 <div
                     onClick={() => i18n.changeLanguage('vi')}
-                    className={`text-sm px-3 py-1 cursor-pointer ${
-                    i18n.language === 'vi' ? 'bg-indigo-100 text-indigo-700' : 'opacity-50'
+                    className={`text-sm px-0 py-1 cursor-pointer ${
+                    i18n.language === 'vi' ? 'opacity-100' : 'opacity-50'
                     }`}
                 >
                     <img src={IconVI} alt="Vietnamese" className="inline-block w-5 h-5 mr-1" />

@@ -54,22 +54,22 @@ export default function AppHeader({
     const userMenu: any = {
         items: [
             {
-            key: 'profile',
-            icon: <UserOutlined />,
-            label: t('navigation.profile'),
-            path: '/profile',
+                key: 'profile',
+                icon: <UserOutlined />,
+                label: t('navigation.profile'),
+                path: '/profile',
             },
             {
-            key: 'settings',
-            icon: <SettingOutlined />,
-            label: t('navigation.settings'),
-            path: '/settings',
+                key: 'settings',
+                icon: <SettingOutlined />,
+                label: t('navigation.settings'),
+                path: '/settings',
             },
             {
-            key: 'logout',
-            icon: <LogoutOutlined />,
-            label: t('navigation.logout'),
-            danger: true,
+                key: 'logout',
+                icon: <LogoutOutlined />,
+                label: t('navigation.logout'),
+                danger: true,
             },
         ],
         onClick: ({ key } : any) => {

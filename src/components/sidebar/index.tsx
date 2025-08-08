@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { getMenuItems, getOpenMenuKeys } from '@/utils/constants/navigation';
 import { useNavigation } from '@/hook/useNavigation';
 import { getUser } from '@/utils/helper';
+import { Link } from 'react-router-dom';
 
 const { Sider } = Layout;
 
@@ -52,7 +53,7 @@ export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
         >
             <div className="demo-logo-vertical min-h-[60px] flex items-center justify-center">
               <h1 className={`text-[#fff] font-bold ${collapsed ? 'text-lg' : 'text-xl'}`}>
-                {collapsed ? 'FM' : 'Financial Management'}
+                <Link to="/">{collapsed ? 'FM' : 'Financial Management'}</Link>
               </h1>
             </div>
             <Menu
