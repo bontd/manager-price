@@ -137,13 +137,13 @@ const WhyCustomerLove = () => {
                             {data.map((item, index) => (
                                 <div key={index} className="mx-auto relative">
                                     <div className="relative w-full max-w-[85%] md:max-w-[535px] mx-auto">
-                                        <img src={IconQuoteLeft} alt="quote" className="w-[20px] h-[20px] absolute top-[0] md:left-[-50px]" />
+                                        <img src={IconQuoteLeft} alt="quote" className="w-[20px] h-[20px] absolute top-[0] left-[-20px] md:left-[-50px]" />
                                         <div className="px-4">
                                             <p className="text-lg text-[700] mb-[0] text-[18px] text-[#718096] leading-[2] text-center">
                                                 {item.content}
                                             </p>
                                         </div>
-                                        <img src={IconQuoteRight} alt="quote" className="w-[20px] h-[20px] absolute bottom-[0] right-[0] md:right-[-50px]" />
+                                        <img src={IconQuoteRight} alt="quote" className="w-[20px] h-[20px] absolute bottom-[0] right-[-20px] md:right-[-50px]" />
                                     </div>
                                 </div>
                             ))}

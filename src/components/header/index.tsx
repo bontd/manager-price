@@ -131,7 +131,7 @@ export default function AppHeader({
                 <Dropdown menu={languageMenu} placement="bottomRight" arrow>
                     <GlobalOutlined style={{ fontSize: isMobile ? 16 : 20, cursor: 'pointer' }} />
                 </Dropdown>
-                <Dropdown menu={userMenu} placement="bottomRight" arrow>
+                <Dropdown menu={userMenu} placement="bottomRight" arrow trigger={['click']}>
                     <Avatar 
                         icon={<UserOutlined />} 
                         style={{ 

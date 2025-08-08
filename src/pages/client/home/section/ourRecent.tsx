@@ -13,11 +13,11 @@ const OurRecent = () => {
     return (
         <Row className="py-[30px] md:py-[90px] bg-[#F7F7FA] border-t border-b border-[#E7DAED] px-[25px]">
             <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-[35px] relative z-[1]">
-                <div className="absolute top-[0px] left-[200px] w-[18px] h-[18px] bg-gradient-to-bl from-[#F76680] to-[#57007B] rounded-[50%]  z-[-1]"></div>
-                <div className="absolute top-[-200px] left-[-100px] w-[251px] h-[220px] z-[-1]">
+                <div className="absolute top-[0px] left-[70px] md:left-[200px] w-[18px] h-[18px] bg-gradient-to-bl from-[#F76680] to-[#57007B] rounded-[50%]  z-[-1]"></div>
+                <div className="absolute top-[-80px] md:top-[-120px] lg:top-[-200px] left-[-30px] 2xl:left-[-100px] w-[100px] h-[90px] md:w-[150px] md:h-[130px] lg:w-[251px] lg:h-[220px] z-[-1]">
                     <img src={ImgDecoTop} alt="Deco Top" />
                 </div>
-                <div className="absolute top-[-200px] right-[-100px] w-[214px] h-[295px] z-[-1]">
+                <div className="absolute top-[-80px] md:top-[-120px] lg:top-[-200px] right-[-20px] md:right-[-25px] 2xl:right-[-100px] w-[100px] h-[90px] md:w-[150px] md:h-[130px] lg:w-[214px] lg:h-[295px] z-[-1]">
                     <img src={ImgDecoBottom} alt="Deco Bottom" />
                 </div>
                 <TypographyTitle level={2} className="

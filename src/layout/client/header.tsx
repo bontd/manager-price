@@ -76,7 +76,7 @@ const Header = () => {
   };
 
   return (
-    <div className="w-full sticky top-[0] z-[9999] px-[20px] py-[10px] bg-[#fff] shadow-[0_0_10px_0_rgba(0,0,0,0.1)]">
+    <div className="w-full sticky top-[0] z-[9] px-[20px] py-[10px] bg-[#fff] shadow-[0_0_10px_0_rgba(0,0,0,0.1)]">
       <Row align="middle" justify="space-between">
         <Col>
           <img src={Logo} alt="logo" className="w-[150px]" />
