@@ -21,3 +21,11 @@ export enum NEW_STATUS {
     ARCHIVED = 'archived',
     DRAFT = 'draft'
 }
+
+export enum PAYMENT_METHOD {
+    CASH = 'Cash',
+    BANK_TRANSFER = 'Bank Transfer',
+    CREDIT_CARD = 'Credit Card',
+    DEBIT_CARD = 'Debit Card',
+    OTHER = 'Other'
+}

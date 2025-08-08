@@ -327,14 +327,17 @@
         "deleteUserConfirm": "Bạn có chắc chắn muốn xóa người dùng này không?"
     },
     "income": {
-        "title": "Thu nhập",
+        "title": "Tiêu đề",
         "createTitle": "Thêm thu nhập",
         "editTitle": "Sửa thu nhập",
         "deleteTitle": "Xóa thu nhập",
         "createIncome": "Thêm thu nhập",
         "name": "Tên",
         "amount": "Số tiền",
-        "date": "Ngày"
+        "date": "Ngày",
+        "category": "Danh mục",
+        "description": "Mô tả",
+        "deleteIncome": "Bạn có chắc chắn muốn xóa thu nhập này không?"
     },
     "incomeCategory": {
         "title": "Nhóm thu nhập",

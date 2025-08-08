@@ -35,9 +35,9 @@ export const useExpenses = (param: any) => {
   // List
   const listQuery = useQuery({
     queryKey: ['expenses', param],
-    enabled: !!param && Object.values(param).every(value => value !== undefined && value !== null),
+    enabled: !!param.current && !!param.pageSize,
     queryFn: () => get<any>(`${API_ENDPOINTS.EXPENSES.ROOT}?${qs.stringify(param)}`),
-    select: (res) => {
+    select: (res: any) => {
       return {
         data: res?.records.data || [],
         meta: {

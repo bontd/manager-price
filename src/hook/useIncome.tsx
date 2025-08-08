@@ -13,7 +13,7 @@ export interface Income {
     pageSize?: string | number | null;
 }
 
-const useIncome = (param: Income) => {
+const useIncome = (param?: Income) => {
     const queryClient = useQueryClient();
     const incomeList = useQuery({
         queryKey: ['income', param],
@@ -55,6 +55,7 @@ const useIncome = (param: Income) => {
         error: incomeList.error,
         refetch: incomeList.refetch,
         create: incomeCreate,
+        isCreating: incomeCreate.isPending,
         update: incomeUpdate,
         delete: incomeDelete,
     }

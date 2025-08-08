@@ -1,7 +1,8 @@
 import { Table } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 const TableComponent = (
-    {dataSource, columns, meta, isLoading, setPagination, t}: 
+    {dataSource, columns, meta, isLoading, setPagination}: 
     {
         dataSource: any, 
         columns: any, 
@@ -12,9 +13,9 @@ const TableComponent = (
         }, 
         isLoading?: any, 
         setPagination?: any,
-        t?: any
     }
 ) => {
+    const { t } = useTranslation();
 
     return (
         <Table

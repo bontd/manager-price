@@ -330,14 +330,17 @@
         "deleteUserConfirm": "Are you sure you want to delete this user?"
     },
     "income": {
-        "title": "Income",
+        "title": "Title",
         "createTitle": "Create Income",
         "editTitle": "Edit Income",
         "deleteTitle": "Delete Income",
         "createIncome": "Create Income",
         "name": "Name",
         "amount": "Amount",
-        "date": "Date"
+        "date": "Date",
+        "category": "Category",
+        "description": "Description",
+        "deleteIncome": "Are you sure you want to delete this income?"
     },
     "incomeCategory": {
         "title": "Income Category",

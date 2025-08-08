@@ -13,17 +13,19 @@ import ResetPassword from '@/pages/auth/reset-password';
 import Register from '@/pages/auth/register';
 import ResetPasswordVerify from '@/pages/auth/reset-password/verify';
 import { getUser, roleNumberToEnum } from '@/utils/helper';
+import ClientLayout from '@/layout/ClientLayout';
 
-const Dashboard = lazy(() => import('@/pages/dashboard/Dashboard'));
-const Users = lazy(() => import('@/pages/users'));
-const ExpenseCategories = lazy(() => import('@/pages/expense-categories'));
-const Expenses = lazy(() => import('@/pages/expenses'));
-const Profile = lazy(() => import('@/pages/profile'));
-const Income = lazy(() => import('@/pages/income'));
-const IncomeCategory = lazy(() => import('@/pages/income/category'));
-const News = lazy(() => import('@/pages/news'));
-const CreateNews = lazy(() => import('@/pages/news/create'));
-const NewsCategories = lazy(() => import('@/pages/news/categories'));
+const Dashboard = lazy(() => import('@/pages/admin/dashboard/Dashboard'));
+const Users = lazy(() => import('@/pages/admin/users'));
+const ExpenseCategories = lazy(() => import('@/pages/admin/expense-categories'));
+const Expenses = lazy(() => import('@/pages/admin/expenses'));
+const Profile = lazy(() => import('@/pages/admin/profile'));
+const Income = lazy(() => import('@/pages/admin/income'));
+const IncomeCategory = lazy(() => import('@/pages/admin/income/category'));
+const News = lazy(() => import('@/pages/admin/news'));
+const CreateNews = lazy(() => import('@/pages/admin/news/create'));
+const NewsCategories = lazy(() => import('@/pages/admin/news/categories'));
+const Home = lazy(() => import('@/pages/client/home'));
 
 function flattenNavigationItems(items: typeof NAVIGATION_ITEMS): any[] {
   let result: any[] = [];
@@ -61,7 +63,7 @@ export default function AppRouter() {
       path: item.path,
       element: (
         <Suspense fallback={<LoadingSpinner />}>
-          {item.path === '/' && <Dashboard />}
+          {item.path === '/dashboard' && <Dashboard />}
           {item.path === '/users' && <Users />}
           {item.path === '/expense-categories' && <ExpenseCategories />}
           {item.path === '/quizzes' && <Users />}
@@ -90,6 +92,12 @@ export default function AppRouter() {
         { path: '/register', element: <Register /> },
         { path: `/reset-password/:token`, element: <ResetPasswordVerify /> },
       ],
+    },
+    {
+      element: <ClientLayout />,
+      children: [
+        { path: '/', element: <Home /> },
+      ]
     },
     { path: '*', element: <NotFound /> }
   ]);

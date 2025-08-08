@@ -19,7 +19,7 @@ export interface NavigationItem {
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     key: '1',
-    path: '/',
+    path: '/dashboard',
     icon: DashboardOutlined,
     label: 'Dashboard',
     translationKey: 'navigation.dashboard',

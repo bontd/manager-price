@@ -26,13 +26,13 @@ export default function Login() {
         setCookie('token', access_token, { expires });
         setCookie('refreshToken', refresh_token, { expires: refreshExpires });
         setUser(user);
-        navigate('/');
+        navigate('/dashboard');
       }
     });
   }
 
   return (
-    <div className="login-page w-[350px] sm:w-[400px] mx-auto flex items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-100 font-sans">
+    <div className="login-page w-full mx-auto flex items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-100 font-sans">
       <Card className="w-full max-w-md p-8 rounded-2xl shadow-2xl border border-gray-200 bg-white">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-indigo-600 mb-2">{t('welcome')}</h1>
