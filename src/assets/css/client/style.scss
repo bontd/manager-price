@@ -109,3 +109,27 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.custom-tabs {
+    .ant-tabs-nav {
+        &::before {
+            display: none;
+        }
+        .ant-tabs-tab-btn {
+            font-weight: 700;
+        }
+        .ant-tabs-tab-active {
+            .ant-tabs-tab-btn {
+                color: inherit;
+                background: linear-gradient(200deg, #F76680 0%, #57007B 100%);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: none;
+            }
+        }
+        .ant-tabs-ink-bar {
+            background: linear-gradient(200deg, #F76680 0%, #57007B 100%);
+        }
+    }
+}
