@@ -47,43 +47,45 @@ const Development = () => {
                         through Alcaline works
                     </span>
                 </TypographyTitle>
-                <div className="w-full relative">
-                    <div className="grid grid-cols-3 pr-[40px]">
-                        {
-                            topRow.map((item, index) => (
-                                <div key={index} className="w-full flex px-[40px] relative">
-                                    <div className="w-[2px] h-[35px] bg-[#F76680] absolute bottom-[-45px] left-[50%] -translate-x-1/2"></div>
-                                    <div className="w-full flex flex-col border border-[#E5E5E5] rounded-[10px] p-[20px] gap-[10px]">
-                                        <Typography.Title level={4} className="!text-[18px] !font-[700] text-[#000] !mb-[0]">
-                                            <span className="bg-gradient-to-bl from-[#F76680] to-[#57007B] bg-clip-text text-transparent mr-[10px]">#{item.key}</span> 
-                                            {item.title}
-                                        </Typography.Title>
-                                        <Typography.Paragraph className="font-[400] text-[#000] !mb-[0]">
-                                            {item.description}
-                                        </Typography.Paragraph>
+                <div className="w-full relative overflow-auto">
+                    <div className="w-full min-w-[1200px]">
+                        <div className="grid grid-cols-3 pr-[40px]">
+                            {
+                                topRow.map((item, index) => (
+                                    <div key={index} className="w-full flex px-[40px] relative">
+                                        <div className="w-[2px] h-[35px] bg-[#F76680] absolute bottom-[-45px] left-[50%] -translate-x-1/2"></div>
+                                        <div className="w-full flex flex-col border border-[#E5E5E5] rounded-[10px] p-[20px] gap-[10px]">
+                                            <Typography.Title level={4} className="!text-[18px] !font-[700] text-[#000] !mb-[0]">
+                                                <span className="bg-gradient-to-bl from-[#F76680] to-[#57007B] bg-clip-text text-transparent mr-[10px]">#{item.key}</span> 
+                                                {item.title}
+                                            </Typography.Title>
+                                            <Typography.Paragraph className="font-[400] text-[#000] !mb-[0]">
+                                                {item.description}
+                                            </Typography.Paragraph>
+                                        </div>
                                     </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                    <div className="w-full h-[2px] bg-[#F76680] my-[45px]"></div>
-                    <div className="grid grid-cols-3 pl-[40px]">
-                        {
-                            bottomRow.map((item, index) => (
-                                <div key={index} className="w-full flex px-[40px] relative">
-                                    <div className="w-[2px] h-[35px] bg-[#F76680] absolute top-[-45px] left-[50%] -translate-x-1/2"></div>
-                                    <div className="w-full flex flex-col border border-[#E5E5E5] rounded-[10px] p-[20px] gap-[10px]">
-                                        <Typography.Title level={4} className="!text-[18px] !font-[700] text-[#000] !mb-[0]">
-                                            <span className="bg-gradient-to-bl from-[#F76680] to-[#57007B] bg-clip-text text-transparent mr-[10px]">#{item.key}</span> 
-                                            {item.title}
-                                        </Typography.Title>
-                                        <Typography.Paragraph className="font-[400] text-[#000] !mb-[0]">
-                                            {item.description}
-                                        </Typography.Paragraph>
+                                ))
+                            }
+                        </div>
+                        <div className="w-full h-[2px] bg-[#F76680] my-[45px]"></div>
+                        <div className="grid grid-cols-3 pl-[40px]">
+                            {
+                                bottomRow.map((item, index) => (
+                                    <div key={index} className="w-full flex px-[40px] relative">
+                                        <div className="w-[2px] h-[35px] bg-[#F76680] absolute top-[-45px] left-[50%] -translate-x-1/2"></div>
+                                        <div className="w-full flex flex-col border border-[#E5E5E5] rounded-[10px] p-[20px] gap-[10px]">
+                                            <Typography.Title level={4} className="!text-[18px] !font-[700] text-[#000] !mb-[0]">
+                                                <span className="bg-gradient-to-bl from-[#F76680] to-[#57007B] bg-clip-text text-transparent mr-[10px]">#{item.key}</span> 
+                                                {item.title}
+                                            </Typography.Title>
+                                            <Typography.Paragraph className="font-[400] text-[#000] !mb-[0]">
+                                                {item.description}
+                                            </Typography.Paragraph>
+                                        </div>
                                     </div>
-                                </div>
-                            ))
-                        }
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

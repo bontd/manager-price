@@ -27,7 +27,7 @@ const OurTech = () => {
                         ImageBackend08, 
                         ImageBackend09
                     ].map((item, index) => (
-                        <Col key={index} span={5} className="flex justify-center items-center w-full h-[100px]">
+                        <Col key={index} xs={12} md={5} className="flex justify-center items-center w-full h-[100px]">
                             <img src={item} alt="" className="" />
                         </Col>
                     ))

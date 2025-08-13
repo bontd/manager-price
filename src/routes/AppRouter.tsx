@@ -26,6 +26,7 @@ const News = lazy(() => import('@/pages/admin/news'));
 const CreateNews = lazy(() => import('@/pages/admin/news/create'));
 const NewsCategories = lazy(() => import('@/pages/admin/news/categories'));
 const Home = lazy(() => import('@/pages/client/home'));
+const About = lazy(() => import('@/pages/client/about'));
 
 function flattenNavigationItems(items: typeof NAVIGATION_ITEMS): any[] {
   let result: any[] = [];
@@ -97,6 +98,14 @@ export default function AppRouter() {
       element: <ClientLayout />,
       children: [
         { path: '/', element: <Home /> },
+        { path: '/about', element: <About /> },
+        { path: '/services', element: "Services" },
+        { path: '/contact', element: "Contact" },
+        { path: '/blog', element: "Blog" },
+        { path: '/blog/:id', element: "Blog Detail" },
+        { path: '/blog/category/:id', element: "Blog Category" },
+        { path: '/blog/tag/:id', element: "Blog Tag" },
+        { path: '/blog/search', element: "Blog Search" },
       ]
     },
     { path: '*', element: <NotFound /> }

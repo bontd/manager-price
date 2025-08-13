@@ -20,12 +20,12 @@ const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const items = [
-    { key: "about-us", label: <a href="/about">About us</a> },
-    { key: "services", label: <a href="/services">Services</a> },
-    { key: "case-studies", label: <a href="/case-study">Case Studies</a> },
-    { key: "blog", label: <a href="/blog">Blog</a> },
-    { key: "how-it-works", label: <a href="/how-it-work">How it Works</a> },
-    { key: "hire", label: <a href="/hire">Hire</a> },
+    { key: "about-us", label: <Link to="/about">About us</Link> },
+    { key: "services", label: <Link to="/services">Services</Link> },
+    { key: "case-studies", label: <Link to="/case-study">Case Studies</Link> },
+    { key: "blog", label: <Link to="/blog">Blog</Link> },
+    { key: "how-it-works", label: <Link to="/how-it-work">How it Works</Link> },
+    { key: "hire", label: <Link to="/hire">Hire</Link> },
   ];
 
   const userMenu: any = {
@@ -79,7 +79,7 @@ const Header = () => {
     <div className="w-full sticky top-[0] z-[9] px-[20px] py-[10px] bg-[#fff] shadow-[0_0_10px_0_rgba(0,0,0,0.1)]">
       <Row align="middle" justify="space-between">
         <Col>
-          <img src={Logo} alt="logo" className="w-[150px]" />
+          <Link to="/"><img src={Logo} alt="logo" className="w-[150px]" /></Link>
         </Col>
         {!isMobile && (
           <Col flex="auto">
