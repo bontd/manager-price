@@ -24,9 +24,37 @@ const useNews = (param?: any, id?: string) => {
         },
     });
 
+    const listClientQuery = useQuery({
+        queryKey: ['news-client', param],
+        queryFn: () => get(`${API_ENDPOINTS.NEWS.CLIENT}?${qs.stringify(param)}`),
+        enabled: !!param?.current && !!param?.pageSize && param?.isClient,
+        select: (res: any) => {
+            return {
+                data: res?.records.data || [],
+                meta: {
+                    currentPage: Number(res?.headers['x-current-page']),
+                    pageCount: Number(res?.headers['x-page-count']),
+                    perPage: Number(res?.headers['x-per-page']),
+                    rateLimit: Number(res?.headers['x-ratelimit-limit']),
+                    rateRemaining: Number(res?.headers['x-ratelimit-remaining']),
+                    totalCount: Number(res?.headers['x-total-count']),
+                }
+            }
+        },
+    });
+
     const getNews = useQuery({
         queryKey: ['news', id],
         queryFn: () => get(`${API_ENDPOINTS.NEWS.ROOT}/${id}`),
+        enabled: !!id,
+        select: (res: any) => {
+            return res?.records?.data;
+        },
+    });
+
+    const getNewsClient = useQuery({
+        queryKey: ['news-client', id],
+        queryFn: () => get(`${API_ENDPOINTS.NEWS.CLIENT}/detail/${id}`),
         enabled: !!id,
         select: (res: any) => {
             return res?.records?.data;
@@ -62,6 +90,12 @@ const useNews = (param?: any, id?: string) => {
         meta: listQuery.data?.meta,
         isLoading: listQuery.isLoading,
         isFetching: listQuery.isFetching,
+        dataClient: listClientQuery.data?.data,
+        metaClient: listClientQuery.data?.meta,
+        isLoadingClient: listClientQuery.isLoading,
+        isFetchingClient: listClientQuery.isFetching,
+        getDetailNews: getNewsClient.data,
+        isGettingDetailNews: getNewsClient.isPending,
         createNews: createNews,
         isCreating: createNews.isPending,
         getNews: getNews,

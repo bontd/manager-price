@@ -85,6 +85,7 @@ export const API_ENDPOINTS = {
   },
   NEWS: {
     ROOT: "/news",
+    CLIENT: "/new",
   },
   NEWS_CATEGORIES: {
     ROOT: "/news-categories",

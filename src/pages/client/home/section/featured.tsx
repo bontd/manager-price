@@ -3,22 +3,15 @@ import { RightOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
-import Image1 from "@/assets/images/home/featured/img-01.png";
-import Image2 from "@/assets/images/home/featured/img-02.png";
+import useNews from "@/hook/useNews";
 
 const Featured = () => {
-    const data = [
-        {
-            title: "How to Build a Scalable Application up to 1 Million Users on AWS",
-            image: Image1,
-            link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        },
-        {
-            title: "How to Build a Scalable Application up to 1 Million Users on AWS",
-            image: Image2,
-            link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        }
-    ];
+
+    const { dataClient, metaClient, isLoadingClient, isFetchingClient } = useNews({
+        current: 1,
+        pageSize: 10,
+        isClient: true,
+    });
 
     const settings = {
         dots: false,
@@ -42,14 +35,16 @@ const Featured = () => {
                 </TypographyTitle>
             </div>
             <Slider {...settings}>
-                {data.map((item, index) => (
+                {dataClient?.map((item: any, index: number) => (
                     <div key={index} className="!w-[255px] md:!w-[315px] px-[30px]">
                         <div className="w-full h-[130px] md:h-[175px] rounded-[10px] overflow-hidden">
-                            <img src={item.image} className="w-full h-full object-cover" />
+                            <img src={item.image} className="w-full h-full object-cover !rounded-[10px]" />
                         </div>
-                        <Typography.Title level={3} className="!text-[16px] !font-[500] text-[#2D3748] !my-[20px]">{item.title}</Typography.Title>
+                        <Typography.Title level={3} className="!text-[16px] !font-[500] text-[#2D3748] !my-[20px]">
+                            {item.title}
+                        </Typography.Title>
                         <div className="flex justify-end">
-                            <Link to="/#" className="
+                            <Link to={`/blog/${item.id}`} className="
                                 !text-[14px] 
                                 !font-[500] 
                                 flex
