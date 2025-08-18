@@ -1,6 +1,6 @@
 import TypographyTitle from "@/pages/client/component/typographyTitle";
 import { RightOutlined } from "@ant-design/icons";
-import { Typography } from "antd";
+import { Skeleton, Typography } from "antd";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import useNews from "@/hook/useNews";
@@ -35,29 +35,37 @@ const Featured = () => {
                 </TypographyTitle>
             </div>
             <Slider {...settings}>
-                {dataClient?.map((item: any, index: number) => (
-                    <div key={index} className="!w-[255px] md:!w-[315px] px-[30px]">
-                        <div className="w-full h-[130px] md:h-[175px] rounded-[10px] overflow-hidden">
-                            <img src={item.image} className="w-full h-full object-cover !rounded-[10px]" />
+                {dataClient ? (
+                    dataClient?.map((item: any, index: number) => (
+                        <div key={index} className="!w-[255px] md:!w-[315px] px-[30px]">
+                            <div className="w-full h-[130px] md:h-[175px] rounded-[10px] overflow-hidden">
+                                <img src={item.image} className="w-full h-full object-cover !rounded-[10px]" />
+                            </div>
+                            <Typography.Title level={3} className="!text-[16px] !font-[500] text-[#2D3748] !my-[20px]">
+                                {item.title}
+                            </Typography.Title>
+                            <div className="flex justify-end">
+                                <Link to={`/blog/${item.id}`} className="
+                                    !text-[14px] 
+                                    !font-[500] 
+                                    flex
+                                    items-center
+                                    gap-[5px]
+                                    text-gradient
+                                ">
+                                    Raed more
+                                    <span className="!text-[10px] !text-[#57007B]"><RightOutlined/></span>
+                                </Link>
+                            </div>
                         </div>
-                        <Typography.Title level={3} className="!text-[16px] !font-[500] text-[#2D3748] !my-[20px]">
-                            {item.title}
-                        </Typography.Title>
-                        <div className="flex justify-end">
-                            <Link to={`/blog/${item.id}`} className="
-                                !text-[14px] 
-                                !font-[500] 
-                                flex
-                                items-center
-                                gap-[5px]
-                                text-gradient
-                            ">
-                                Raed more
-                                <span className="!text-[10px] !text-[#57007B]"><RightOutlined/></span>
-                            </Link>
+                    ))
+                ) : (
+                    <>
+                        <div className="!w-[255px] md:!w-[315px] px-[30px]">
+                            <Skeleton active />
                         </div>
-                    </div>
-                ))}
+                    </>
+                )}
             </Slider>
         </div>
     )

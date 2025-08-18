@@ -8,7 +8,7 @@ const useNews = (param?: any, id?: string) => {
     const listQuery = useQuery({
         queryKey: ['news', param],
         queryFn: () => get(`${API_ENDPOINTS.NEWS.ROOT}?${qs.stringify(param)}`),
-        enabled: !!param?.current && !!param?.pageSize,
+        enabled: !!param?.current && !!param?.pageSize && !param?.isClient,
         select: (res: any) => {
             return {
                 data: res?.records.data || [],
