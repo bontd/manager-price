@@ -28,6 +28,7 @@ const NewsCategories = lazy(() => import('@/pages/admin/news/categories'));
 const Home = lazy(() => import('@/pages/client/home'));
 const About = lazy(() => import('@/pages/client/about'));
 const BlogDetail = lazy(() => import('@/pages/client/blog/detail'));
+const SVFPrint = lazy(() => import('@/pages/client/print'));
 
 function flattenNavigationItems(items: typeof NAVIGATION_ITEMS): any[] {
   let result: any[] = [];
@@ -107,6 +108,7 @@ export default function AppRouter() {
         { path: '/blog/category/:slug', element: "Blog Category" },
         { path: '/blog/tag/:slug', element: "Blog Tag" },
         { path: '/blog/search', element: "Blog Search" },
+        { path: '/print', element: <SVFPrint /> },
       ]
     },
     { path: '*', element: <NotFound /> }

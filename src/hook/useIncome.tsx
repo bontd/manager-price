@@ -18,6 +18,7 @@ const useIncome = (param?: Income) => {
     const incomeList = useQuery({
         queryKey: ['income', param],
         queryFn: () => get(`${API_ENDPOINTS.INCOME.ROOT}?${qs.stringify(param)}`),
+        enabled: !!param?.current && !!param?.pageSize,
         select: (res: any) => {
             return {
                 data: res?.records.data || [],

@@ -27,7 +27,7 @@ const useNews = (param?: any, id?: string) => {
     const listClientQuery = useQuery({
         queryKey: ['news-client', param],
         queryFn: () => get(`${API_ENDPOINTS.NEWS.CLIENT}?${qs.stringify(param)}`),
-        enabled: !!param?.current && !!param?.pageSize && param?.isClient,
+        enabled: !!param?.current && !!param?.pageSize && !!param?.isClient,
         select: (res: any) => {
             return {
                 data: res?.records.data || [],

@@ -22,7 +22,7 @@ export const useExpenseCategories = (param?: any) => {
     queryKey: ['expense-categories', param],
     enabled: !!param && Object.values(param).every(value => value !== undefined && value !== null),
     queryFn: () => get<any>(`${API_ENDPOINTS.EXPENSE_CATEGORIES.ROOT}?${qs.stringify(param)}`),
-    select: (res) => {
+    select: (res: any) => {
       return {
         data: res?.records.data || [],
         meta: {

@@ -9,6 +9,7 @@ const useNewsCategories = (param?: NewsCategory) => {
     const listQuery = useQuery({
         queryKey: ['news-categories', param],
         queryFn: () => get(`${API_ENDPOINTS.NEWS_CATEGORIES.ROOT}?${qs.stringify(param)}`),
+        enabled: !!param?.current && !!param?.pageSize,
         select: (res: any) => {
             return {
                 data: res?.records.data || [],

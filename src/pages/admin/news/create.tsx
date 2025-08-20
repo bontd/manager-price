@@ -14,7 +14,10 @@ const CreateNews = () => {
     const { id } = useParams(); // id is the news id
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { data: categories, isLoading: isLoadingCategories } = useNewsCategories();
+    const { data: categories, isLoading: isLoadingCategories } = useNewsCategories({
+        current: 1,
+        pageSize: 1000,
+    });
     const { createNews, isCreating, getNews: { data: newsData }, isGettingNews, updateNews, isUpdating } = useNews({}, id);
     const [isDisabledSlug, setIsDisabledSlug] = useState(true);
     const statusOptions = useStatusOptions();

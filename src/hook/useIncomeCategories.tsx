@@ -22,6 +22,7 @@ const useIncomeCategories = (param?: IncomeCategory) => {
     const incomeCategories = useQuery({
         queryKey: ['income-categories', param],
         queryFn: () => get(`${API_ENDPOINTS.INCOME_CATEGORIES.ROOT}?${qs.stringify(param)}`),
+        enabled: !!param?.current && !!param?.pageSize,
         select: (res: any) => {
             return {
                 data: res?.records.data || [],
