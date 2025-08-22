@@ -101,7 +101,6 @@ const Users = () => {
     return (
         <div className="card !p-[20px] bg-[#ffffff]">
             <div className="flex justify-between mb-[20px]">
-                <Typography.Title level={5}>{t('users.title')}</Typography.Title>
                 <Button 
                     type="primary" 
                     onClick={() => {
@@ -116,7 +115,6 @@ const Users = () => {
                 meta={meta}
                 isLoading={isLoading}
                 setPagination={setPagination}
-                t={t}
             />
             <CreateOrEditUser 
                 type={editUserId ? 'edit' : 'create'} 

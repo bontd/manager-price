@@ -1,4 +1,3 @@
-import { useUserProfileStore } from '@/stores/useUserProfile';
 import { roleStringToEnum, NAVIGATION_ITEMS } from '@/utils/constants/navigation';
 import { ROLE } from '@/utils/constants/enum';
 import { Suspense, lazy } from 'react';
@@ -29,6 +28,7 @@ const Home = lazy(() => import('@/pages/client/home'));
 const About = lazy(() => import('@/pages/client/about'));
 const BlogDetail = lazy(() => import('@/pages/client/blog/detail'));
 const SVFPrint = lazy(() => import('@/pages/client/print'));
+const Setting = lazy(() => import('@/pages/admin/settings/index'));
 
 function flattenNavigationItems(items: typeof NAVIGATION_ITEMS): any[] {
   let result: any[] = [];
@@ -72,6 +72,7 @@ export default function AppRouter() {
           {item.path === '/quizzes' && <Users />}
           {item.path === '/expenses' && <Expenses />}
           {item.path === '/profile' && <Profile />}
+          {item.path === '/settings' && <Setting />}
           {item.path === '/income' && <Income />}
           {item.path === '/income-categories' && <IncomeCategory />}
           {item.path === '/news' && <News />}

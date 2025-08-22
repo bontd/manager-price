@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Button, Space, Form, Popconfirm } from 'antd';
+import { Button, Space, Form, Popconfirm, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import CreateExpenseModal from './CreateExpenseModal';
 import ExpenseFilterForm from './ExpenseFilterForm';
@@ -137,7 +137,6 @@ const ExpensesPage: React.FC = () => {
 
   return (
     <div className="card !p-[20px] bg-[#ffffff]">
-      <h2>{t('expenses.title')}</h2>
       <div className='flex justify-between items-center' style={{ marginBottom: 20 }}>
         <Button type="primary" onClick={() => {
           setEditValues(null);

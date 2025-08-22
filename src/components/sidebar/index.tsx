@@ -36,6 +36,7 @@ export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
 
     return (
         <Sider 
+          theme="light"
           trigger={null} 
           collapsible 
           collapsed={collapsed}
@@ -52,8 +53,8 @@ export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
           }}
         >
             <div className="demo-logo-vertical min-h-[60px] flex items-center justify-center">
-              <h1 className={`text-[#fff] font-bold ${collapsed ? 'text-lg' : 'text-xl'}`}>
-                <Link to="/">{collapsed ? 'FM' : 'Financial Management'}</Link>
+              <h1 className={`text-[#000] font-bold ${collapsed ? 'text-lg' : 'text-xl'}`}>
+                <Link to="/">{collapsed ? t('info.shortTitle') : t('info.title')}</Link>
               </h1>
             </div>
             <Menu

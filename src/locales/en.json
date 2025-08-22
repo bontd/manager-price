@@ -1,4 +1,9 @@
 {
+    "info": {
+        "title": "Financial",
+        "shortTitle": "F",
+        "description": "Financial is a platform for managing your finances."
+    },
     "welcome": "Welcome",
     "description": "Please log in to your account",
     "axios": {

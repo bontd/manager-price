@@ -88,7 +88,6 @@ const ExpenseCategoriesPage: React.FC = () => {
 
   return (
     <div className="card !p-[20px] bg-[#ffffff]">
-      <h2>{t('expenseCategories.title')}</h2>
       <Button type="primary" style={{ marginBottom: 20 }} onClick={handleCreate}>{t('common.create')}</Button>
       <CreateExpenseCategoryModal
         open={openCreate}

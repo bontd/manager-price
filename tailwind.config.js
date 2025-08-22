@@ -1,4 +1,5 @@
 export default {
+  darkMode: 'dark',
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {

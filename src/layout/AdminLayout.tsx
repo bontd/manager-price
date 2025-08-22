@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Drawer } from 'antd';
+import { Layout, Drawer, ConfigProvider, theme } from 'antd';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '@/components/sidebar';
 import AppHeader from '@/components/header';
@@ -14,6 +14,7 @@ export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const user = getUser();
 
   // Call API to get user profile when component mounts (F5)
@@ -50,6 +51,14 @@ export default function AdminLayout() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDark]);
+
   const handleCollapse = (collapsed: boolean) => {
     setCollapsed(collapsed);
     if (isMobile) {
@@ -62,49 +71,76 @@ export default function AdminLayout() {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      {/* Desktop Sidebar */}
-      <div className={`${isMobile ? 'hidden' : 'block'}`}>
-        <Sidebar collapsed={collapsed} />
-      </div>
+    <ConfigProvider theme={{
+      algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+      token: {
+        colorPrimary: '#C8EE44'
+      },
+      components: {
+        Layout: {
+          colorBgBody: '#ffffff',
+          colorBgContainer: "#FAFAFA",
+        },
+        Menu: {
+          darkItemBg: "#FAFAFA",
+          darkSubMenuItemBg: "#FAFAFA",
+          darkItemColor: "#929EAE",
+          darkItemHoverColor: "#000",
+          darkItemSelectedBg: "#C8EE44",
+          darkItemSelectedColor: "#1B212D",
+        },
+        Button: {
+          colorText: '#000',
+          colorTextLightSolid: "#000",    // chữ của button type="primary"
+          defaultColor: "#000", 
+        }
+      },
+    }}>
+      <Layout style={{ minHeight: '100vh' }}>
+        {/* Desktop Sidebar */}
+        <div className={`${isMobile ? 'hidden' : 'block'}`}>
+          <Sidebar collapsed={collapsed} />
+        </div>
 
-      {/* Mobile Drawer */}
-      <Drawer
-        title="Menu"
-        placement="left"
-        onClose={handleMobileClose}
-        open={mobileOpen}
-        width={280}
-        bodyStyle={{ padding: 0 }}
-        className="md:hidden"
-      >
-        <Sidebar collapsed={false} onMenuClick={handleMobileClose} />
-      </Drawer>
+        {/* Mobile Drawer */}
+        <Drawer
+          title="Menu"
+          placement="left"
+          onClose={handleMobileClose}
+          open={mobileOpen}
+          width={280}
+          bodyStyle={{ padding: 0 }}
+          className="md:hidden"
+        >
+          <Sidebar collapsed={false} onMenuClick={handleMobileClose} />
+        </Drawer>
 
-      <Layout 
-        style={{ 
-          marginLeft: isMobile ? 0 : (collapsed ? 80 : 280),
-          transition: 'margin-left 0.2s'
-        }}
-      >
-        <AppHeader 
-          setCollapsed={handleCollapse} 
-          collapsed={collapsed}
-          isMobile={isMobile}
-          mobileOpen={mobileOpen}
-          setMobileOpen={setMobileOpen}
-        />
-        <Content 
+        <Layout 
           style={{ 
-            padding: 16, 
-            borderRadius: isMobile ? 8 : 0,
-            minHeight: isMobile ? 'calc(100vh - 56px - 60px)' : 'calc(100vh - 64px - 70px)' // Account for header and footer
+            marginLeft: isMobile ? 0 : (collapsed ? 80 : 280),
+            transition: 'margin-left 0.2s'
           }}
         >
-          <Outlet />
-        </Content>
-        <AppFooter />
+          <AppHeader 
+            setCollapsed={handleCollapse} 
+            collapsed={collapsed}
+            isMobile={isMobile}
+            mobileOpen={mobileOpen}
+            setMobileOpen={setMobileOpen}
+          />
+          <Content 
+            style={{ 
+              padding: 16, 
+              borderRadius: isMobile ? 8 : 0,
+              minHeight: isMobile ? 'calc(100vh - 56px - 60px)' : 'calc(100vh - 64px - 70px)' // Account for header and footer
+            }}
+          >
+            <button onClick={() => setIsDark(!isDark)}>{isDark ? 'Light' : 'Dark'}</button>
+            <Outlet />
+          </Content>
+          <AppFooter />
+        </Layout>
       </Layout>
-    </Layout>
+    </ConfigProvider>
   );
 }

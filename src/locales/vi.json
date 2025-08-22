@@ -1,4 +1,9 @@
 {
+    "info": {
+        "title": "Tài Chính",
+        "shortTitle": "M",
+        "description": "Quản Lý Tài Chính là nền tảng quản lý tài chính của bạn."
+    },
     "welcome": "Chào mừng",
     "description": "Vui lòng đăng nhập vào tài khoản của bạn",
     "label": {

@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import IconVI from '@/assets/ico/vi.svg';
 import IconEn from '@/assets/ico/en.svg';
-import '@/assets/css/login.css';
 import { post } from '@/api/config';
 import { API_ENDPOINTS } from '@/utils/constants/api';
 import { message } from 'antd';

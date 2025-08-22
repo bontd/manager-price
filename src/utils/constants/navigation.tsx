@@ -38,7 +38,6 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         translationKey: 'navigation.usersList',
         allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN],
       },
-      // Thêm children khác nếu cần
     ]
   },
   {
@@ -61,7 +60,6 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         translationKey: 'navigation.incomeCategories',
         allowedRoles: [ROLE.ADMIN, ROLE.USER, ROLE.ADMINISTRATOR],
       },
-      // Thêm children khác nếu cần
     ]
   },
   {
@@ -131,21 +129,27 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     translationKey: 'navigation.profile',
     allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.USER],
     isHidden: true,
+  },
+  {
+    key: '7',
+    path: '/settings',
+    icon: DashboardOutlined,
+    label: 'Settings',
+    translationKey: 'navigation.settings',
+    allowedRoles: [ROLE.ADMINISTRATOR, ROLE.ADMIN, ROLE.MANAGER, ROLE.USER],
+    isHidden: true,
   }
 ];
 
 export const getActiveMenuKey = (pathname: string): string[] => {
   const findKey = (items: NavigationItem[], parentKey?: string): { key: string; parentKey?: string } | undefined => {
     for (const item of items) {
-      // Check exact match first
       if (item.path === pathname) return { key: item.key, parentKey };
       
-      // Check for dynamic routes (paths with :id, :slug, etc.)
       if (item.path && item.path.includes(':')) {
         const pathPattern = item.path.replace(/:[^/]+/g, '[^/]+');
         const regex = new RegExp(`^${pathPattern}$`);
         if (regex.test(pathname)) {
-          // For hidden dynamic routes, return parent key instead
           if (item.isHidden && parentKey) {
             return { key: parentKey };
           }
@@ -161,20 +165,18 @@ export const getActiveMenuKey = (pathname: string): string[] => {
     return undefined;
   };
   const result = findKey(NAVIGATION_ITEMS);
-  return result ? [result.key] : ['1']; // Default to dashboard
+  return result ? [result.key] : ['1'];
 };
 
 export const getOpenMenuKeys = (pathname: string): string[] => {
   const openKeys: string[] = [];
   const findOpenKeys = (items: NavigationItem[], parentKey?: string): boolean => {
     for (const item of items) {
-      // Check exact match first
       if (item.path === pathname) {
         if (parentKey) openKeys.push(parentKey);
         return true;
       }
       
-      // Check for dynamic routes (paths with :id, :slug, etc.)
       if (item.path && item.path.includes(':')) {
         const pathPattern = item.path.replace(/:[^/]+/g, '[^/]+');
         const regex = new RegExp(`^${pathPattern}$`);
@@ -198,10 +200,9 @@ export const getOpenMenuKeys = (pathname: string): string[] => {
   return openKeys;
 };
 
-// Shared function to map string role to enum value
 export const roleStringToEnum = (roleStr: string | undefined | null): ROLE => {
   if (!roleStr || typeof roleStr !== 'string') {
-    return ROLE.USER; // Default to USER role
+    return ROLE.USER;
   }
   
   switch (roleStr.toLowerCase()) {
@@ -218,10 +219,9 @@ function mapItems(
   t: (key: string) => string,
   userRole: string | number | undefined | null
 ): NonNullable<MenuProps['items']> {
-  // Helper to check if an item or its children is allowed
   
   const isItemAllowed = (item: NavigationItem): boolean => {
-    if (item.key === '1') return true; // Always show Dashboard
+    if (item.key === '1') return true;
     if (item.allowedRoles) {
       let userRoleEnum: ROLE;
       
@@ -234,14 +234,10 @@ function mapItems(
       if (!userRole || !item.allowedRoles.includes(userRoleEnum)) return false;
     }
     if (item.children) {
-      // At least one child must be allowed
       return item.children.some(child => isItemAllowed(child));
     }
-    // Don't hide items that are dynamic routes (like /news/edit/:id)
     if (item.isHidden && (!item.path || !item.path.includes(':'))) return false;
     
-    // For dynamic routes, we need to check if they should be shown in menu
-    // Dynamic routes like /news/edit/:id should not be shown in menu but should be active when accessed
     if (item.path && item.path.includes(':') && item.isHidden) return false;
     
     return true;
