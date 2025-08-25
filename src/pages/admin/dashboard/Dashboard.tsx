@@ -168,12 +168,12 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="dashboard-page !p-[20px] bg-[#ffffff]">
+        <div className="dashboard-page">
             <div className="mb-4 md:mb-6">
                 <div className="flex justify-between items-center gap-4 mb-2">
                     <div>
-                        <h1 className="text-xl md:text-2xl font-bold text-gray-800">{t('dashboard.title')}</h1>
-                        <p className="text-sm md:text-base text-gray-600">{t('dashboard.subtitle')}</p>
+                        <h1 className="text-xl md:text-2xl font-bold">{t('dashboard.title')}</h1>
+                        <p className="text-sm md:text-base">{t('dashboard.subtitle')}</p>
                     </div>
                     <Button 
                         type={showFilters ? "primary" : "default"}

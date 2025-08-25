@@ -126,7 +126,7 @@ const Tiptap = ({value, setTiptap} : {value?: string, setTiptap?: any}) => {
     };
 
     return (
-        <div className="flex flex-col gap-2 relative">
+        <div className="flex flex-col relative">
             <TiptapMenu 
                 editor={editor} 
                 onLinkButtonClick={handleLinkButtonClick}

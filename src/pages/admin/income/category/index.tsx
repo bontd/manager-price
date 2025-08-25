@@ -1,5 +1,5 @@
 import useIncomeCategories from "@/hook/useIncomeCategories";
-import { Button, Form, Input, Popconfirm, Table } from "antd";
+import { Button, Form, Input, Popconfirm, Space, Card } from "antd";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -65,33 +65,38 @@ const IncomeCategory = () => {
 
     return (
         <Row gutter={24} className="items-start">
-            <Col xs={24} lg={8}>
-                <div className="!p-[20px] bg-[#ffffff] border border-[#e0e0e0]">
-                    <Form form={form} onFinish={onFinish} layout="vertical">
-                        <Form.Item name="name" label={t('incomeCategory.name')} rules={[{ required: true, message: t('validation.required') }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="description" label={t('incomeCategory.description')}>
-                            <Input.TextArea rows={4} />
-                        </Form.Item>
-                        <Form.Item name="color" label={t('incomeCategory.color')}>
-                            <Input type="color" className="w-[50px]" />
-                        </Form.Item>
-                        <Form.Item className="!mb-[0]">
-                            <Button type="primary" htmlType="submit" loading={incomeCategoryCreate.isPending} disabled={incomeCategoryCreate.isPending}>{t('button.save')}</Button>
-                        </Form.Item>
-                    </Form>
-                </div>
+            <Col xs={24} lg={8} className="flex flex-col">
+                <Space direction="vertical">
+                    <Card>
+                        <Form form={form} onFinish={onFinish} layout="vertical" className="w-[100%]">
+                            <Form.Item name="name" label={t('incomeCategory.name')} rules={[{ required: true, message: t('validation.required') }]}>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item name="description" label={t('incomeCategory.description')}>
+                                <Input.TextArea rows={4} />
+                            </Form.Item>
+                            <Form.Item name="color" label={t('incomeCategory.color')}>
+                                <Input type="color" className="w-[50px]" />
+                            </Form.Item>
+                            <Form.Item className="!mb-[0]">
+                                <Button type="primary" htmlType="submit" loading={incomeCategoryCreate.isPending} disabled={incomeCategoryCreate.isPending}>{t('button.save')}</Button>
+                            </Form.Item>
+                        </Form>
+                    </Card>
+                </Space>
             </Col>
-            <Col xs={24} lg={16} className="border border-[#e0e0e0] rounded-md !p-[0] bg-[#ffffff]">
-                <TableComponent 
-                    dataSource={data}
-                    columns={columns}
-                    meta={meta as any}
-                    isLoading={isLoading}
-                    setPagination={setPagination}
-                    t={t}
-                />
+            <Col xs={24} lg={16} className="!p-[0]">
+                <Space direction="vertical" className="w-[100%]">
+                    <Card>
+                        <TableComponent 
+                            dataSource={data}
+                            columns={columns}
+                            meta={meta as any}
+                            isLoading={isLoading}
+                            setPagination={setPagination}
+                        />
+                    </Card>
+                </Space>
             </Col>
         </Row>
     )

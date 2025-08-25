@@ -5,6 +5,7 @@ import { getMenuItems, getOpenMenuKeys } from '@/utils/constants/navigation';
 import { useNavigation } from '@/hook/useNavigation';
 import { getUser } from '@/utils/helper';
 import { Link } from 'react-router-dom';
+import { useToggleDark } from '@/stores/useToggleDark';
 
 const { Sider } = Layout;
 
@@ -17,6 +18,7 @@ export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
     const { t } = useTranslation();
     const { activeMenuKey, pathname } = useNavigation();
     const [menuItems, setMenuItems] = useState<any[]>([]);
+    const {isDarkMode} = useToggleDark((state) => state);
     const user = getUser();
     const userRole = user?.role;
 
@@ -36,7 +38,7 @@ export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
 
     return (
         <Sider 
-          theme="light"
+          theme={isDarkMode ? 'dark' : 'light'}
           trigger={null} 
           collapsible 
           collapsed={collapsed}
@@ -53,12 +55,12 @@ export default function Sidebar({ collapsed, onMenuClick }: SidebarProps) {
           }}
         >
             <div className="demo-logo-vertical min-h-[60px] flex items-center justify-center">
-              <h1 className={`text-[#000] font-bold ${collapsed ? 'text-lg' : 'text-xl'}`}>
+              <h1 className={`${isDarkMode ? 'text-[#ffffff]' : 'text-[#000000]'} font-bold ${collapsed ? 'text-lg' : 'text-xl'}`}>
                 <Link to="/">{collapsed ? t('info.shortTitle') : t('info.title')}</Link>
               </h1>
             </div>
             <Menu
-                theme="dark"
+                theme={isDarkMode ? 'dark' : 'light'}
                 mode="inline"
                 selectedKeys={activeMenuKey}
                 openKeys={openKeys}

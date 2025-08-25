@@ -136,7 +136,7 @@ const ExpensesPage: React.FC = () => {
   if (error) return <p>{t('axios.error.label')}: {error.message}</p>;
 
   return (
-    <div className="card !p-[20px] bg-[#ffffff]">
+    <div className="card">
       <div className='flex justify-between items-center' style={{ marginBottom: 20 }}>
         <Button type="primary" onClick={() => {
           setEditValues(null);

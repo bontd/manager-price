@@ -160,12 +160,6 @@ const TiptapMenu = ({ editor, onLinkButtonClick, onImageButtonClick }: TiptapMen
         },
     ];      
 
-
-
-
-
-
-
     const getActiveHeadingLabel = () => {
         if (editorState.isHeading1) return 'Heading 1';
         if (editorState.isHeading2) return 'Heading 2';
@@ -221,7 +215,7 @@ const TiptapMenu = ({ editor, onLinkButtonClick, onImageButtonClick }: TiptapMen
     );
 
     return (
-        <div className="group-btn flex flex-wrap gap-2 border border-solid border-[#E5E7EB] border-b-0 rounded-t-[5px] bg-white p-2">
+        <div className="group-btn flex flex-wrap gap-2 border border-solid border-[#E5E7EB] border-b-0 rounded-t-[5px] p-2">
             <Button className={editorState.canUndo ? 'active' : ''} onClick={() => editor.chain().focus().undo().run()} title="Undo" >
                 <img src={IcoUndo} alt="Undo" />
             </Button>

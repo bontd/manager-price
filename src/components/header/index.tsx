@@ -7,9 +7,11 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Layout, Space, theme } from 'antd';
+import { MoonOutlined, SunOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useLogout } from '@/hook/useLogout';
+import { useToggleDark } from '@/stores/useToggleDark';
 
 const { Header } = Layout;
 
@@ -34,6 +36,8 @@ export default function AppHeader({
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+
+    const {isDarkMode, toggleDarkMode} = useToggleDark((state) => state);
 
     const languageMenu: any = {
         items: [
@@ -127,7 +131,10 @@ export default function AppHeader({
                 size={isMobile ? "small" : "large"} 
                 style={{paddingRight: isMobile ? '0.5rem' : '1rem'}}
                 className='flex items-center gap-[10px]'
-            >
+            >   
+                <Button className='h-[auto] p-[10px]' type="text" onClick={toggleDarkMode} title='Toggle dark mode'>
+                    {isDarkMode ? <SunOutlined /> : <MoonOutlined />}
+                </Button>
                 <Dropdown menu={languageMenu} placement="bottomRight" arrow>
                     <GlobalOutlined style={{ fontSize: isMobile ? 16 : 20, cursor: 'pointer' }} />
                 </Dropdown>

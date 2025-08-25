@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Form, Input, Row, Select, Skeleton, Upload } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row, Select, Skeleton, Upload, Space, Card } from "antd";
 import { EditOutlined, SaveOutlined, UploadOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import Tiptap from "@/components/tiptap";
@@ -93,88 +93,96 @@ const CreateNews = () => {
         <div className="px-[16px]">
             <Form layout="vertical" form={form} onFinish={onFinish}>
                 <Row gutter={24}>
-                    <Col xs={24} lg={16} xl={16} className="!p-[20px] bg-[#ffffff]">
-                        <Form.Item 
-                            name="title" 
-                            label={t('news.title')} 
-                            className="!mb-[5px]" 
-                            rules={[{ required: true, message: t('validation.required') }]}>
-                            <Input
-                                onBlur={(e: any) => {
-                                    const titleValue = e.target.value;
-                                    if (titleValue && typeof titleValue === 'string') {
-                                        form.setFieldsValue({
-                                            slug: slugify(titleValue, { lower: true, strict: true })
-                                        });
-                                    }
-                                }}
-                            />
-                        </Form.Item>
-                        <div className="w-full flex items-start">
-                            <Form.Item name="slug" required className="flex-1">
-                                <Input disabled={isDisabledSlug}/>
-                            </Form.Item>
-                            <Button type="link" onClick={() => setIsDisabledSlug(!isDisabledSlug)} className="!p-[0] ml-[10px]">
-                                {isDisabledSlug ? <EditOutlined /> : <SaveOutlined />}
-                            </Button>
-                        </div>
-                        <Form.Item 
-                            name="content" 
-                            label={t('news.content')}
-                            rules={[{ required: true, message: t('validation.required') }]}
-                        >
-                            {(() => {
-                                const contentValue = form.getFieldValue('content') || '';
-                                return (
-                                    <Tiptap 
-                                        value={contentValue} 
-                                        setTiptap={(value: string) => form.setFieldValue('content', value)}
+                    <Col xs={24} lg={16} xl={16} className="!p-[0]">
+                        <Space>
+                            <Card>
+                                <Form.Item 
+                                    name="title" 
+                                    label={t('news.title')} 
+                                    className="!mb-[5px]" 
+                                    rules={[{ required: true, message: t('validation.required') }]}>
+                                    <Input
+                                        onBlur={(e: any) => {
+                                            const titleValue = e.target.value;
+                                            if (titleValue && typeof titleValue === 'string') {
+                                                form.setFieldsValue({
+                                                    slug: slugify(titleValue, { lower: true, strict: true })
+                                                });
+                                            }
+                                        }}
                                     />
-                                );
-                            })()}
-                        </Form.Item>
+                                </Form.Item>
+                                <div className="w-full flex items-start">
+                                    <Form.Item name="slug" required className="flex-1">
+                                        <Input disabled={isDisabledSlug}/>
+                                    </Form.Item>
+                                    <Button type="link" onClick={() => setIsDisabledSlug(!isDisabledSlug)} className="!p-[0] ml-[10px]">
+                                        {isDisabledSlug ? <EditOutlined /> : <SaveOutlined />}
+                                    </Button>
+                                </div>
+                                <Form.Item 
+                                    name="content" 
+                                    label={t('news.content')}
+                                    rules={[{ required: true, message: t('validation.required') }]}
+                                >
+                                    {(() => {
+                                        const contentValue = form.getFieldValue('content') || '';
+                                        return (
+                                            <Tiptap 
+                                                value={contentValue} 
+                                                setTiptap={(value: string) => form.setFieldValue('content', value)}
+                                            />
+                                        );
+                                    })()}
+                                </Form.Item>
+                            </Card>
+                        </Space>
                     </Col>
-                    <Col xs={24} lg={8} xl={8} className="!pr-[0] flex items-start flex-col flex-wrap gap-[16px]">
-                        <div className="w-[100%] !p-[20px] bg-[#ffffff] flex flex-col gap-4">
-                            <Form.Item 
-                                name="status" 
-                                label={t('news.label.status')} 
-                                rules={[{ required: true, message: t('validation.required') }]}
-                            >
-                                <Select options={statusOptions} />
-                            </Form.Item>
-                            <Form.Item 
-                                name="publishDate" 
-                                label={t('news.label.publishDate')} 
-                                rules={[{ required: true, message: t('validation.required') }]}
-                                initialValue={dayjs(new Date())}
-                            >
-                                <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-                            </Form.Item>
-                            <div className="w-[100%] text-right">
-                                <Button type="primary" htmlType="submit" loading={isCreating || isUpdating}>
-                                    {id ? 'Update' : 'Save'}
-                                </Button>
-                            </div>
-                        </div>
-                        <div className="w-[100%] !p-[20px] bg-[#ffffff] flex flex-col gap-4">
-                            <Form.Item name="thumbnail" label={t('news.thumbnail')}>
-                                <Upload>
-                                    <Button icon={<UploadOutlined />}>{t('news.uploadThumbnail')}</Button>
-                                </Upload>
-                            </Form.Item>
-                            <Form.Item 
-                                className="!mb-[0]" 
-                                name="category" 
-                                label={t('news.category')} 
-                                rules={[{ required: true, message: t('validation.required') }]}
-                            >
-                                <Select 
-                                    options={categories?.map((category: any) => ({ label: category.name, value: category.id })) || []} 
-                                    loading={!categories}
-                                />
-                            </Form.Item>
-                        </div>
+                    <Col xs={24} lg={8} xl={8} className="!pr-[0] flex flex-col flex-wrap gap-[16px]">
+                        <Space direction="vertical">
+                            <Card>
+                                <Form.Item 
+                                    name="status" 
+                                    label={t('news.label.status')} 
+                                    rules={[{ required: true, message: t('validation.required') }]}
+                                >
+                                    <Select options={statusOptions} />
+                                </Form.Item>
+                                <Form.Item 
+                                    name="publishDate" 
+                                    label={t('news.label.publishDate')} 
+                                    rules={[{ required: true, message: t('validation.required') }]}
+                                    initialValue={dayjs(new Date())}
+                                >
+                                    <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                                </Form.Item>
+                                <div className="w-[100%] text-right">
+                                    <Button type="primary" htmlType="submit" loading={isCreating || isUpdating}>
+                                        {id ? 'Update' : 'Save'}
+                                    </Button>
+                                </div>
+                            </Card>
+                        </Space>
+                        <Space direction="vertical">
+                            <Card>
+                                <Form.Item name="thumbnail" label={t('news.thumbnail')}>
+                                    <Upload>
+                                        <Button icon={<UploadOutlined />}>{t('news.uploadThumbnail')}</Button>
+                                    </Upload>
+                                </Form.Item>
+                                <Form.Item 
+                                    className="!mb-[0]" 
+                                    name="category" 
+                                    label={t('news.category')} 
+                                    rules={[{ required: true, message: t('validation.required') }]}
+                                >
+                                    <Select 
+                                        options={categories?.map((category: any) => ({ label: category.name, value: category.id })) || []} 
+                                        loading={!categories}
+                                    />
+                                </Form.Item>
+                            </Card>
+                        </Space>
                     </Col>
                 </Row>
             </Form>
